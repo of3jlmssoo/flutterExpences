@@ -1,3 +1,4 @@
+// dart run build_runner build
 import 'dart:core';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
