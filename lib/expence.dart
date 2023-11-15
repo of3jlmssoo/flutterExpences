@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'activity.freezed.dart';
+part 'expence.freezed.dart';
 
 /// The response of the `GET /api/Expence` endpoint.
 ///
