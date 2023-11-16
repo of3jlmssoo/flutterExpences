@@ -53,7 +53,15 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const ReportsScreen();
+        // return const ReportsScreen();
+        return Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => const ReportsScreen(),
+              child: const Text('Go to the reportsScreen screen'),
+            ),
+          ],
+        );
       },
       // routes: <RouteBase>[
       //   GoRoute(
