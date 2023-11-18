@@ -22,5 +22,5 @@ class Report with _$Report {
 
   /// Convert a JSON object into an [Expence] instance.
   /// This enables type-safe reading of the API response.
-  factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
+  // factory Report.fromJson(Map<String, dynamic> json) => _$ReportFromJson(json);
 }
