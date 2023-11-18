@@ -68,10 +68,14 @@ class ReportsScreen extends ConsumerWidget {
                               'abc$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
                           onTap: () {
                             // log.info('--> ${reports[i].reportID}');
-                            context.go(
-                              '/expencesscreen',
-                              extra: reports[i].reportID,
-                            );
+                            // context.go(
+                            //   '/expencesscreen',
+                            //   extra: reports[i].reportID,
+                            // );
+                            context.goNamed("sample", queryParameters: {
+                              'reportID': reports[i].reportID,
+                              'userID': reports[i].userID
+                            });
 
                             print('hello');
                           },

@@ -14,10 +14,13 @@ var uuid = const Uuid();
 class ExpencesScreen extends ConsumerWidget {
   // const ExpencesScreen({super.key});
 
-  const ExpencesScreen({super.key, required this.reportID});
+  const ExpencesScreen(
+      {super.key, required this.reportID, required this.userID});
   final String reportID;
+  final String userID;
 
   void addExpence(WidgetRef ref, reportID) {
+    log.info('$userID + $reportID');
     ref.read(expenceListProvider.notifier).addExpence(Expence(
             userID: uuid.v7(),
             reportID: reportID,

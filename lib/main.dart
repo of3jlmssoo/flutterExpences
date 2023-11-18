@@ -46,12 +46,20 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'expencesscreen',
-          builder: (context, state) {
-            final String param = GoRouterState.of(context).extra! as String;
-            return ExpencesScreen(reportID: param);
-          },
+          name: "sample",
+          path: "sample",
+          builder: (context, state) => ExpencesScreen(
+            reportID: state.uri.queryParameters['reportID']!,
+            userID: state.uri.queryParameters['userID']!,
+          ),
         ),
+        // GoRoute(
+        //   path: 'expencesscreen',
+        //   builder: (context, state) {
+        //     final String param = GoRouterState.of(context).extra! as String;
+        //     return ExpencesScreen(reportID: param);
+        //   },
+        // ),
       ],
     ),
   ],
