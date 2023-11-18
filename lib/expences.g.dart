@@ -1,25 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'reports.dart';
+part of 'expences.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$reportListHash() => r'699936e00df350d699b7c60628745e27cd669860';
+String _$expenceListHash() => r'b7ed3820fb0e6c13101a9b72c0f0b68540e644bb';
 
-/// See also [ReportList].
-@ProviderFor(ReportList)
-final reportListProvider =
-    AutoDisposeNotifierProvider<ReportList, List<Report>>.internal(
-  ReportList.new,
-  name: r'reportListProvider',
+/// See also [ExpenceList].
+@ProviderFor(ExpenceList)
+final expenceListProvider =
+    AutoDisposeNotifierProvider<ExpenceList, List<Report>>.internal(
+  ExpenceList.new,
+  name: r'expenceListProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$reportListHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$expenceListHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ReportList = AutoDisposeNotifier<List<Report>>;
+typedef _$ExpenceList = AutoDisposeNotifier<List<Report>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
