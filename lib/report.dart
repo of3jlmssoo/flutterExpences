@@ -12,8 +12,9 @@ part 'report.freezed.dart';
 @freezed
 class Report with _$Report {
   factory Report({
+    required String userID,
+    required String reportID,
     required String name,
-    required String id,
     required DateTime createdDate,
     // required String Expence,
     required String col1,

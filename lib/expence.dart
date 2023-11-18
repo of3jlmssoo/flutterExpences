@@ -26,6 +26,7 @@ enum TaxType { standardNoReceipt, invoice }
 @freezed
 class Expence with _$Expence {
   factory Expence({
+    required String userID,
     required String reportID,
     required String id,
     required DateTime createdDate,

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpodtest/expence.dart';
 import 'package:riverpodtest/reports.dart';
+import 'package:uuid/uuid.dart';
+
 import 'report.dart';
 
 final _currentExpence = Provider<Report>((ref) => throw UnimplementedError());
 
 class ReportsScreen extends ConsumerWidget {
-  const ReportsScreen({super.key});
+  ReportsScreen({super.key});
+  var uuid = Uuid();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,12 +25,15 @@ class ReportsScreen extends ConsumerWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              ref.read(reportListProvider.notifier).addReport(Report(
-                  name: "name3",
-                  id: "id3",
-                  createdDate: DateTime.now(),
-                  col1: "col3",
-                  totalPrice: 3));
+              ref.read(reportListProvider.notifier).addReport(
+                    Report(
+                        name: "name3",
+                        createdDate: DateTime.now(),
+                        col1: "col3",
+                        totalPrice: 3,
+                        userID: uuid.v7(),
+                        reportID: uuid.v7()),
+                  );
             },
             child: const Text('add new record'),
           ),
@@ -68,7 +73,7 @@ class ReportsScreen extends ConsumerWidget {
                   if (i > 0) const Divider(height: 0),
                   // Text('abc$i ${reports[i].name} ${reports[i].col1}'),
                   Dismissible(
-                    key: ValueKey(reports[i].id),
+                    key: ValueKey(reports[i].reportID),
                     onDismissed: (_) {
                       // ref.read(todoListProvider.notifier).remove(todos[i]);
                       ref

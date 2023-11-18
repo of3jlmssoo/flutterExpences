@@ -6,27 +6,34 @@
 //   Future<List<Todo>> build() async => [/* ... */];
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import 'report.dart';
 
 part 'reports.g.dart';
+
+var uuid = Uuid();
 
 @riverpod
 class ReportList extends _$ReportList {
   @override
   List<Report> build() => [
         Report(
-            name: "name1",
-            id: "id1",
-            createdDate: DateTime.now(),
-            col1: "col1",
-            totalPrice: 1),
+          userID: uuid.v7(),
+          name: "name1",
+          createdDate: DateTime.now(),
+          col1: "col1",
+          totalPrice: 1,
+          reportID: uuid.v7(),
+        ),
         Report(
-            name: "name2",
-            id: "id2",
-            createdDate: DateTime.now(),
-            col1: "col2",
-            totalPrice: 2),
+          userID: uuid.v7(),
+          name: "name2",
+          createdDate: DateTime.now(),
+          col1: "col2",
+          totalPrice: 2,
+          reportID: uuid.v7(),
+        )
       ];
 
   // required String name,
@@ -44,6 +51,7 @@ class ReportList extends _$ReportList {
   }
 
   void removeReport(Report target) {
-    state = state.where((report) => report.id != target.id).toList();
+    state =
+        state.where((report) => report.reportID != target.reportID).toList();
   }
 }

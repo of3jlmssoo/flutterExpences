@@ -25,7 +25,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'listview',
           builder: (BuildContext context, GoRouterState state) {
-            return const ReportsScreen();
+            return ReportsScreen();
           },
         ),
       ],

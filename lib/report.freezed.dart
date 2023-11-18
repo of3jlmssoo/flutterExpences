@@ -16,8 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Report {
+  String get userID => throw _privateConstructorUsedError;
+  String get reportID => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
   DateTime get createdDate =>
       throw _privateConstructorUsedError; // required String Expence,
   String get col1 => throw _privateConstructorUsedError;
@@ -33,8 +34,9 @@ abstract class $ReportCopyWith<$Res> {
       _$ReportCopyWithImpl<$Res, Report>;
   @useResult
   $Res call(
-      {String name,
-      String id,
+      {String userID,
+      String reportID,
+      String name,
       DateTime createdDate,
       String col1,
       int totalPrice});
@@ -53,20 +55,25 @@ class _$ReportCopyWithImpl<$Res, $Val extends Report>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userID = null,
+    Object? reportID = null,
     Object? name = null,
-    Object? id = null,
     Object? createdDate = null,
     Object? col1 = null,
     Object? totalPrice = null,
   }) {
     return _then(_value.copyWith(
+      userID: null == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
+      reportID: null == reportID
+          ? _value.reportID
+          : reportID // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
               as String,
       createdDate: null == createdDate
           ? _value.createdDate
@@ -92,8 +99,9 @@ abstract class _$$ReportImplCopyWith<$Res> implements $ReportCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
-      String id,
+      {String userID,
+      String reportID,
+      String name,
       DateTime createdDate,
       String col1,
       int totalPrice});
@@ -110,20 +118,25 @@ class __$$ReportImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userID = null,
+    Object? reportID = null,
     Object? name = null,
-    Object? id = null,
     Object? createdDate = null,
     Object? col1 = null,
     Object? totalPrice = null,
   }) {
     return _then(_$ReportImpl(
+      userID: null == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
+      reportID: null == reportID
+          ? _value.reportID
+          : reportID // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
               as String,
       createdDate: null == createdDate
           ? _value.createdDate
@@ -145,16 +158,19 @@ class __$$ReportImplCopyWithImpl<$Res>
 
 class _$ReportImpl implements _Report {
   _$ReportImpl(
-      {required this.name,
-      required this.id,
+      {required this.userID,
+      required this.reportID,
+      required this.name,
       required this.createdDate,
       required this.col1,
       required this.totalPrice});
 
   @override
-  final String name;
+  final String userID;
   @override
-  final String id;
+  final String reportID;
+  @override
+  final String name;
   @override
   final DateTime createdDate;
 // required String Expence,
@@ -165,7 +181,7 @@ class _$ReportImpl implements _Report {
 
   @override
   String toString() {
-    return 'Report(name: $name, id: $id, createdDate: $createdDate, col1: $col1, totalPrice: $totalPrice)';
+    return 'Report(userID: $userID, reportID: $reportID, name: $name, createdDate: $createdDate, col1: $col1, totalPrice: $totalPrice)';
   }
 
   @override
@@ -173,8 +189,10 @@ class _$ReportImpl implements _Report {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReportImpl &&
+            (identical(other.userID, userID) || other.userID == userID) &&
+            (identical(other.reportID, reportID) ||
+                other.reportID == reportID) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.createdDate, createdDate) ||
                 other.createdDate == createdDate) &&
             (identical(other.col1, col1) || other.col1 == col1) &&
@@ -183,8 +201,8 @@ class _$ReportImpl implements _Report {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, id, createdDate, col1, totalPrice);
+  int get hashCode => Object.hash(
+      runtimeType, userID, reportID, name, createdDate, col1, totalPrice);
 
   @JsonKey(ignore: true)
   @override
@@ -195,16 +213,19 @@ class _$ReportImpl implements _Report {
 
 abstract class _Report implements Report {
   factory _Report(
-      {required final String name,
-      required final String id,
+      {required final String userID,
+      required final String reportID,
+      required final String name,
       required final DateTime createdDate,
       required final String col1,
       required final int totalPrice}) = _$ReportImpl;
 
   @override
-  String get name;
+  String get userID;
   @override
-  String get id;
+  String get reportID;
+  @override
+  String get name;
   @override
   DateTime get createdDate;
   @override // required String Expence,

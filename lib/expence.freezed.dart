@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Expence {
+  String get userID => throw _privateConstructorUsedError;
   String get reportID => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   DateTime get createdDate =>
@@ -39,7 +40,8 @@ abstract class $ExpenceCopyWith<$Res> {
       _$ExpenceCopyWithImpl<$Res, Expence>;
   @useResult
   $Res call(
-      {String reportID,
+      {String userID,
+      String reportID,
       String id,
       DateTime createdDate,
       ExpenceType expenceType,
@@ -65,6 +67,7 @@ class _$ExpenceCopyWithImpl<$Res, $Val extends Expence>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userID = null,
     Object? reportID = null,
     Object? id = null,
     Object? createdDate = null,
@@ -78,6 +81,10 @@ class _$ExpenceCopyWithImpl<$Res, $Val extends Expence>
     Object? invoiceNumber = null,
   }) {
     return _then(_value.copyWith(
+      userID: null == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
       reportID: null == reportID
           ? _value.reportID
           : reportID // ignore: cast_nullable_to_non_nullable
@@ -134,7 +141,8 @@ abstract class _$$ExpenceImplCopyWith<$Res> implements $ExpenceCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String reportID,
+      {String userID,
+      String reportID,
       String id,
       DateTime createdDate,
       ExpenceType expenceType,
@@ -158,6 +166,7 @@ class __$$ExpenceImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userID = null,
     Object? reportID = null,
     Object? id = null,
     Object? createdDate = null,
@@ -171,6 +180,10 @@ class __$$ExpenceImplCopyWithImpl<$Res>
     Object? invoiceNumber = null,
   }) {
     return _then(_$ExpenceImpl(
+      userID: null == userID
+          ? _value.userID
+          : userID // ignore: cast_nullable_to_non_nullable
+              as String,
       reportID: null == reportID
           ? _value.reportID
           : reportID // ignore: cast_nullable_to_non_nullable
@@ -223,7 +236,8 @@ class __$$ExpenceImplCopyWithImpl<$Res>
 
 class _$ExpenceImpl implements _Expence {
   _$ExpenceImpl(
-      {required this.reportID,
+      {required this.userID,
+      required this.reportID,
       required this.id,
       required this.createdDate,
       required this.expenceType,
@@ -235,6 +249,8 @@ class _$ExpenceImpl implements _Expence {
       required this.taxType,
       required this.invoiceNumber});
 
+  @override
+  final String userID;
   @override
   final String reportID;
   @override
@@ -261,7 +277,7 @@ class _$ExpenceImpl implements _Expence {
 
   @override
   String toString() {
-    return 'Expence(reportID: $reportID, id: $id, createdDate: $createdDate, expenceType: $expenceType, expenceDate: $expenceDate, col1: $col1, col2: $col2, col3: $col3, price: $price, taxType: $taxType, invoiceNumber: $invoiceNumber)';
+    return 'Expence(userID: $userID, reportID: $reportID, id: $id, createdDate: $createdDate, expenceType: $expenceType, expenceDate: $expenceDate, col1: $col1, col2: $col2, col3: $col3, price: $price, taxType: $taxType, invoiceNumber: $invoiceNumber)';
   }
 
   @override
@@ -269,6 +285,7 @@ class _$ExpenceImpl implements _Expence {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ExpenceImpl &&
+            (identical(other.userID, userID) || other.userID == userID) &&
             (identical(other.reportID, reportID) ||
                 other.reportID == reportID) &&
             (identical(other.id, id) || other.id == id) &&
@@ -290,6 +307,7 @@ class _$ExpenceImpl implements _Expence {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      userID,
       reportID,
       id,
       createdDate,
@@ -311,7 +329,8 @@ class _$ExpenceImpl implements _Expence {
 
 abstract class _Expence implements Expence {
   factory _Expence(
-      {required final String reportID,
+      {required final String userID,
+      required final String reportID,
       required final String id,
       required final DateTime createdDate,
       required final ExpenceType expenceType,
@@ -323,6 +342,8 @@ abstract class _Expence implements Expence {
       required final TaxType taxType,
       required final String invoiceNumber}) = _$ExpenceImpl;
 
+  @override
+  String get userID;
   @override
   String get reportID;
   @override
