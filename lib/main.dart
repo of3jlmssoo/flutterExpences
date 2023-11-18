@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
+import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/expinput.dart';
 import 'package:riverpodtest/reportsscreen.dart';
-import 'package:logging/logging.dart';
-import 'expinput.dart';
 
 // void main() => runApp(const MyApp());
 final log = Logger('MainLogger');
@@ -45,6 +45,26 @@ final GoRouter _router = GoRouter(
             return const ExpenceInput();
           },
         ),
+        GoRoute(
+          path: 'expencesscreen',
+          builder: (context, state) {
+            final String param = GoRouterState.of(context).extra! as String;
+            return ExpencesScreen(reportID: param);
+            // return ExpencesScreen();
+          },
+        ),
+        // GoRoute(
+        //   path: '/expencesscreen',
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     log.info('---> ${state.pathParameters['reportID']}');
+        //     return ExpencesScreen(
+        //       reportID: state.pathParameters['reportID']!,
+        //     );
+        //     // final reportID = state.uri.rep,,
+        //     // reportID: state.uri.queryParameters['reportID']);
+        //     // reportID: state.uri.queryParameters['reportID']);
+        //   },
+        // ),
       ],
     ),
   ],

@@ -6,12 +6,12 @@ part of 'expences.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expenceListHash() => r'b7ed3820fb0e6c13101a9b72c0f0b68540e644bb';
+String _$expenceListHash() => r'a933334bfee97a6c656e16ff03f374845d4e7152';
 
 /// See also [ExpenceList].
 @ProviderFor(ExpenceList)
 final expenceListProvider =
-    AutoDisposeNotifierProvider<ExpenceList, List<Report>>.internal(
+    AutoDisposeNotifierProvider<ExpenceList, List<Expence>>.internal(
   ExpenceList.new,
   name: r'expenceListProvider',
   debugGetCreateSourceHash:
@@ -20,6 +20,6 @@ final expenceListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ExpenceList = AutoDisposeNotifier<List<Report>>;
+typedef _$ExpenceList = AutoDisposeNotifier<List<Expence>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

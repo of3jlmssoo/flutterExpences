@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpodtest/reports.dart';
 import 'package:uuid/uuid.dart';
 
 import 'report.dart';
 
-final _currentExpence = Provider<Report>((ref) => throw UnimplementedError());
+final log = Logger('ReportsScreen');
+
+final _currentReport = Provider<Report>((ref) => throw UnimplementedError());
 var uuid = const Uuid();
 
 class ReportsScreen extends ConsumerWidget {
@@ -44,36 +47,19 @@ class ReportsScreen extends ConsumerWidget {
           Expanded(
             child: ListView(
               children: [
-                // const Text('this is the title'),
-                // TextField(
-                //   // key: addTodoKey,
-                //   // controller: newTodoController,
-                //   decoration: const InputDecoration(
-                //     labelText: 'What needs to be done?',
-                //   ),
-                //   onSubmitted: (value) {
-                //     // ref.read(todoListProvider.notifier).add(value);
-                //     // newTodoController.clear();
-                //     print('value:$value');
-                //   },
-                // ),
-                // const SizedBox(height: 42),
-                // // const Toolbar(),
                 if (reports.isNotEmpty) const Divider(height: 0),
                 for (var i = 0; i < reports.length; i++) ...[
                   if (i > 0) const Divider(height: 0),
-                  // Text('abc$i ${reports[i].name} ${reports[i].col1}'),
                   Dismissible(
                     key: ValueKey(reports[i].reportID),
                     onDismissed: (_) {
-                      // ref.read(todoListProvider.notifier).remove(todos[i]);
                       ref
                           .read(reportListProvider.notifier)
                           .removeReport(reports[i]);
                     },
                     child: ProviderScope(
                       overrides: [
-                        _currentExpence.overrideWithValue(reports[i]),
+                        _currentReport.overrideWithValue(reports[i]),
                       ],
                       // child: Text('zxc'),
                       child: Card(
@@ -81,6 +67,12 @@ class ReportsScreen extends ConsumerWidget {
                           title: Text(
                               'abc$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
                           onTap: () {
+                            // log.info('--> ${reports[i].reportID}');
+                            context.go(
+                              '/expencesscreen',
+                              extra: reports[i].reportID,
+                            );
+
                             print('hello');
                           },
                         ),
