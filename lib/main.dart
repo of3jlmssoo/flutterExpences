@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpodtest/expinput.dart';
 import 'package:riverpodtest/reportsscreen.dart';
+import 'package:logging/logging.dart';
+import 'expinput.dart';
 
 // void main() => runApp(const MyApp());
+final log = Logger('MainLogger');
+
 void main() {
+  Logger.root.level = Level.ALL; // defaults to Level.INFO
+  Logger.root.onRecord.listen((LogRecord rec) {
+    debugPrint(
+        '[${rec.loggerName}] ${rec.level.name}: ${rec.time}: ${rec.message}');
+  });
+
   runApp(
     ProviderScope(
       child: MyApp(),
@@ -26,6 +37,12 @@ final GoRouter _router = GoRouter(
           path: 'listview',
           builder: (BuildContext context, GoRouterState state) {
             return ReportsScreen();
+          },
+        ),
+        GoRoute(
+          path: 'expenceinput',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ExpenceInput();
           },
         ),
       ],
