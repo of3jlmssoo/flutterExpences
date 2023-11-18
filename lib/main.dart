@@ -17,7 +17,7 @@ void main() {
   });
 
   runApp(
-    ProviderScope(
+    const ProviderScope(
       child: MyApp(),
     ),
   );
@@ -29,14 +29,14 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return HomeScreen();
+        return const HomeScreen();
         // return ReportsScreen();
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'listview',
           builder: (BuildContext context, GoRouterState state) {
-            return ReportsScreen();
+            return const ReportsScreen();
           },
         ),
         GoRoute(
@@ -50,21 +50,8 @@ final GoRouter _router = GoRouter(
           builder: (context, state) {
             final String param = GoRouterState.of(context).extra! as String;
             return ExpencesScreen(reportID: param);
-            // return ExpencesScreen();
           },
         ),
-        // GoRoute(
-        //   path: '/expencesscreen',
-        //   builder: (BuildContext context, GoRouterState state) {
-        //     log.info('---> ${state.pathParameters['reportID']}');
-        //     return ExpencesScreen(
-        //       reportID: state.pathParameters['reportID']!,
-        //     );
-        //     // final reportID = state.uri.rep,,
-        //     // reportID: state.uri.queryParameters['reportID']);
-        //     // reportID: state.uri.queryParameters['reportID']);
-        //   },
-        // ),
       ],
     ),
   ],

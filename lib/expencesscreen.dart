@@ -63,24 +63,6 @@ class ExpencesScreen extends ConsumerWidget {
             onPressed: () => context.go('/listview'),
             child: const Text('Go to the Listview screen'),
           ),
-          // ElevatedButton(
-          //   onPressed: () => context.go('/'),
-          //   child: const Text('Go to the root screen'),
-          // ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     ref.read(reportListProvider.notifier).addReport(
-          //           Report(
-          //               name: "name3",
-          //               createdDate: DateTime.now(),
-          //               col1: "col3",
-          //               totalPrice: 3,
-          //               userID: uuid.v7(),
-          //               reportID: uuid.v7()),
-          //         );
-          //   },
-          // child: const Text('add new record'),
-          // ),
           Expanded(
             child: ListView(
               children: [
