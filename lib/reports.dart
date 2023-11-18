@@ -16,10 +16,11 @@ var uuid = Uuid();
 
 @riverpod
 class ReportList extends _$ReportList {
+  final userID = uuid.v7();
   @override
   List<Report> build() => [
         Report(
-          userID: uuid.v7(),
+          userID: userID,
           name: "name1",
           createdDate: DateTime.now(),
           col1: "col1",
@@ -27,7 +28,7 @@ class ReportList extends _$ReportList {
           reportID: uuid.v7(),
         ),
         Report(
-          userID: uuid.v7(),
+          userID: userID,
           name: "name2",
           createdDate: DateTime.now(),
           col1: "col2",
