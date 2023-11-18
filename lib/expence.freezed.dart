@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Expence _$ExpenceFromJson(Map<String, dynamic> json) {
-  return _Expence.fromJson(json);
-}
-
 /// @nodoc
 mixin _$Expence {
   String get reportID => throw _privateConstructorUsedError;
@@ -33,7 +29,6 @@ mixin _$Expence {
   TaxType get taxType => throw _privateConstructorUsedError;
   String get invoiceNumber => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ExpenceCopyWith<Expence> get copyWith => throw _privateConstructorUsedError;
 }
@@ -225,7 +220,7 @@ class __$$ExpenceImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$ExpenceImpl implements _Expence {
   _$ExpenceImpl(
       {required this.reportID,
@@ -239,9 +234,6 @@ class _$ExpenceImpl implements _Expence {
       required this.price,
       required this.taxType,
       required this.invoiceNumber});
-
-  factory _$ExpenceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ExpenceImplFromJson(json);
 
   @override
   final String reportID;
@@ -295,7 +287,6 @@ class _$ExpenceImpl implements _Expence {
                 other.invoiceNumber == invoiceNumber));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -316,13 +307,6 @@ class _$ExpenceImpl implements _Expence {
   @pragma('vm:prefer-inline')
   _$$ExpenceImplCopyWith<_$ExpenceImpl> get copyWith =>
       __$$ExpenceImplCopyWithImpl<_$ExpenceImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ExpenceImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _Expence implements Expence {
@@ -338,8 +322,6 @@ abstract class _Expence implements Expence {
       required final int price,
       required final TaxType taxType,
       required final String invoiceNumber}) = _$ExpenceImpl;
-
-  factory _Expence.fromJson(Map<String, dynamic> json) = _$ExpenceImpl.fromJson;
 
   @override
   String get reportID;

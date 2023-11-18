@@ -36,14 +36,14 @@ class ReportList extends _$ReportList {
   // required String col1,
   // required int totalPrice,
 
-  void addExpence(Report report) {
+  void addReport(Report report) {
     state = [
       ...state,
       report,
     ];
   }
 
-  void remove(Report target) {
+  void removeReport(Report target) {
     state = state.where((report) => report.id != target.id).toList();
   }
 }
