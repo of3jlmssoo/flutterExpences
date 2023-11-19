@@ -45,6 +45,7 @@ final GoRouter _router = GoRouter(
           builder: (context, state) => ExpenceInput(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
+            // expence: state.uri.queryParameters['expence']!,
           ),
         ),
         GoRoute(

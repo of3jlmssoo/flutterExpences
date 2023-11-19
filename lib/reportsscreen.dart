@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
+import 'package:riverpodtest/expence.dart';
 import 'package:riverpodtest/reports.dart';
 import 'package:uuid/uuid.dart';
 
@@ -72,9 +73,15 @@ class ReportsScreen extends ConsumerWidget {
                             //   '/expencesscreen',
                             //   extra: reports[i].reportID,
                             // );
+                            Expence expence = Expence(
+                                userID: reports[i].userID,
+                                reportID: reports[i].reportID,
+                                id: uuid.v7(),
+                                createdDate: DateTime.now());
                             context.goNamed("expencescreen", queryParameters: {
                               'reportID': reports[i].reportID,
-                              'userID': reports[i].userID
+                              'userID': reports[i].userID,
+                              // 'expence': expence,
                             });
 
                             print('hello');

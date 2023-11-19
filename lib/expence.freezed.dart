@@ -16,19 +16,31 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Expence {
+// required String userID,
+// required String reportID,
+// required String id,
+// required DateTime createdDate,
+// required ExpenceType expenceType,
+// required DateTime expenceDate,
+// required String col1,
+// required String col2,
+// required  col3,
+// required int price,
+// required TaxType taxType,
+// required String invoiceNumber,
+//
   String get userID => throw _privateConstructorUsedError;
   String get reportID => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
-  DateTime get createdDate =>
-      throw _privateConstructorUsedError; // required String Expence,
-  ExpenceType get expenceType => throw _privateConstructorUsedError;
-  DateTime get expenceDate => throw _privateConstructorUsedError;
-  String get col1 => throw _privateConstructorUsedError;
-  String get col2 => throw _privateConstructorUsedError;
-  String get col3 => throw _privateConstructorUsedError;
-  int get price => throw _privateConstructorUsedError;
-  TaxType get taxType => throw _privateConstructorUsedError;
-  String get invoiceNumber => throw _privateConstructorUsedError;
+  DateTime get createdDate => throw _privateConstructorUsedError;
+  ExpenceType? get expenceType => throw _privateConstructorUsedError;
+  DateTime? get expenceDate => throw _privateConstructorUsedError;
+  String? get col1 => throw _privateConstructorUsedError;
+  String? get col2 => throw _privateConstructorUsedError;
+  String? get col3 => throw _privateConstructorUsedError;
+  int? get price => throw _privateConstructorUsedError;
+  TaxType? get taxType => throw _privateConstructorUsedError;
+  String? get invoiceNumber => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExpenceCopyWith<Expence> get copyWith => throw _privateConstructorUsedError;
@@ -44,14 +56,14 @@ abstract class $ExpenceCopyWith<$Res> {
       String reportID,
       String id,
       DateTime createdDate,
-      ExpenceType expenceType,
-      DateTime expenceDate,
-      String col1,
-      String col2,
-      String col3,
-      int price,
-      TaxType taxType,
-      String invoiceNumber});
+      ExpenceType? expenceType,
+      DateTime? expenceDate,
+      String? col1,
+      String? col2,
+      String? col3,
+      int? price,
+      TaxType? taxType,
+      String? invoiceNumber});
 }
 
 /// @nodoc
@@ -71,14 +83,14 @@ class _$ExpenceCopyWithImpl<$Res, $Val extends Expence>
     Object? reportID = null,
     Object? id = null,
     Object? createdDate = null,
-    Object? expenceType = null,
-    Object? expenceDate = null,
-    Object? col1 = null,
-    Object? col2 = null,
-    Object? col3 = null,
-    Object? price = null,
-    Object? taxType = null,
-    Object? invoiceNumber = null,
+    Object? expenceType = freezed,
+    Object? expenceDate = freezed,
+    Object? col1 = freezed,
+    Object? col2 = freezed,
+    Object? col3 = freezed,
+    Object? price = freezed,
+    Object? taxType = freezed,
+    Object? invoiceNumber = freezed,
   }) {
     return _then(_value.copyWith(
       userID: null == userID
@@ -97,38 +109,38 @@ class _$ExpenceCopyWithImpl<$Res, $Val extends Expence>
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      expenceType: null == expenceType
+      expenceType: freezed == expenceType
           ? _value.expenceType
           : expenceType // ignore: cast_nullable_to_non_nullable
-              as ExpenceType,
-      expenceDate: null == expenceDate
+              as ExpenceType?,
+      expenceDate: freezed == expenceDate
           ? _value.expenceDate
           : expenceDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      col1: null == col1
+              as DateTime?,
+      col1: freezed == col1
           ? _value.col1
           : col1 // ignore: cast_nullable_to_non_nullable
-              as String,
-      col2: null == col2
+              as String?,
+      col2: freezed == col2
           ? _value.col2
           : col2 // ignore: cast_nullable_to_non_nullable
-              as String,
-      col3: null == col3
+              as String?,
+      col3: freezed == col3
           ? _value.col3
           : col3 // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
+              as String?,
+      price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int,
-      taxType: null == taxType
+              as int?,
+      taxType: freezed == taxType
           ? _value.taxType
           : taxType // ignore: cast_nullable_to_non_nullable
-              as TaxType,
-      invoiceNumber: null == invoiceNumber
+              as TaxType?,
+      invoiceNumber: freezed == invoiceNumber
           ? _value.invoiceNumber
           : invoiceNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -145,14 +157,14 @@ abstract class _$$ExpenceImplCopyWith<$Res> implements $ExpenceCopyWith<$Res> {
       String reportID,
       String id,
       DateTime createdDate,
-      ExpenceType expenceType,
-      DateTime expenceDate,
-      String col1,
-      String col2,
-      String col3,
-      int price,
-      TaxType taxType,
-      String invoiceNumber});
+      ExpenceType? expenceType,
+      DateTime? expenceDate,
+      String? col1,
+      String? col2,
+      String? col3,
+      int? price,
+      TaxType? taxType,
+      String? invoiceNumber});
 }
 
 /// @nodoc
@@ -170,14 +182,14 @@ class __$$ExpenceImplCopyWithImpl<$Res>
     Object? reportID = null,
     Object? id = null,
     Object? createdDate = null,
-    Object? expenceType = null,
-    Object? expenceDate = null,
-    Object? col1 = null,
-    Object? col2 = null,
-    Object? col3 = null,
-    Object? price = null,
-    Object? taxType = null,
-    Object? invoiceNumber = null,
+    Object? expenceType = freezed,
+    Object? expenceDate = freezed,
+    Object? col1 = freezed,
+    Object? col2 = freezed,
+    Object? col3 = freezed,
+    Object? price = freezed,
+    Object? taxType = freezed,
+    Object? invoiceNumber = freezed,
   }) {
     return _then(_$ExpenceImpl(
       userID: null == userID
@@ -196,38 +208,38 @@ class __$$ExpenceImplCopyWithImpl<$Res>
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      expenceType: null == expenceType
+      expenceType: freezed == expenceType
           ? _value.expenceType
           : expenceType // ignore: cast_nullable_to_non_nullable
-              as ExpenceType,
-      expenceDate: null == expenceDate
+              as ExpenceType?,
+      expenceDate: freezed == expenceDate
           ? _value.expenceDate
           : expenceDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      col1: null == col1
+              as DateTime?,
+      col1: freezed == col1
           ? _value.col1
           : col1 // ignore: cast_nullable_to_non_nullable
-              as String,
-      col2: null == col2
+              as String?,
+      col2: freezed == col2
           ? _value.col2
           : col2 // ignore: cast_nullable_to_non_nullable
-              as String,
-      col3: null == col3
+              as String?,
+      col3: freezed == col3
           ? _value.col3
           : col3 // ignore: cast_nullable_to_non_nullable
-              as String,
-      price: null == price
+              as String?,
+      price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int,
-      taxType: null == taxType
+              as int?,
+      taxType: freezed == taxType
           ? _value.taxType
           : taxType // ignore: cast_nullable_to_non_nullable
-              as TaxType,
-      invoiceNumber: null == invoiceNumber
+              as TaxType?,
+      invoiceNumber: freezed == invoiceNumber
           ? _value.invoiceNumber
           : invoiceNumber // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -240,15 +252,28 @@ class _$ExpenceImpl implements _Expence {
       required this.reportID,
       required this.id,
       required this.createdDate,
-      required this.expenceType,
-      required this.expenceDate,
-      required this.col1,
-      required this.col2,
-      required this.col3,
-      required this.price,
-      required this.taxType,
-      required this.invoiceNumber});
+      this.expenceType,
+      this.expenceDate,
+      this.col1,
+      this.col2,
+      this.col3,
+      this.price,
+      this.taxType,
+      this.invoiceNumber});
 
+// required String userID,
+// required String reportID,
+// required String id,
+// required DateTime createdDate,
+// required ExpenceType expenceType,
+// required DateTime expenceDate,
+// required String col1,
+// required String col2,
+// required  col3,
+// required int price,
+// required TaxType taxType,
+// required String invoiceNumber,
+//
   @override
   final String userID;
   @override
@@ -257,23 +282,22 @@ class _$ExpenceImpl implements _Expence {
   final String id;
   @override
   final DateTime createdDate;
-// required String Expence,
   @override
-  final ExpenceType expenceType;
+  final ExpenceType? expenceType;
   @override
-  final DateTime expenceDate;
+  final DateTime? expenceDate;
   @override
-  final String col1;
+  final String? col1;
   @override
-  final String col2;
+  final String? col2;
   @override
-  final String col3;
+  final String? col3;
   @override
-  final int price;
+  final int? price;
   @override
-  final TaxType taxType;
+  final TaxType? taxType;
   @override
-  final String invoiceNumber;
+  final String? invoiceNumber;
 
   @override
   String toString() {
@@ -333,16 +357,28 @@ abstract class _Expence implements Expence {
       required final String reportID,
       required final String id,
       required final DateTime createdDate,
-      required final ExpenceType expenceType,
-      required final DateTime expenceDate,
-      required final String col1,
-      required final String col2,
-      required final String col3,
-      required final int price,
-      required final TaxType taxType,
-      required final String invoiceNumber}) = _$ExpenceImpl;
+      final ExpenceType? expenceType,
+      final DateTime? expenceDate,
+      final String? col1,
+      final String? col2,
+      final String? col3,
+      final int? price,
+      final TaxType? taxType,
+      final String? invoiceNumber}) = _$ExpenceImpl;
 
-  @override
+  @override // required String userID,
+// required String reportID,
+// required String id,
+// required DateTime createdDate,
+// required ExpenceType expenceType,
+// required DateTime expenceDate,
+// required String col1,
+// required String col2,
+// required  col3,
+// required int price,
+// required TaxType taxType,
+// required String invoiceNumber,
+//
   String get userID;
   @override
   String get reportID;
@@ -350,22 +386,22 @@ abstract class _Expence implements Expence {
   String get id;
   @override
   DateTime get createdDate;
-  @override // required String Expence,
-  ExpenceType get expenceType;
   @override
-  DateTime get expenceDate;
+  ExpenceType? get expenceType;
   @override
-  String get col1;
+  DateTime? get expenceDate;
   @override
-  String get col2;
+  String? get col1;
   @override
-  String get col3;
+  String? get col2;
   @override
-  int get price;
+  String? get col3;
   @override
-  TaxType get taxType;
+  int? get price;
   @override
-  String get invoiceNumber;
+  TaxType? get taxType;
+  @override
+  String? get invoiceNumber;
   @override
   @JsonKey(ignore: true)
   _$$ExpenceImplCopyWith<_$ExpenceImpl> get copyWith =>

@@ -4,12 +4,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 import 'expence.dart';
 
 // final _currentExpenceType =
 // Provider<ExpenceType>((ref) => throw UnimplementedError());
 part 'expinput.g.dart';
+
+@riverpod
+class ExpenceDate extends _$ExpenceDate {
+  @override
+  String build() {
+    return intl.DateFormat.yMd().format(DateTime.now());
+  }
+
+  void setExpenceDate(DateTime dt) {
+    if (state != intl.DateFormat.yMd().format(dt))
+      state = intl.DateFormat.yMd().format(dt);
+  }
+}
 
 @riverpod
 class CurrentExpenceType extends _$CurrentExpenceType {
@@ -44,24 +58,37 @@ class CurrentExpenceType extends _$CurrentExpenceType {
   // }
 }
 
+var uuid = const Uuid();
 final log = Logger('ExpenceInputLogger');
 
 const List<String> expenceTypeList = <String>['交通費', 'その他', '直', 'Four'];
 
 class ExpenceInput extends ConsumerWidget {
-  ExpenceInput({super.key, required this.userID, required this.reportID});
+  ExpenceInput({
+    super.key,
+    required this.userID,
+    required this.reportID,
+    // required this.expence
+  });
   final String userID;
   final String reportID;
+  // final Expence expence;
 
   final _formKey = GlobalKey<FormState>();
   String title = '';
   String description = '';
-  DateTime date = DateTime.now();
+  DateTime expenceDate = DateTime.now();
   double maxValue = 0;
   bool? brushedTeeth = false;
   bool enableFeature = false;
 
   DateTime _date = new DateTime.now();
+
+  // Expence expence = Expence(
+  //     userID: userID,
+  //     reportID: reportID,
+  //     id: uuid.v7(),
+  //     createdDate: DateTime.now());
 
   Future<DateTime> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -82,6 +109,11 @@ class ExpenceInput extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Expence expence = Expence(
+        userID: userID,
+        reportID: reportID,
+        id: uuid.v7(),
+        createdDate: DateTime.now());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -146,6 +178,12 @@ class ExpenceInput extends ConsumerWidget {
                               .setExpenceType(value!);
                           log.info(
                               'provider2:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
+
+                          expence = expence.copyWith(
+                              expenceType: ref
+                                  .read(currentExpenceTypeProvider.notifier)
+                                  .getcurrentstate());
+                          log.info('${expence.toString()}');
                           //
                           // setState(() {
                           //   log.info('selected :$value');
@@ -183,8 +221,9 @@ class ExpenceInput extends ConsumerWidget {
                             children: [
                               const SizedBox(width: 12),
                               Text(
-                                intl.DateFormat.yMd().format(date),
-                                style: Theme.of(context).textTheme.titleMedium,
+                                // intl.DateFormat.yMd().format(expenceDate),
+                                // style: Theme.of(context).textTheme.titleMedium,
+                                ref.watch(expenceDateProvider),
                               ),
                             ],
                           ),
@@ -201,11 +240,18 @@ class ExpenceInput extends ConsumerWidget {
                             onPressed: () async {
                               final selectedDate = await showDatePicker(
                                 context: context,
-                                initialDate: date,
+                                initialDate: _date,
                                 firstDate: DateTime(2000),
                                 lastDate: DateTime.now(),
                               );
                               if (selectedDate != null) {
+                                expence =
+                                    expence.copyWith(expenceDate: selectedDate);
+                                ref
+                                    .read(expenceDateProvider.notifier)
+                                    .setExpenceDate(selectedDate);
+                                // expenceDate = selectedDate;
+                                log.info('${expence.toString()}');
                                 // setState(() {
                                 //   date = selectedDate;
                                 // });
@@ -236,6 +282,8 @@ class ExpenceInput extends ConsumerWidget {
                         ),
                         onChanged: (value) {
                           log.info('input: value:$value');
+                          expence = expence.copyWith(price: int.parse(value));
+                          log.info('${expence.toString()}');
                         },
                       ),
                       const SizedBox(height: 20),
@@ -252,7 +300,9 @@ class ExpenceInput extends ConsumerWidget {
                           // labelText: 'Description',
                         ),
                         onChanged: (value) {
-                          description = value;
+                          // description = value;
+                          expence = expence.copyWith(col3: value);
+                          log.info('${expence.toString()}');
                         },
                         maxLines: 5,
                       ),

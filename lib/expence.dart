@@ -35,19 +35,32 @@ enum TaxType { standardNoReceipt, invoice }
 @freezed
 class Expence with _$Expence {
   factory Expence({
+    // required String userID,
+    // required String reportID,
+    // required String id,
+    // required DateTime createdDate,
+    // required ExpenceType expenceType,
+    // required DateTime expenceDate,
+    // required String col1,
+    // required String col2,
+    // required  col3,
+    // required int price,
+    // required TaxType taxType,
+    // required String invoiceNumber,
+    //
     required String userID,
     required String reportID,
     required String id,
     required DateTime createdDate,
-    // required String Expence,
-    required ExpenceType expenceType,
-    required DateTime expenceDate,
-    required String col1,
-    required String col2,
-    required String col3,
-    required int price,
-    required TaxType taxType,
-    required String invoiceNumber,
+    
+    ExpenceType? expenceType,
+    DateTime? expenceDate,
+    String? col1,
+    String? col2,
+    String? col3,
+    int? price,
+    TaxType? taxType,
+    String? invoiceNumber,
   }) = _Expence;
 
   /// Convert a JSON object into an [Expence] instance.
