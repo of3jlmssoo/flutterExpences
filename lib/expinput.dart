@@ -1,3 +1,5 @@
+// todo: 経費種別を選ばないとnulになる
+// todo: 経費種別=transporationで入力した内容が経費種別=othersにしても残る
 // dart run build_runner build expinput.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -561,6 +563,7 @@ class InputDetails extends ConsumerWidget {
                   ),
                   onChanged: (value) {
                     log.info('input: 費用項目value:$value');
+                    funcCol1(value);
                   },
                 ),
               ],
