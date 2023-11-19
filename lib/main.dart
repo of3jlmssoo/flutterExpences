@@ -40,14 +40,16 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
+          name: 'expenceinput',
           path: 'expenceinput',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ExpenceInput();
-          },
+          builder: (context, state) => ExpenceInput(
+            reportID: state.uri.queryParameters['reportID']!,
+            userID: state.uri.queryParameters['userID']!,
+          ),
         ),
         GoRoute(
-          name: "sample",
-          path: "sample",
+          name: "expencescreen",
+          path: "expencescreen",
           builder: (context, state) => ExpencesScreen(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,

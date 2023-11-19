@@ -21,21 +21,22 @@ class ExpencesScreen extends ConsumerWidget {
 
   void addExpence(WidgetRef ref, reportID) {
     log.info('$userID + $reportID');
-    ref.read(expenceListProvider.notifier).addExpence(Expence(
-            userID: uuid.v7(),
-            reportID: reportID,
-            id: uuid.v7(),
-            createdDate: DateTime.now(),
-            expenceType: ExpenceType.transportation,
-            expenceDate: DateTime.now(),
-            col1: 'column 1',
-            col2: 'column 2',
-            col3: 'column 3',
-            price: 123,
-            taxType: TaxType.invoice,
-            invoiceNumber: 'I123')
-        // todo: userID
-        );
+
+    // ref.read(expenceListProvider.notifier).addExpence(Expence(
+    //         userID: uuid.v7(),
+    //         reportID: reportID,
+    //         id: uuid.v7(),
+    //         createdDate: DateTime.now(),
+    //         expenceType: ExpenceType.transportation,
+    //         expenceDate: DateTime.now(),
+    //         col1: 'column 1',
+    //         col2: 'column 2',
+    //         col3: 'column 3',
+    //         price: 123,
+    //         taxType: TaxType.invoice,
+    //         invoiceNumber: 'I123')
+    //     // todo: userID
+    //     );
   }
 
   @override
@@ -52,8 +53,9 @@ class ExpencesScreen extends ConsumerWidget {
             tooltip: 'add expence',
             onPressed: () {
               log.info('IconButton pressed');
-              addExpence(ref, reportID);
-              // ref.read(expenceListProvider.notifier).addExpence(expence)
+              // addExpence(ref, reportID);
+              context.goNamed("expenceinput",
+                  queryParameters: {'reportID': reportID, 'userID': userID});
             },
           ),
           Icon(Icons.add),

@@ -1,17 +1,58 @@
+// dart run build_runner build expinput.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final log = Logger('ExpenceInputLoginLogger');
+import 'expence.dart';
 
-class ExpenceInput extends StatefulWidget {
-  const ExpenceInput({super.key});
+// final _currentExpenceType =
+// Provider<ExpenceType>((ref) => throw UnimplementedError());
+part 'expinput.g.dart';
 
+@riverpod
+class CurrentExpenceType extends _$CurrentExpenceType {
   @override
-  State<ExpenceInput> createState() => _ExpenceInputState();
+  ExpenceType build() {
+    return ExpenceType.transportation;
+  }
+
+  void setExpenceType(String exptypestr) {
+    for (var type in ExpenceType.values) {
+      if (exptypestr == type.name) {
+        state = type;
+        break;
+      }
+    }
+  }
+
+  ExpenceType getcurrentstate() {
+    return state;
+  }
+
+  // void setExpenceType(ExpenceType expenceType) {
+  //   state = expenceType;
+  // }
+
+  // void setTransportation() {
+  //   state = ExpenceType.transportation;
+  // }
+
+  // void setOthers() {
+  //   state = ExpenceType.others;
+  // }
 }
 
-class _ExpenceInputState extends State<ExpenceInput> {
+final log = Logger('ExpenceInputLogger');
+
+const List<String> expenceTypeList = <String>['交通費', 'その他', '直', 'Four'];
+
+class ExpenceInput extends ConsumerWidget {
+  ExpenceInput({super.key, required this.userID, required this.reportID});
+  final String userID;
+  final String reportID;
+
   final _formKey = GlobalKey<FormState>();
   String title = '';
   String description = '';
@@ -37,23 +78,17 @@ class _ExpenceInputState extends State<ExpenceInput> {
       return DateTime.now();
   }
 
-  static const List<String> expenceTypeList = <String>[
-    '交通費直',
-    'その他',
-    '直',
-    'Four'
-  ];
   static const List<String> taxTypeList = <String>['one', 'two', 'Three', '直'];
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
           style: TextStyle(
             fontFamily: 'MPLUSRounded',
           ),
-          'Sample Code',
+          'Sample Code :',
         ),
       ),
       body: Form(
@@ -94,18 +129,37 @@ class _ExpenceInputState extends State<ExpenceInput> {
                         // textStyle: const TextStyle(fontSize: 14),
                         textStyle: const TextStyle(
                             fontSize: 12, fontFamily: 'MPLUSRounded'),
-                        initialSelection: expenceTypeList.first,
+                        // initialSelection: expenceTypeList.first,
+                        initialSelection: <String>[
+                          ExpenceType.values.map((e) => e.name).toList().first,
+                        ].first,
                         onSelected: (String? value) {
-                          setState(() {
-                            log.info('selected :$value');
-                          });
+                          // ref
+                          //     .read(currentExpenceTypeProvider.notifier)
+                          //     .setExpenceType(value);
+                          log.info('value:$value');
+                          log.info('Etype:${ExpenceType.values}');
+                          log.info(
+                              'provider1:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
+                          ref
+                              .read(currentExpenceTypeProvider.notifier)
+                              .setExpenceType(value!);
+                          log.info(
+                              'provider2:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
+                          //
+                          // setState(() {
+                          //   log.info('selected :$value');
+                          // });
                         },
-                        dropdownMenuEntries: expenceTypeList
+                        // dropdownMenuEntries: expenceTypeList
+                        dropdownMenuEntries: ExpenceType.values
+                            .map((e) => e.name)
+                            .toList()
                             .map<DropdownMenuEntry<String>>((String value) {
                           return DropdownMenuEntry<String>(
                               style: ButtonStyle(
                                   textStyle: MaterialStateTextStyle.resolveWith(
-                                      (states) => TextStyle(
+                                      (states) => const TextStyle(
                                           fontSize: 10,
                                           fontFamily: 'MPLUSRounded'))),
                               value: value,
@@ -152,9 +206,9 @@ class _ExpenceInputState extends State<ExpenceInput> {
                                 lastDate: DateTime.now(),
                               );
                               if (selectedDate != null) {
-                                setState(() {
-                                  date = selectedDate;
-                                });
+                                // setState(() {
+                                //   date = selectedDate;
+                                // });
                               }
                             },
                           ),
@@ -162,7 +216,12 @@ class _ExpenceInputState extends State<ExpenceInput> {
                       ),
                       const SizedBox(height: 20),
                       // InputDetails(inputType: InputType.transportation),
-                      InputDetails(inputType: InputType.other),
+                      // InputDetails(inputType: InputType.other),
+                      // InputDetails(
+                      //     inputType: ref
+                      //         .read(currentExpenceTypeProvider.notifier)
+                      //         .getcurrentstate()),
+                      InputDetails(),
                       const SizedBox(height: 20),
                       const Text(
                         '金額',
@@ -223,116 +282,116 @@ class _ExpenceInputState extends State<ExpenceInput> {
                         ),
                         initialSelection: taxTypeList.first,
                         onSelected: (String? value) {
-                          setState(() {
-                            log.info('selected :$value');
-                          });
+                          // setState(() {
+                          //   log.info('selected :$value');
+                          // });
                         },
                         dropdownMenuEntries: taxTypeList
                             .map<DropdownMenuEntry<String>>((String value) {
                           return DropdownMenuEntry<String>(
                               style: ButtonStyle(
                                   textStyle: MaterialStateTextStyle.resolveWith(
-                                      (states) => TextStyle(
+                                      (states) => const TextStyle(
                                           fontSize: 10,
                                           fontFamily: 'MPLUSRounded'))),
                               value: value,
                               label: value);
                         }).toList(),
                       ),
-                      //
-                      //
-                      //
-                      const SizedBox(height: 20),
+                      // //
+                      // //
+                      // //
+                      // const SizedBox(height: 20),
 
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          filled: true,
-                          hintText: 'Enter a title...',
-                          labelText: 'Title',
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            title = value;
-                          });
-                        },
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          hintText: 'Enter a description...',
-                          labelText: 'Description',
-                        ),
-                        onChanged: (value) {
-                          description = value;
-                        },
-                        maxLines: 5,
-                      ),
+                      // TextFormField(
+                      //   decoration: const InputDecoration(
+                      //     filled: true,
+                      //     hintText: 'Enter a title...',
+                      //     labelText: 'Title',
+                      //   ),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       title = value;
+                      //     });
+                      //   },
+                      // ),
+                      // TextFormField(
+                      //   decoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //     filled: true,
+                      //     hintText: 'Enter a description...',
+                      //     labelText: 'Description',
+                      //   ),
+                      //   onChanged: (value) {
+                      //     description = value;
+                      //   },
+                      //   maxLines: 5,
+                      // ),
 
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Estimated value',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                            ],
-                          ),
-                          Text(
-                            intl.NumberFormat.currency(
-                                    symbol: "\$", decimalDigits: 0)
-                                .format(maxValue),
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          Slider(
-                            min: 0,
-                            max: 500,
-                            divisions: 500,
-                            value: maxValue,
-                            onChanged: (value) {
-                              setState(() {
-                                maxValue = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                            value: brushedTeeth,
-                            onChanged: (checked) {
-                              setState(() {
-                                brushedTeeth = checked;
-                              });
-                            },
-                          ),
-                          Text('Brushed Teeth',
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Enable feature',
-                              style: Theme.of(context).textTheme.bodyLarge),
-                          Switch(
-                            value: enableFeature,
-                            onChanged: (enabled) {
-                              setState(() {
-                                enableFeature = enabled;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
+                      // Column(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [
+                      //     Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Text(
+                      //           'Estimated value',
+                      //           style: Theme.of(context).textTheme.bodyLarge,
+                      //         ),
+                      //       ],
+                      //     ),
+                      //     Text(
+                      //       intl.NumberFormat.currency(
+                      //               symbol: "\$", decimalDigits: 0)
+                      //           .format(maxValue),
+                      //       style: Theme.of(context).textTheme.titleMedium,
+                      //     ),
+                      //     Slider(
+                      //       min: 0,
+                      //       max: 500,
+                      //       divisions: 500,
+                      //       value: maxValue,
+                      //       onChanged: (value) {
+                      //         setState(() {
+                      //           maxValue = value;
+                      //         });
+                      //       },
+                      //     ),
+                      //   ],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   children: [
+                      //     Checkbox(
+                      //       value: brushedTeeth,
+                      //       onChanged: (checked) {
+                      //         setState(() {
+                      //           brushedTeeth = checked;
+                      //         });
+                      //       },
+                      //     ),
+                      //     Text('Brushed Teeth',
+                      //         style: Theme.of(context).textTheme.titleMedium),
+                      //   ],
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   crossAxisAlignment: CrossAxisAlignment.center,
+                      //   children: [
+                      //     Text('Enable feature',
+                      //         style: Theme.of(context).textTheme.bodyLarge),
+                      //     Switch(
+                      //       value: enableFeature,
+                      //       onChanged: (enabled) {
+                      //         setState(() {
+                      //           enableFeature = enabled;
+                      //         });
+                      //       },
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
@@ -347,12 +406,12 @@ class _ExpenceInputState extends State<ExpenceInput> {
 
 enum InputType { transportation, other }
 
-class InputDetails extends StatelessWidget {
-  InputDetails({required this.inputType});
-  final InputType inputType;
+class InputDetails extends ConsumerWidget {
+  const InputDetails({super.key});
   @override
-  Widget build(BuildContext context) {
-    if (inputType == InputType.transportation) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final inputType = ref.watch(currentExpenceTypeProvider);
+    if (inputType == ExpenceType.transportation) {
       return Row(
         children: [
           Expanded(

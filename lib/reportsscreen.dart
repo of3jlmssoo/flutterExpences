@@ -72,7 +72,7 @@ class ReportsScreen extends ConsumerWidget {
                             //   '/expencesscreen',
                             //   extra: reports[i].reportID,
                             // );
-                            context.goNamed("sample", queryParameters: {
+                            context.goNamed("expencescreen", queryParameters: {
                               'reportID': reports[i].reportID,
                               'userID': reports[i].userID
                             });
