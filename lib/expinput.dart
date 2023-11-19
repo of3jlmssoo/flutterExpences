@@ -1,6 +1,10 @@
 // todo: 経費種別を選ばないとnulになる
 // todo: 経費種別=transporationで入力した内容が経費種別=othersにしても残る
+// todo: taxtype enum化
+// todo: taxType default
+//
 // dart run build_runner build expinput.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' as intl;
@@ -109,13 +113,18 @@ class ExpenceInput extends ConsumerWidget {
 
   static const List<String> taxTypeList = <String>['one', 'two', 'Three', '直'];
 
+  var expenceTypeDefault =
+      <String>[ExpenceType.values.map((e) => e.name).toList().first].first;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Expence expence = Expence(
         userID: userID,
         reportID: reportID,
         id: uuid.v7(),
-        createdDate: DateTime.now());
+        createdDate: DateTime.now(),
+        expenceType: ExpenceType.values.first,
+        expenceDate: DateTime.now());
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -164,9 +173,10 @@ class ExpenceInput extends ConsumerWidget {
                         textStyle: const TextStyle(
                             fontSize: 12, fontFamily: 'MPLUSRounded'),
                         // initialSelection: expenceTypeList.first,
-                        initialSelection: <String>[
-                          ExpenceType.values.map((e) => e.name).toList().first,
-                        ].first,
+                        // initialSelection: <String>[
+                        //   ExpenceType.values.map((e) => e.name).toList().first,
+                        // ].first,
+                        initialSelection: expenceTypeDefault,
                         onSelected: (String? value) {
                           // ref
                           //     .read(currentExpenceTypeProvider.notifier)
