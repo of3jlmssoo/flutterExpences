@@ -267,7 +267,14 @@ class ExpenceInput extends ConsumerWidget {
                       //     inputType: ref
                       //         .read(currentExpenceTypeProvider.notifier)
                       //         .getcurrentstate()),
-                      InputDetails(),
+                      InputDetails(
+                        funcCol1: (String c1) {
+                          expence = expence.copyWith(col1: c1);
+                        },
+                        funcCol2: (String c2) {
+                          expence = expence.copyWith(col2: c2);
+                        },
+                      ),
                       const SizedBox(height: 20),
                       const Text(
                         '金額',
@@ -454,10 +461,13 @@ class ExpenceInput extends ConsumerWidget {
   }
 }
 
-enum InputType { transportation, other }
+// enum InputType { transportation, other }
 
 class InputDetails extends ConsumerWidget {
-  const InputDetails({super.key});
+  const InputDetails(
+      {super.key, required this.funcCol1, required this.funcCol2});
+  final Function funcCol1;
+  final Function funcCol2;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final inputType = ref.watch(currentExpenceTypeProvider);
@@ -481,6 +491,7 @@ class InputDetails extends ConsumerWidget {
                   ),
                   onChanged: (value) {
                     log.info('input: value:$value');
+                    funcCol1(value);
                   },
                 ),
               ],
@@ -503,7 +514,8 @@ class InputDetails extends ConsumerWidget {
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    log.info('input: value:$value');
+                    log.info('-------> input: value:$value');
+                    funcCol2(value);
                   },
                 ),
               ],
@@ -548,7 +560,7 @@ class InputDetails extends ConsumerWidget {
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    log.info('input: value:$value');
+                    log.info('input: 費用項目value:$value');
                   },
                 ),
               ],
