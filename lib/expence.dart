@@ -72,6 +72,15 @@ class Expence with _$Expence {
     String? invoiceNumber,
   }) = _Expence;
 
+  // void setExpenceType(String exptypestr) {
+  //   for (var type in ExpenceType.values) {
+  //     if (exptypestr == type.name) {
+  //       expenceType = type;
+  //       break;
+  //     }
+  //   }
+  // }
+
   /// Convert a JSON object into an [Expence] instance.
   /// This enables type-safe reading of the API response.
   factory Expence.fromJson(Map<String, dynamic> json) =>

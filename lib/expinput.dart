@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpodtest/currentexpence.dart';
 import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -74,18 +75,6 @@ class CurrentExpenceType extends _$CurrentExpenceType {
   ExpenceType getcurrentstate() {
     return state;
   }
-
-  // void setExpenceType(ExpenceType expenceType) {
-  //   state = expenceType;
-  // }
-
-  // void setTransportation() {
-  //   state = ExpenceType.transportation;
-  // }
-
-  // void setOthers() {
-  //   state = ExpenceType.others;
-  // }
 }
 
 var uuid = const Uuid();
@@ -144,14 +133,17 @@ class ExpenceInput extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Expence expence = Expence(
-        userID: userID,
-        reportID: reportID,
-        id: uuid.v7(),
-        createdDate: DateTime.now(),
-        expenceType: ExpenceType.values.first,
-        expenceDate: DateTime.now(),
-        taxType: TaxType.values.first);
+    Expence expence = ref.watch(currentExpenceProvider);
+    ExpenceType expenceType =
+        ref.watch(currentExpenceProvider.select((exp) => exp.expenceType!));
+    // Expence expence = Expence(
+    //     userID: userID,
+    //     reportID: reportID,
+    //     id: uuid.v7(),
+    //     createdDate: DateTime.now(),
+    //     expenceType: ExpenceType.values.first,
+    //     expenceDate: DateTime.now(),
+    //     taxType: TaxType.values.first);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -207,28 +199,30 @@ class ExpenceInput extends ConsumerWidget {
                         // ].first,
                         initialSelection: expenceTypeDefault,
                         onSelected: (String? value) {
+                          log.info('ExpType value:$value');
+                          log.info('ExpType expenceType1:$expenceType');
+                          for (var type in ExpenceType.values) {
+                            if (value == type.name) {
+                              ref
+                                  .watch(currentExpenceProvider.notifier)
+                                  .setExpenceType(type);
+                              break;
+                            }
+                          }
+
+                          // log.info(
+                          //     'provider1:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
                           // ref
                           //     .read(currentExpenceTypeProvider.notifier)
-                          //     .setExpenceType(value);
-                          log.info('value:$value');
-                          log.info('Etype:${ExpenceType.values}');
-                          log.info(
-                              'provider1:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
-                          ref
-                              .read(currentExpenceTypeProvider.notifier)
-                              .setExpenceType(value!);
-                          log.info(
-                              'provider2:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
+                          //     .setExpenceType(value!);
+                          // log.info(
+                          //     'provider2:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
 
-                          expence = expence.copyWith(
-                              expenceType: ref
-                                  .read(currentExpenceTypeProvider.notifier)
-                                  .getcurrentstate());
+                          // expence = expence.copyWith(
+                          //     expenceType: ref
+                          //         .read(currentExpenceTypeProvider.notifier)
+                          //         .getcurrentstate());
                           log.info('${expence.toString()}');
-                          //
-                          // setState(() {
-                          //   log.info('selected :$value');
-                          // });
                         },
                         // dropdownMenuEntries: expenceTypeList
                         dropdownMenuEntries: ExpenceType.values
