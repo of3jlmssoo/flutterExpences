@@ -130,10 +130,10 @@ class ExpenceInput extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          style: TextStyle(
-            fontFamily: 'MPLUSRounded',
-          ),
-          'Sample Code :',
+          // style: TextStyle(
+          //   fontFamily: 'MPLUSRounded',
+          // ),
+          '経費入力',
         ),
       ),
       body: Form(
@@ -153,9 +153,9 @@ class ExpenceInput extends ConsumerWidget {
                       const Text(
                         '経費種別',
                         // style: Theme.of(context).textTheme.bodyLarge,
-                        style: TextStyle(
-                          fontFamily: 'MPLUSRounded',
-                        ),
+                        // style: TextStyle(
+                        //   fontFamily: 'MPLUSRounded',
+                        // ),
                       ),
 
                       DropdownMenu<String>(
@@ -173,7 +173,9 @@ class ExpenceInput extends ConsumerWidget {
                         ),
                         // textStyle: const TextStyle(fontSize: 14),
                         textStyle: const TextStyle(
-                            fontSize: 12, fontFamily: 'MPLUSRounded'),
+                          fontSize: 12,
+                          // fontFamily: 'MPLUSRounded',
+                        ),
                         // initialSelection: expenceTypeList.first,
                         // initialSelection: <String>[
                         //   ExpenceType.values.map((e) => e.name).toList().first,
@@ -212,8 +214,9 @@ class ExpenceInput extends ConsumerWidget {
                               style: ButtonStyle(
                                   textStyle: MaterialStateTextStyle.resolveWith(
                                       (states) => const TextStyle(
-                                          fontSize: 10,
-                                          fontFamily: 'MPLUSRounded'))),
+                                            fontSize: 10,
+                                            // fontFamily: 'MPLUSRounded',
+                                          ))),
                               value: value,
                               label: value);
                         }).toList(),
@@ -223,9 +226,9 @@ class ExpenceInput extends ConsumerWidget {
                       const Text(
                         '日付',
                         // style: Theme.of(context).textTheme.bodyLarge,
-                        style: TextStyle(
-                          fontFamily: 'MPLUSRounded',
-                        ),
+                        // style: TextStyle(
+                        //   fontFamily: 'MPLUSRounded',
+                        // ),
                       ),
 
                       Row(
@@ -247,9 +250,9 @@ class ExpenceInput extends ConsumerWidget {
                           TextButton(
                             child: const Text(
                               '日付指定',
-                              style: TextStyle(
-                                fontFamily: 'MPLUSRounded',
-                              ),
+                              // style: TextStyle(
+                              //   fontFamily: 'MPLUSRounded',
+                              // ),
                             ),
                             onPressed: () async {
                               final selectedDate = await showDatePicker(
@@ -292,7 +295,7 @@ class ExpenceInput extends ConsumerWidget {
                       const SizedBox(height: 20),
                       const Text(
                         '金額',
-                        style: TextStyle(fontFamily: 'MPLUSRounded'),
+                        // style: TextStyle(fontFamily: 'MPLUSRounded'),
                         // style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       TextFormField(
@@ -310,7 +313,7 @@ class ExpenceInput extends ConsumerWidget {
                       const SizedBox(height: 20),
                       const Text(
                         'メモ',
-                        style: TextStyle(fontFamily: 'MPLUSRounded'),
+                        // style: TextStyle(fontFamily: 'MPLUSRounded'),
                         // style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       TextFormField(
@@ -331,7 +334,7 @@ class ExpenceInput extends ConsumerWidget {
                       const SizedBox(height: 20),
                       const Text(
                         '税タイプ',
-                        style: TextStyle(fontFamily: 'MPLUSRounded'),
+                        // style: TextStyle(fontFamily: 'MPLUSRounded'),
                         // style: Theme.of(context).textTheme.bodyLarge),
                       ),
                       DropdownMenu<String>(
@@ -349,7 +352,7 @@ class ExpenceInput extends ConsumerWidget {
                         ),
                         textStyle: const TextStyle(
                           fontSize: 12,
-                          fontFamily: 'MPLUSRounded',
+                          // fontFamily: 'MPLUSRounded',
                         ),
                         initialSelection: taxTypeDefault,
                         onSelected: (String? value) {
@@ -367,8 +370,9 @@ class ExpenceInput extends ConsumerWidget {
                               style: ButtonStyle(
                                   textStyle: MaterialStateTextStyle.resolveWith(
                                       (states) => const TextStyle(
-                                          fontSize: 10,
-                                          fontFamily: 'MPLUSRounded'))),
+                                            fontSize: 10,
+                                            // fontFamily: 'MPLUSRounded',
+                                          ))),
                               value: value,
                               label: value);
                         }).toList(),
@@ -500,7 +504,7 @@ class InputDetails extends ConsumerWidget {
               children: [
                 const Text(
                   '乗車地',
-                  style: TextStyle(fontFamily: 'MPLUSRounded'),
+                  // style: TextStyle(fontFamily: 'MPLUSRounded'),
                   // style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 TextFormField(
@@ -524,7 +528,7 @@ class InputDetails extends ConsumerWidget {
               children: [
                 const Text(
                   '降車地',
-                  style: TextStyle(fontFamily: 'MPLUSRounded'),
+                  // style: TextStyle(fontFamily: 'MPLUSRounded'),
                   // style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 TextFormField(
@@ -570,7 +574,7 @@ class InputDetails extends ConsumerWidget {
               children: [
                 const Text(
                   '費用項目',
-                  style: TextStyle(fontFamily: 'MPLUSRounded'),
+                  // style: TextStyle(fontFamily: 'MPLUSRounded'),
                   // style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 TextFormField(
