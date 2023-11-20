@@ -115,6 +115,8 @@ class ExpenceInput extends ConsumerWidget {
 
   var expenceTypeDefault =
       <String>[ExpenceType.values.map((e) => e.name).toList().first].first;
+  var taxTypeDefault =
+      <String>[TaxType.values.map((e) => e.name).toList().first].first;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -349,13 +351,17 @@ class ExpenceInput extends ConsumerWidget {
                           fontSize: 12,
                           fontFamily: 'MPLUSRounded',
                         ),
-                        initialSelection: taxTypeList.first,
+                        initialSelection: taxTypeDefault,
                         onSelected: (String? value) {
                           // setState(() {
                           //   log.info('selected :$value');
                           // });
                         },
-                        dropdownMenuEntries: taxTypeList
+                        // dropdownMenuEntries: taxTypeList
+                        //     .map<DropdownMenuEntry<String>>((String value) {
+                        dropdownMenuEntries: TaxType.values
+                            .map((e) => e.name)
+                            .toList()
                             .map<DropdownMenuEntry<String>>((String value) {
                           return DropdownMenuEntry<String>(
                               style: ButtonStyle(
@@ -367,6 +373,7 @@ class ExpenceInput extends ConsumerWidget {
                               label: value);
                         }).toList(),
                       ),
+
                       // //
                       // //
                       // //
