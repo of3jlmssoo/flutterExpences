@@ -39,7 +39,15 @@ class CurrentTaxType extends _$CurrentTaxType {
   }
 
   // int get number => _number;
-  TaxType get taxtype => state;
+  // TaxType get taxtype => state;
+  void setTaxType(String taxtypestr) {
+    for (var type in TaxType.values) {
+      if (taxtypestr == type.name) {
+        state = type;
+        break;
+      }
+    }
+  }
 }
 
 @riverpod
@@ -137,7 +145,8 @@ class ExpenceInput extends ConsumerWidget {
         id: uuid.v7(),
         createdDate: DateTime.now(),
         expenceType: ExpenceType.values.first,
-        expenceDate: DateTime.now());
+        expenceDate: DateTime.now(),
+        taxType: TaxType.values.first);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -367,9 +376,11 @@ class ExpenceInput extends ConsumerWidget {
                         ),
                         initialSelection: taxTypeDefault,
                         onSelected: (String? value) {
-                          // setState(() {
-                          //   log.info('selected :$value');
-                          // });
+                          ref
+                              .read(currentTaxTypeProvider.notifier)
+                              .setTaxType(value!);
+                          expence = expence.copyWith(
+                              taxType: ref.watch(currentTaxTypeProvider));
                         },
                         // dropdownMenuEntries: taxTypeList
                         //     .map<DropdownMenuEntry<String>>((String value) {
@@ -388,6 +399,31 @@ class ExpenceInput extends ConsumerWidget {
                               label: value);
                         }).toList(),
                       ),
+                      const SizedBox(height: 20),
+
+                      Visibility(
+                          visible: ref.watch(currentTaxTypeProvider) ==
+                                  TaxType.invoice
+                              ? true
+                              : false,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('インボイス番号'),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                ),
+                                onChanged: (value) {
+                                  // description = value;
+                                  expence =
+                                      expence.copyWith(invoiceNumber: value);
+                                  log.info('${expence.toString()}');
+                                },
+                                // maxLines: 5,
+                              ),
+                            ],
+                          ))
 
                       // //
                       // //
