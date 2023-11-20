@@ -23,10 +23,10 @@ class ReportsScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Reports Screen')),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () => context.go('/expenceinput'),
-            child: const Text('Go to the expence input screen'),
-          ),
+          // ElevatedButton(
+          //   onPressed: () => context.go('/expenceinput'),
+          //   child: const Text('Go to the expence input screen'),
+          // ),
           ElevatedButton(
             onPressed: () => context.go('/'),
             child: const Text('Go to the root screen'),

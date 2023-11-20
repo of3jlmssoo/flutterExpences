@@ -47,7 +47,8 @@ class ExpencesScreen extends ConsumerWidget {
           title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Expences Screen $reportID'),
+          Text(
+              '経費入力 ${reportID.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'add expence',
@@ -58,7 +59,7 @@ class ExpencesScreen extends ConsumerWidget {
                   queryParameters: {'reportID': reportID, 'userID': userID});
             },
           ),
-          Icon(Icons.add),
+          // Icon(Icons.add),
         ],
       )),
       // appBar: AppBar(title: Text('Expences Screen ')),

@@ -30,7 +30,16 @@ enum ExpenceType {
   final String name;
 }
 
-enum TaxType { standardNoReceipt, invoice }
+// enum TaxType { standardNoReceipt, invoice }
+enum TaxType {
+  invoice(id: 0, name: "インボイス対象"),
+  standardNoReceipt(id: 1, name: "レシート無し"),
+  others(id: 2, name: "その他(直)");
+
+  const TaxType({required this.id, required this.name});
+  final int id;
+  final String name;
+}
 
 @freezed
 class Expence with _$Expence {
@@ -52,7 +61,6 @@ class Expence with _$Expence {
     required String reportID,
     required String id,
     required DateTime createdDate,
-    
     ExpenceType? expenceType,
     DateTime? expenceDate,
     String? col1,
