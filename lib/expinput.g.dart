@@ -21,6 +21,22 @@ final expenceDateProvider =
 );
 
 typedef _$ExpenceDate = AutoDisposeNotifier<String>;
+String _$currentTaxTypeHash() => r'990b10418841e6be3216c6d24bc69a2ec024df17';
+
+/// See also [CurrentTaxType].
+@ProviderFor(CurrentTaxType)
+final currentTaxTypeProvider =
+    AutoDisposeNotifierProvider<CurrentTaxType, TaxType>.internal(
+  CurrentTaxType.new,
+  name: r'currentTaxTypeProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentTaxTypeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$CurrentTaxType = AutoDisposeNotifier<TaxType>;
 String _$currentExpenceTypeHash() =>
     r'6ce551e55d3ad10017efbec025c6af8fa0aab60b';
 

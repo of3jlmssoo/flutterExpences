@@ -32,6 +32,17 @@ class ExpenceDate extends _$ExpenceDate {
 }
 
 @riverpod
+class CurrentTaxType extends _$CurrentTaxType {
+  @override
+  TaxType build() {
+    return TaxType.invoice;
+  }
+
+  // int get number => _number;
+  TaxType get taxtype => state;
+}
+
+@riverpod
 class CurrentExpenceType extends _$CurrentExpenceType {
   @override
   ExpenceType build() {
