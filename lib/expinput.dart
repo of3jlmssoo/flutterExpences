@@ -1,8 +1,8 @@
-// todo: 経費種別を選ばないとnulになる
+// done: 経費種別を選ばないとnulになる
 // todo: 経費種別=transporationで入力した内容が経費種別=othersにしても残る
-// todo: taxtype enum化
-// todo: taxType default
-//
+// done: taxtype enum化
+// done: taxType default
+// todo: valudator
 // dart run build_runner build expinput.dart
 
 import 'package:flutter/material.dart';
