@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart' as intl;
 
 import 'expence.dart';
 
@@ -95,9 +96,13 @@ class ExpencesScreen extends ConsumerWidget {
                       // child: Text('zxc'),
                       child: Card(
                         child: ListTile(
-                          title: Text(
-                              // 'abc$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
-                              'ExpencesScreen'),
+                          title: Text(intl.DateFormat.yMd()
+                              .format(expences[i].expenceDate!)),
+                          subtitle: Text(
+                              '${expences[i].expenceType!.name}  ${expences[i].col1!} ${expences[i].price}円'),
+
+                          // 'abc$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
+                          // 'ExpencesScreen'),
                           onTap: () {
                             context.go('/expenceinput');
                             print('hello');
