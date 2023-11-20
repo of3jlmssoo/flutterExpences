@@ -14,7 +14,7 @@ part 'reports.g.dart';
 
 var uuid = Uuid();
 
-@riverpod
+@Riverpod(keepAlive: true)
 class ReportList extends _$ReportList {
   final userID = uuid.v7();
   @override

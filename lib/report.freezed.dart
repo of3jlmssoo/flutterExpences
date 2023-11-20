@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Report _$ReportFromJson(Map<String, dynamic> json) {
+  return _Report.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Report {
   String get userID => throw _privateConstructorUsedError;
@@ -24,6 +28,7 @@ mixin _$Report {
   String get col1 => throw _privateConstructorUsedError;
   int get totalPrice => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ReportCopyWith<Report> get copyWith => throw _privateConstructorUsedError;
 }
@@ -155,7 +160,7 @@ class __$$ReportImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ReportImpl implements _Report {
   _$ReportImpl(
       {required this.userID,
@@ -164,6 +169,9 @@ class _$ReportImpl implements _Report {
       required this.createdDate,
       required this.col1,
       required this.totalPrice});
+
+  factory _$ReportImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ReportImplFromJson(json);
 
   @override
   final String userID;
@@ -200,6 +208,7 @@ class _$ReportImpl implements _Report {
                 other.totalPrice == totalPrice));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, userID, reportID, name, createdDate, col1, totalPrice);
@@ -209,6 +218,13 @@ class _$ReportImpl implements _Report {
   @pragma('vm:prefer-inline')
   _$$ReportImplCopyWith<_$ReportImpl> get copyWith =>
       __$$ReportImplCopyWithImpl<_$ReportImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ReportImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Report implements Report {
@@ -219,6 +235,8 @@ abstract class _Report implements Report {
       required final DateTime createdDate,
       required final String col1,
       required final int totalPrice}) = _$ReportImpl;
+
+  factory _Report.fromJson(Map<String, dynamic> json) = _$ReportImpl.fromJson;
 
   @override
   String get userID;

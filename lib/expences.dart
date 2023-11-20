@@ -14,17 +14,23 @@ part 'expences.g.dart';
 
 var uuid = Uuid();
 
-@riverpod
+// @riverpod
+@Riverpod(keepAlive: true)
 class ExpenceList extends _$ExpenceList {
   final userID = uuid.v7();
   @override
   List<Expence> build() => [];
 
   void addExpence(Expence expence) {
+    print('----------> ${expence.toString()}');
+    print('==========> ${state}');
     state = [
       ...state,
       expence,
     ];
+    print('==========> ${state}');
+    print(
+        '====================================================================>');
   }
 
   void removeReport(Expence target) {

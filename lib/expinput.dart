@@ -3,6 +3,9 @@
 // done: taxtype enum化
 // done: taxType default
 // todo: valudator
+// todo: save button
+//
+//
 // dart run build_runner build expinput.dart
 
 import 'package:flutter/material.dart';
@@ -10,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'expence.dart';
@@ -32,6 +36,7 @@ class ExpenceDate extends _$ExpenceDate {
 }
 
 @riverpod
+// @Riverpod(keepAlive: true)
 class CurrentTaxType extends _$CurrentTaxType {
   @override
   TaxType build() {
@@ -402,29 +407,44 @@ class ExpenceInput extends ConsumerWidget {
                       const SizedBox(height: 20),
 
                       Visibility(
-                          visible: ref.watch(currentTaxTypeProvider) ==
-                                  TaxType.invoice
-                              ? true
-                              : false,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('インボイス番号'),
-                              TextFormField(
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
-                                onChanged: (value) {
-                                  // description = value;
-                                  expence =
-                                      expence.copyWith(invoiceNumber: value);
-                                  log.info('${expence.toString()}');
-                                },
-                                // maxLines: 5,
+                        visible:
+                            ref.watch(currentTaxTypeProvider) == TaxType.invoice
+                                ? true
+                                : false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('インボイス番号'),
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
                               ),
-                            ],
-                          ))
-
+                              onChanged: (value) {
+                                // description = value;
+                                expence =
+                                    expence.copyWith(invoiceNumber: value);
+                                log.info('${expence.toString()}');
+                                log.info('${expence.toJson()}');
+                              },
+                              // maxLines: 5,
+                            ),
+                          ],
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          log.info('${ref.watch(expenceListProvider)}');
+                        },
+                        child: const Text('log list information'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          ref
+                              .watch(expenceListProvider.notifier)
+                              .addExpence(Expence.fromJson(expence.toJson()));
+                        },
+                        child: const Text('log list information'),
+                      ),
                       // //
                       // //
                       // //

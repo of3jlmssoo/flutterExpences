@@ -19,25 +19,25 @@ class ExpencesScreen extends ConsumerWidget {
   final String reportID;
   final String userID;
 
-  void addExpence(WidgetRef ref, reportID) {
-    log.info('$userID + $reportID');
-
-    // ref.read(expenceListProvider.notifier).addExpence(Expence(
-    //         userID: uuid.v7(),
-    //         reportID: reportID,
-    //         id: uuid.v7(),
-    //         createdDate: DateTime.now(),
-    //         expenceType: ExpenceType.transportation,
-    //         expenceDate: DateTime.now(),
-    //         col1: 'column 1',
-    //         col2: 'column 2',
-    //         col3: 'column 3',
-    //         price: 123,
-    //         taxType: TaxType.invoice,
-    //         invoiceNumber: 'I123')
-    //     // todo: userID
-    //     );
-  }
+  // void addExpence(WidgetRef ref, reportID) {
+  //   log.info('$userID + $reportID');
+  //
+  //   // ref.read(expenceListProvider.notifier).addExpence(Expence(
+  //   //         userID: uuid.v7(),
+  //   //         reportID: reportID,
+  //   //         id: uuid.v7(),
+  //   //         createdDate: DateTime.now(),
+  //   //         expenceType: ExpenceType.transportation,
+  //   //         expenceDate: DateTime.now(),
+  //   //         col1: 'column 1',
+  //   //         col2: 'column 2',
+  //   //         col3: 'column 3',
+  //   //         price: 123,
+  //   //         taxType: TaxType.invoice,
+  //   //         invoiceNumber: 'I123')
+  //   //     // todo: userID
+  //   //     );
+  // }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,11 +54,11 @@ class ExpencesScreen extends ConsumerWidget {
             tooltip: 'add expence',
             onPressed: () {
               log.info('IconButton pressed');
-              // addExpence(ref, reportID);
               context.goNamed("expenceinput",
                   queryParameters: {'reportID': reportID, 'userID': userID});
             },
           ),
+
           // Icon(Icons.add),
         ],
       )),
@@ -68,6 +68,12 @@ class ExpencesScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: () => context.go('/listview'),
             child: const Text('Go to the Listview screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              log.info('${ref.watch(expenceListProvider)}');
+            },
+            child: const Text('log list information'),
           ),
           Expanded(
             child: ListView(
@@ -91,7 +97,7 @@ class ExpencesScreen extends ConsumerWidget {
                         child: ListTile(
                           title: Text(
                               // 'abc$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
-                              'abc'),
+                              'ExpencesScreen'),
                           onTap: () {
                             context.go('/expenceinput');
                             print('hello');

@@ -66,18 +66,18 @@ class ReportsScreen extends ConsumerWidget {
                       child: Card(
                         child: ListTile(
                           title: Text(
-                              'abc$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
+                              'ReportsScrenn$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
                           onTap: () {
                             // log.info('--> ${reports[i].reportID}');
                             // context.go(
                             //   '/expencesscreen',
                             //   extra: reports[i].reportID,
                             // );
-                            Expence expence = Expence(
-                                userID: reports[i].userID,
-                                reportID: reports[i].reportID,
-                                id: uuid.v7(),
-                                createdDate: DateTime.now());
+                            // Expence expence = Expence(
+                            //     userID: reports[i].userID,
+                            //     reportID: reports[i].reportID,
+                            //     id: uuid.v7(),
+                            //     createdDate: DateTime.now());
                             context.goNamed("expencescreen", queryParameters: {
                               'reportID': reports[i].reportID,
                               'userID': reports[i].userID,

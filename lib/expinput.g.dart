@@ -21,7 +21,7 @@ final expenceDateProvider =
 );
 
 typedef _$ExpenceDate = AutoDisposeNotifier<String>;
-String _$currentTaxTypeHash() => r'990b10418841e6be3216c6d24bc69a2ec024df17';
+String _$currentTaxTypeHash() => r'7cb7a8f78d57fb792d006952fe9c539d37b42874';
 
 /// See also [CurrentTaxType].
 @ProviderFor(CurrentTaxType)

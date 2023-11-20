@@ -6,12 +6,11 @@ part of 'reports.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$reportListHash() => r'699936e00df350d699b7c60628745e27cd669860';
+String _$reportListHash() => r'87f72d022960810ea03693af4b9b1656ec6b92dc';
 
 /// See also [ReportList].
 @ProviderFor(ReportList)
-final reportListProvider =
-    AutoDisposeNotifierProvider<ReportList, List<Report>>.internal(
+final reportListProvider = NotifierProvider<ReportList, List<Report>>.internal(
   ReportList.new,
   name: r'reportListProvider',
   debugGetCreateSourceHash:
@@ -20,6 +19,6 @@ final reportListProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$ReportList = AutoDisposeNotifier<List<Report>>;
+typedef _$ReportList = Notifier<List<Report>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

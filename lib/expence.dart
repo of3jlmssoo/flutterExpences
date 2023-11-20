@@ -4,6 +4,7 @@ import 'dart:core';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'expence.freezed.dart';
+part 'expence.g.dart';
 
 /// The response of the `GET /api/Expence` endpoint.
 ///
@@ -73,6 +74,6 @@ class Expence with _$Expence {
 
   /// Convert a JSON object into an [Expence] instance.
   /// This enables type-safe reading of the API response.
-  // factory Expence.fromJson(Map<String, dynamic> json) =>
-  //     _$ExpenceFromJson(json);
+  factory Expence.fromJson(Map<String, dynamic> json) =>
+      _$ExpenceFromJson(json);
 }
