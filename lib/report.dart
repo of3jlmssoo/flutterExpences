@@ -5,9 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'report.freezed.dart';
 part 'report.g.dart';
-// enum ExpenceType { transportation, others }
-
-// enum TaxType { standardNoReceipt, invoice }
 
 @freezed
 class Report with _$Report {

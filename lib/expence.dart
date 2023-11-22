@@ -27,19 +27,6 @@ part 'expence.g.dart';
 @freezed
 class Expence with _$Expence {
   factory Expence({
-    // required String userID,
-    // required String reportID,
-    // required String id,
-    // required DateTime createdDate,
-    // required ExpenceType expenceType,
-    // required DateTime expenceDate,
-    // required String col1,
-    // required String col2,
-    // required  col3,
-    // required int price,
-    // required TaxType taxType,
-    // required String invoiceNumber,
-    //
     required String userID,
     required String reportID,
     required String id,
@@ -53,15 +40,6 @@ class Expence with _$Expence {
     TaxType? taxType,
     String? invoiceNumber,
   }) = _Expence;
-
-  // void setExpenceType(String exptypestr) {
-  //   for (var type in ExpenceType.values) {
-  //     if (exptypestr == type.name) {
-  //       expenceType = type;
-  //       break;
-  //     }
-  //   }
-  // }
 
   /// Convert a JSON object into an [Expence] instance.
   /// This enables type-safe reading of the API response.

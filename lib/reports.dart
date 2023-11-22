@@ -12,7 +12,7 @@ import 'report.dart';
 
 part 'reports.g.dart';
 
-var uuid = Uuid();
+var uuid = const Uuid();
 
 @Riverpod(keepAlive: true)
 class ReportList extends _$ReportList {
@@ -36,13 +36,6 @@ class ReportList extends _$ReportList {
           reportID: uuid.v7(),
         )
       ];
-
-  // required String name,
-  // required String id,
-  // required DateTime createdDate,
-  // // required String Expence,
-  // required String col1,
-  // required int totalPrice,
 
   void addReport(Report report) {
     state = [

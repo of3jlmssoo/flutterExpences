@@ -21,26 +21,6 @@ class ExpencesScreen extends ConsumerWidget {
   final String reportID;
   final String userID;
 
-  // void addExpence(WidgetRef ref, reportID) {
-  //   log.info('$userID + $reportID');
-  //
-  //   // ref.read(expenceListProvider.notifier).addExpence(Expence(
-  //   //         userID: uuid.v7(),
-  //   //         reportID: reportID,
-  //   //         id: uuid.v7(),
-  //   //         createdDate: DateTime.now(),
-  //   //         expenceType: ExpenceType.transportation,
-  //   //         expenceDate: DateTime.now(),
-  //   //         col1: 'column 1',
-  //   //         col2: 'column 2',
-  //   //         col3: 'column 3',
-  //   //         price: 123,
-  //   //         taxType: TaxType.invoice,
-  //   //         invoiceNumber: 'I123')
-  //   //     // todo: userID
-  //   //     );
-  // }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final expences = ref.watch(expenceListProvider);
@@ -61,9 +41,7 @@ class ExpencesScreen extends ConsumerWidget {
                 'reportID': reportID,
                 'userID': userID,
                 'id': uuid.v7(),
-                // 'createdDate': DateTime.now(),
                 'expenceTypeName': ExpenceType.transportation.name,
-                // 'expencedDate': DateTime.now(),
                 'taxTypeName': TaxType.invoice.name,
               });
             },
@@ -72,7 +50,6 @@ class ExpencesScreen extends ConsumerWidget {
           // Icon(Icons.add),
         ],
       )),
-      // appBar: AppBar(title: Text('Expences Screen ')),
       body: Column(
         children: [
           ElevatedButton(
@@ -109,12 +86,8 @@ class ExpencesScreen extends ConsumerWidget {
                               .format(expences[i].expenceDate!)),
                           subtitle: Text(
                               '${expences[i].expenceType!.name}  ${expences[i].col1!} ${expences[i].price}円'),
-
-                          // 'abc$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
-                          // 'ExpencesScreen'),
                           onTap: () {
                             context.go('/expenceinput');
-                            print('hello');
                           },
                         ),
                       ),

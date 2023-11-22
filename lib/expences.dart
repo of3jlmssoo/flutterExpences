@@ -12,7 +12,7 @@ import 'expence.dart';
 
 part 'expences.g.dart';
 
-var uuid = Uuid();
+final uuid = const Uuid();
 
 // @riverpod
 @Riverpod(keepAlive: true)
@@ -22,15 +22,10 @@ class ExpenceList extends _$ExpenceList {
   List<Expence> build() => [];
 
   void addExpence(Expence expence) {
-    print('----------> ${expence.toString()}');
-    print('==========> ${state}');
     state = [
       ...state,
       expence,
     ];
-    print('==========> ${state}');
-    print(
-        '====================================================================>');
   }
 
   void removeReport(Expence target) {

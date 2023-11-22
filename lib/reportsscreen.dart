@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
-import 'package:riverpodtest/expence.dart';
+// import 'package:riverpodtest/expence.dart';
 import 'package:riverpodtest/reports.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,10 +23,6 @@ class ReportsScreen extends ConsumerWidget {
       appBar: AppBar(title: const Text('Reports Screen')),
       body: Column(
         children: [
-          // ElevatedButton(
-          //   onPressed: () => context.go('/expenceinput'),
-          //   child: const Text('Go to the expence input screen'),
-          // ),
           ElevatedButton(
             onPressed: () => context.go('/'),
             child: const Text('Go to the root screen'),
@@ -62,29 +58,15 @@ class ReportsScreen extends ConsumerWidget {
                       overrides: [
                         _currentReport.overrideWithValue(reports[i]),
                       ],
-                      // child: Text('zxc'),
                       child: Card(
                         child: ListTile(
                           title: Text(
                               'ReportsScrenn$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
                           onTap: () {
-                            // log.info('--> ${reports[i].reportID}');
-                            // context.go(
-                            //   '/expencesscreen',
-                            //   extra: reports[i].reportID,
-                            // );
-                            // Expence expence = Expence(
-                            //     userID: reports[i].userID,
-                            //     reportID: reports[i].reportID,
-                            //     id: uuid.v7(),
-                            //     createdDate: DateTime.now());
                             context.goNamed("expencescreen", queryParameters: {
                               'reportID': reports[i].reportID,
                               'userID': reports[i].userID,
-                              // 'expence': expence,
                             });
-
-                            print('hello');
                           },
                         ),
                       ),

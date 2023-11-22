@@ -6,7 +6,6 @@ import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/expenceinput.dart';
 import 'package:riverpodtest/reportsscreen.dart';
 
-// void main() => runApp(const MyApp());
 final log = Logger('MainLogger');
 
 void main() {
@@ -30,7 +29,6 @@ final GoRouter _router = GoRouter(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         return const HomeScreen();
-        // return ReportsScreen();
       },
       routes: <RouteBase>[
         GoRoute(
@@ -46,9 +44,7 @@ final GoRouter _router = GoRouter(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
             id: state.uri.queryParameters['id']!,
-            // createdDate: state.uri.queryParameters['createdDate']!,
             expenceTypeName: state.uri.queryParameters['expenceTypeName']!,
-            // expenceDate: state.uri.queryParameters['expenceDate']!,
             taxTypeName: state.uri.queryParameters['taxTypeName']!,
           ),
         ),
@@ -67,7 +63,6 @@ final GoRouter _router = GoRouter(
 
 /// The main app.
 class MyApp extends StatelessWidget {
-  /// Constructs a [MyApp]
   const MyApp({super.key});
 
   @override
@@ -83,7 +78,6 @@ class MyApp extends StatelessWidget {
 
 // The home screen
 class HomeScreen extends StatelessWidget {
-  /// Constructs a [HomeScreen]
   const HomeScreen({super.key});
 
   @override
@@ -99,22 +93,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-/// The details screen
-// class DetailsScreen extends StatelessWidget {
-//   /// Constructs a [DetailsScreen]
-//   const DetailsScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Details Screen')),
-//       body: Center(
-//         child: ElevatedButton(
-//           onPressed: () => context.go('/'),
-//           child: const Text('Go back to the Home screen'),
-//         ),
-//       ),
-//     );
-//   }
-// }
