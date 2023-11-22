@@ -11,6 +11,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'enums.dart';
@@ -395,7 +396,11 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         child: const Text('log expence'),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ref
+                              .read(expenceListProvider.notifier)
+                              .addExpence(expence);
+                        },
                         child: const Text('log list information'),
                       ),
                     ],
