@@ -262,9 +262,6 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                               Text('${ed}'),
                             ],
                           ),
-
-                          //   ],
-                          // ),
                           TextButton(
                             child: const Text(
                               '日付指定',
