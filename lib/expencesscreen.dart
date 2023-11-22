@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
-import 'package:intl/intl.dart' as intl;
 
+import 'enums.dart';
 import 'expence.dart';
 
 final log = Logger('ExpencesScreen');
@@ -55,8 +56,16 @@ class ExpencesScreen extends ConsumerWidget {
             tooltip: 'add expence',
             onPressed: () {
               log.info('IconButton pressed');
-              context.goNamed("expenceinput",
-                  queryParameters: {'reportID': reportID, 'userID': userID});
+
+              context.goNamed("expenceinput", queryParameters: {
+                'reportID': reportID,
+                'userID': userID,
+                'id': uuid.v7(),
+                // 'createdDate': DateTime.now(),
+                'expenceTypeName': ExpenceType.transportation.name,
+                // 'expencedDate': DateTime.now(),
+                'taxTypeName': TaxType.invoice.name,
+              });
             },
           ),
 

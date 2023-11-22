@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expencesscreen.dart';
-import 'package:riverpodtest/expinput.dart';
+import 'package:riverpodtest/expenceinput.dart';
 import 'package:riverpodtest/reportsscreen.dart';
 
 // void main() => runApp(const MyApp());
@@ -45,7 +45,11 @@ final GoRouter _router = GoRouter(
           builder: (context, state) => ExpenceInput(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
-            // expence: state.uri.queryParameters['expence']!,
+            id: state.uri.queryParameters['id']!,
+            // createdDate: state.uri.queryParameters['createdDate']!,
+            expenceTypeName: state.uri.queryParameters['expenceTypeName']!,
+            // expenceDate: state.uri.queryParameters['expenceDate']!,
+            taxTypeName: state.uri.queryParameters['taxTypeName']!,
           ),
         ),
         GoRoute(
@@ -56,13 +60,6 @@ final GoRouter _router = GoRouter(
             userID: state.uri.queryParameters['userID']!,
           ),
         ),
-        // GoRoute(
-        //   path: 'expencesscreen',
-        //   builder: (context, state) {
-        //     final String param = GoRouterState.of(context).extra! as String;
-        //     return ExpencesScreen(reportID: param);
-        //   },
-        // ),
       ],
     ),
   ],

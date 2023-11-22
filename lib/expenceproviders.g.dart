@@ -1,27 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'expinput.dart';
+part of 'expenceproviders.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expenceDateHash() => r'8cd76202eaa6e848001f46cc5df151674b2bd59b';
-
-/// See also [ExpenceDate].
-@ProviderFor(ExpenceDate)
-final expenceDateProvider =
-    AutoDisposeNotifierProvider<ExpenceDate, String>.internal(
-  ExpenceDate.new,
-  name: r'expenceDateProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$expenceDateHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$ExpenceDate = AutoDisposeNotifier<String>;
-String _$currentTaxTypeHash() => r'7cb7a8f78d57fb792d006952fe9c539d37b42874';
+String _$currentTaxTypeHash() => r'82b8e5b5fb6d5e2044b79ff11de69c2edd2af295';
 
 /// See also [CurrentTaxType].
 @ProviderFor(CurrentTaxType)
@@ -38,7 +23,7 @@ final currentTaxTypeProvider =
 
 typedef _$CurrentTaxType = AutoDisposeNotifier<TaxType>;
 String _$currentExpenceTypeHash() =>
-    r'6ce551e55d3ad10017efbec025c6af8fa0aab60b';
+    r'a12d92b9f1ecd71aa4b752e0d75f412fe384c2be';
 
 /// See also [CurrentExpenceType].
 @ProviderFor(CurrentExpenceType)
@@ -54,5 +39,22 @@ final currentExpenceTypeProvider =
 );
 
 typedef _$CurrentExpenceType = AutoDisposeNotifier<ExpenceType>;
+String _$currentExpenceDateHash() =>
+    r'd5adee036219d2a520175dc303f68d31bff481d6';
+
+/// See also [CurrentExpenceDate].
+@ProviderFor(CurrentExpenceDate)
+final currentExpenceDateProvider =
+    AutoDisposeNotifierProvider<CurrentExpenceDate, String>.internal(
+  CurrentExpenceDate.new,
+  name: r'currentExpenceDateProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentExpenceDateHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$CurrentExpenceDate = AutoDisposeNotifier<String>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

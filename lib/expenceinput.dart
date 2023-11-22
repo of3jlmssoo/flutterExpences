@@ -6,94 +6,184 @@
 // todo: save button
 //
 //
-// dart run build_runner build expinput.dart
+// dart run build_runner build expenceinput.dart
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:riverpodtest/currentexpence.dart';
-import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
+import 'enums.dart';
 import 'expence.dart';
+import 'expenceproviders.dart';
 
-// final _currentExpenceType =
-// Provider<ExpenceType>((ref) => throw UnimplementedError());
-part 'expinput.g.dart';
+// part 'expenceinput.g.dart';
 
-@riverpod
-class ExpenceDate extends _$ExpenceDate {
-  @override
-  String build() {
-    return intl.DateFormat.yMd().format(DateTime.now());
-  }
-
-  void setExpenceDate(DateTime dt) {
-    if (state != intl.DateFormat.yMd().format(dt))
-      state = intl.DateFormat.yMd().format(dt);
-  }
-}
-
-@riverpod
-// @Riverpod(keepAlive: true)
-class CurrentTaxType extends _$CurrentTaxType {
-  @override
-  TaxType build() {
-    return TaxType.invoice;
-  }
-
-  // int get number => _number;
-  // TaxType get taxtype => state;
-  void setTaxType(String taxtypestr) {
-    for (var type in TaxType.values) {
-      if (taxtypestr == type.name) {
-        state = type;
-        break;
-      }
-    }
-  }
-}
-
-@riverpod
-class CurrentExpenceType extends _$CurrentExpenceType {
-  @override
-  ExpenceType build() {
-    return ExpenceType.transportation;
-  }
-
-  void setExpenceType(String exptypestr) {
-    for (var type in ExpenceType.values) {
-      if (exptypestr == type.name) {
-        state = type;
-        break;
-      }
-    }
-  }
-
-  ExpenceType getcurrentstate() {
-    return state;
-  }
-}
+// @riverpod
+// class ExpenceDate extends _$ExpenceDate {
+//   @override
+//   String build() {
+//     return intl.DateFormat.yMd().format(DateTime.now());
+//   }
+//
+//   void setExpenceDate(DateTime dt) {
+//     if (state != intl.DateFormat.yMd().format(dt))
+//       state = intl.DateFormat.yMd().format(dt);
+//   }
+// }
+//
+// @riverpod
+// // @Riverpod(keepAlive: true)
+// class CurrentTaxType extends _$CurrentTaxType {
+//   @override
+//   TaxType build() {
+//     return TaxType.invoice;
+//   }
+//
+//   // int get number => _number;
+//   // TaxType get taxtype => state;
+//   void setTaxType(String taxtypestr) {
+//     for (var type in TaxType.values) {
+//       if (taxtypestr == type.name) {
+//         state = type;
+//         break;
+//       }
+//     }
+//   }
+// }
+//
+// @riverpod
+// class CurrentExpenceType extends _$CurrentExpenceType {
+//   @override
+//   ExpenceType build() {
+//     return ExpenceType.transportation;
+//   }
+//
+//   void setExpenceType(String exptypestr) {
+//     for (var type in ExpenceType.values) {
+//       if (exptypestr == type.name) {
+//         state = type;
+//         break;
+//       }
+//     }
+//   }
+//
+//   ExpenceType getcurrentstate() {
+//     return state;
+//   }
+// }
 
 var uuid = const Uuid();
 final log = Logger('ExpenceInputLogger');
 
-const List<String> expenceTypeList = <String>['交通費', 'その他', '直', 'Four'];
+Expence expence = Expence(
+  userID: 'dummyuserid',
+  reportID: 'dummyreportid',
+  id: 'dumyyid',
+  createdDate: DateTime.now(),
+  expenceDate: DateTime.now(),
+  expenceType: ExpenceType.transportation,
+  taxType: TaxType.invoice,
+);
 
-class ExpenceInput extends ConsumerWidget {
+// class CurrentExpence {
+
+// }
+
+// const List<String> expenceTypeList = <String>['交通費', 'その他', '直', 'Four'];
+// @riverpod
+// class CurrentExpence extends _$CurrentExpence {
+//   @override
+//   Expence build() {
+//     return Expence(
+//         userID: 'userid',
+//         reportID: 'reportid',
+//         id: 'id',
+//         expenceType: ExpenceType.transportation,
+//         createdDate: DateTime.now(),
+//         expenceDate: DateTime.now(),
+//         taxType: TaxType.invoice);
+//   }
+//
+//   set userID(String s) => state.copyWith(userID: s);
+//   set expenceType(ExpenceType s) {
+//     log.info('setter4expType1 : ${state.expenceType}');
+//     state = state.copyWith(expenceType: s);
+//     log.info('setter4expType2 : ${state.expenceType}');
+//     log.info('setter4expType3 : ${state.toString()}');
+//     log.info('setter4expType4 : ${stateToString()}');
+//     ref.invalidateSelf();
+//   }
+//
+//   String stateToString() {
+//     return state.toString();
+//   }
+//
+//   // Add methods to mutate the state
+// }
+
+class ExpenceInput extends ConsumerStatefulWidget {
+  String reportID;
+  String userID;
+  String id;
+  // DateTime createdDate;
+  String expenceTypeName;
+  // DateTime expenceDate;
+  String taxTypeName;
+
   ExpenceInput({
     super.key,
-    required this.userID,
-    required this.reportID,
-    // required this.expence
+    required String this.reportID,
+    required String this.userID,
+    required String this.id,
+    // required DateTime this.createdDate,
+    required String this.expenceTypeName,
+    // required DateTime this.expenceDate,
+    required String this.taxTypeName,
   });
-  final String userID;
-  final String reportID;
-  // final Expence expence;
+
+  @override
+  ExpenceInputState createState() => ExpenceInputState();
+}
+
+class ExpenceInputState extends ConsumerState<ExpenceInput> {
+  @override
+  void initState() {
+    super.initState();
+
+    late ExpenceType expenceType;
+    for (var type in ExpenceType.values) {
+      if (widget.expenceTypeName == type.name) {
+        expenceType = type;
+        break;
+      }
+    }
+
+    late TaxType taxType;
+    for (var type in TaxType.values) {
+      if (widget.taxTypeName == type.name) {
+        taxType = type;
+        break;
+      }
+    }
+
+    expence = expence.copyWith(
+        userID: widget.userID, reportID: widget.reportID, id: widget.id);
+
+    log.info('initState 1 : ref.watch(currentExpenceProvider).toString()');
+    // expence = Expence(
+    //   userID: widget.userID,
+    //   reportID: widget.reportID,
+    //   id: widget.id,
+    //   createdDate: DateTime.now(),
+    //   expenceType: expenceType,
+    //   expenceDate: DateTime.now(),
+    //   taxType: taxType,
+    // );
+  }
 
   final _formKey = GlobalKey<FormState>();
+
   String title = '';
   String description = '';
   DateTime expenceDate = DateTime.now();
@@ -132,18 +222,9 @@ class ExpenceInput extends ConsumerWidget {
       <String>[TaxType.values.map((e) => e.name).toList().first].first;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Expence expence = ref.watch(currentExpenceProvider);
-    ExpenceType expenceType =
-        ref.watch(currentExpenceProvider.select((exp) => exp.expenceType!));
-    // Expence expence = Expence(
-    //     userID: userID,
-    //     reportID: reportID,
-    //     id: uuid.v7(),
-    //     createdDate: DateTime.now(),
-    //     expenceType: ExpenceType.values.first,
-    //     expenceDate: DateTime.now(),
-    //     taxType: TaxType.values.first);
+  Widget build(BuildContext context) {
+    final tt = ref.watch(currentTaxTypeProvider);
+    final ed = ref.watch(currentExpenceDateProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -193,36 +274,26 @@ class ExpenceInput extends ConsumerWidget {
                           fontSize: 12,
                           // fontFamily: 'MPLUSRounded',
                         ),
-                        // initialSelection: expenceTypeList.first,
-                        // initialSelection: <String>[
-                        //   ExpenceType.values.map((e) => e.name).toList().first,
-                        // ].first,
+
                         initialSelection: expenceTypeDefault,
                         onSelected: (String? value) {
-                          log.info('ExpType value:$value');
-                          log.info('ExpType expenceType1:$expenceType');
+                          log.info('経費種別0 value:${value}');
+                          log.info('経費種別1 ${expence.expenceType}');
+
+                          late var epType;
                           for (var type in ExpenceType.values) {
                             if (value == type.name) {
-                              ref
-                                  .watch(currentExpenceProvider.notifier)
-                                  .setExpenceType(type);
+                              epType = type;
                               break;
                             }
                           }
-
-                          // log.info(
-                          //     'provider1:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
-                          // ref
-                          //     .read(currentExpenceTypeProvider.notifier)
-                          //     .setExpenceType(value!);
-                          // log.info(
-                          //     'provider2:${ref.read(currentExpenceTypeProvider.notifier).getcurrentstate()}');
-
-                          // expence = expence.copyWith(
-                          //     expenceType: ref
-                          //         .read(currentExpenceTypeProvider.notifier)
-                          //         .getcurrentstate());
-                          log.info('${expence.toString()}');
+                          log.info('経費種別2 ${epType}');
+                          expence = expence.copyWith(expenceType: epType);
+                          ref
+                              .read(currentExpenceTypeProvider.notifier)
+                              .expenceType(epType);
+                          log.info('経費種別4 ${expence.expenceType}');
+                          log.info('経費種別5 ${expence.toString()}');
                         },
                         // dropdownMenuEntries: expenceTypeList
                         dropdownMenuEntries: ExpenceType.values
@@ -256,11 +327,7 @@ class ExpenceInput extends ConsumerWidget {
                           Row(
                             children: [
                               const SizedBox(width: 12),
-                              Text(
-                                // intl.DateFormat.yMd().format(expenceDate),
-                                // style: Theme.of(context).textTheme.titleMedium,
-                                ref.watch(expenceDateProvider),
-                              ),
+                              Text('${ed}'),
                             ],
                           ),
 
@@ -284,10 +351,17 @@ class ExpenceInput extends ConsumerWidget {
                                 expence =
                                     expence.copyWith(expenceDate: selectedDate);
                                 ref
-                                    .read(expenceDateProvider.notifier)
-                                    .setExpenceDate(selectedDate);
-                                // expenceDate = selectedDate;
-                                log.info('${expence.toString()}');
+                                    .read(currentExpenceDateProvider.notifier)
+                                    .expenceDate(selectedDate);
+                                log.info('日付 : ${expence.toString()}');
+
+                                // expence =
+                                //     expence.copyWith(expenceDate: selectedDate);
+                                // ref
+                                //     .read(expenceDateProvider.notifier)
+                                //     .setExpenceDate(selectedDate);
+                                // // expenceDate = selectedDate;
+                                // log.info('${expence.toString()}');
                                 // setState(() {
                                 //   date = selectedDate;
                                 // });
@@ -297,20 +371,22 @@ class ExpenceInput extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
+                      InputDetails(),
                       // InputDetails(inputType: InputType.transportation),
                       // InputDetails(inputType: InputType.other),
                       // InputDetails(
                       //     inputType: ref
                       //         .read(currentExpenceTypeProvider.notifier)
                       //         .getcurrentstate()),
-                      InputDetails(
-                        funcCol1: (String c1) {
-                          expence = expence.copyWith(col1: c1);
-                        },
-                        funcCol2: (String c2) {
-                          expence = expence.copyWith(col2: c2);
-                        },
-                      ),
+
+                      // InputDetails(
+                      //   funcCol1: (String c1) {
+                      //     expence = expence.copyWith(col1: c1);
+                      //   },
+                      //   funcCol2: (String c2) {
+                      //     expence = expence.copyWith(col2: c2);
+                      //   },
+                      // ),
                       const SizedBox(height: 20),
                       const Text(
                         '金額',
@@ -324,9 +400,10 @@ class ExpenceInput extends ConsumerWidget {
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (value) {
-                          log.info('input: value:$value');
+                          // log.info('input: value:$value');
+                          // expence = expence.copyWith(price: int.parse(value));
+                          // log.info('${expence.toString()}');
                           expence = expence.copyWith(price: int.parse(value));
-                          log.info('${expence.toString()}');
                         },
                       ),
                       const SizedBox(height: 20),
@@ -375,11 +452,23 @@ class ExpenceInput extends ConsumerWidget {
                         ),
                         initialSelection: taxTypeDefault,
                         onSelected: (String? value) {
+                          late var tType;
+                          for (var type in TaxType.values) {
+                            if (value == type.name) {
+                              tType = type;
+                              break;
+                            }
+                          }
+                          expence = expence.copyWith(taxType: tType);
                           ref
                               .read(currentTaxTypeProvider.notifier)
-                              .setTaxType(value!);
-                          expence = expence.copyWith(
-                              taxType: ref.watch(currentTaxTypeProvider));
+                              .taxType(tType);
+                          log.info('TaxType : ${expence.toString()}');
+                          // ref
+                          //     .read(currentTaxTypeProvider.notifier)
+                          //     .setTaxType(value!);
+                          // expence = expence.copyWith(
+                          //     taxType: ref.watch(currentTaxTypeProvider));
                         },
                         // dropdownMenuEntries: taxTypeList
                         //     .map<DropdownMenuEntry<String>>((String value) {
@@ -401,10 +490,7 @@ class ExpenceInput extends ConsumerWidget {
                       const SizedBox(height: 20),
 
                       Visibility(
-                        visible:
-                            ref.watch(currentTaxTypeProvider) == TaxType.invoice
-                                ? true
-                                : false,
+                        visible: tt == TaxType.invoice,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -414,11 +500,15 @@ class ExpenceInput extends ConsumerWidget {
                                 border: OutlineInputBorder(),
                               ),
                               onChanged: (value) {
-                                // description = value;
                                 expence =
                                     expence.copyWith(invoiceNumber: value);
-                                log.info('${expence.toString()}');
-                                log.info('${expence.toJson()}');
+                                log.info('InvoiceNum : ${expence.toString()}');
+
+                                // description = value;
+                                // expence =
+                                //     expence.copyWith(invoiceNumber: value);
+                                // log.info('${expence.toString()}');
+                                // log.info('${expence.toJson()}');
                               },
                               // maxLines: 5,
                             ),
@@ -427,16 +517,12 @@ class ExpenceInput extends ConsumerWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          log.info('${ref.watch(expenceListProvider)}');
+                          log.info('logExpence : ${expence.toString()}');
                         },
-                        child: const Text('log list information'),
+                        child: const Text('log expence'),
                       ),
                       ElevatedButton(
-                        onPressed: () {
-                          ref
-                              .watch(expenceListProvider.notifier)
-                              .addExpence(Expence.fromJson(expence.toJson()));
-                        },
+                        onPressed: () {},
                         child: const Text('log list information'),
                       ),
                       // //
@@ -548,14 +634,14 @@ class ExpenceInput extends ConsumerWidget {
 // enum InputType { transportation, other }
 
 class InputDetails extends ConsumerWidget {
-  const InputDetails(
-      {super.key, required this.funcCol1, required this.funcCol2});
-  final Function funcCol1;
-  final Function funcCol2;
+  const InputDetails({super.key});
+  // final Function funcCol1;
+  // final Function funcCol2;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final inputType = ref.watch(currentExpenceTypeProvider);
-    if (inputType == ExpenceType.transportation) {
+    final etype = ref.watch(currentExpenceTypeProvider);
+    if (etype == ExpenceType.transportation) {
       return Row(
         children: [
           Expanded(
@@ -574,8 +660,9 @@ class InputDetails extends ConsumerWidget {
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    log.info('input: value:$value');
-                    funcCol1(value);
+                    log.info('col1 : input: value:$value');
+                    expence = expence.copyWith(col1: value);
+                    log.info('col1 : ${expence.toString()}');
                   },
                 ),
               ],
@@ -598,8 +685,11 @@ class InputDetails extends ConsumerWidget {
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
-                    log.info('-------> input: value:$value');
-                    funcCol2(value);
+                    // log.info('-------> input: value:$value');
+                    // funcCol2(value);
+                    log.info('col2 : input: value:$value');
+                    expence = expence.copyWith(col2: value);
+                    log.info('col2 : ${expence.toString()}');
                   },
                 ),
               ],
@@ -645,7 +735,7 @@ class InputDetails extends ConsumerWidget {
                   ),
                   onChanged: (value) {
                     log.info('input: 費用項目value:$value');
-                    funcCol1(value);
+                    // funcCol1(value);
                   },
                 ),
               ],

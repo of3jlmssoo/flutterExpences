@@ -3,6 +3,8 @@ import 'dart:core';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'enums.dart';
+
 part 'expence.freezed.dart';
 part 'expence.g.dart';
 
@@ -21,26 +23,6 @@ part 'expence.g.dart';
 // メモ
 // 税タイプ
 // enum ExpenceType { transportation, others }
-enum ExpenceType {
-  transportation(id: 0, name: "交通費"),
-  others(id: 1, name: "その他"),
-  test(id: 2, name: "直");
-
-  const ExpenceType({required this.id, required this.name});
-  final int id;
-  final String name;
-}
-
-// enum TaxType { standardNoReceipt, invoice }
-enum TaxType {
-  invoice(id: 0, name: "インボイス対象"),
-  standardNoReceipt(id: 1, name: "レシート無し"),
-  others(id: 2, name: "その他(直)");
-
-  const TaxType({required this.id, required this.name});
-  final int id;
-  final String name;
-}
 
 @freezed
 class Expence with _$Expence {
