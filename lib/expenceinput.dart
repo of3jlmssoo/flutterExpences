@@ -1,3 +1,7 @@
+// todo: price field
+// input tranportation
+// input next (price field left as it was)
+//
 // done: 経費種別を選ばないとnulになる
 // todo: 経費種別=transporationで入力した内容が経費種別=othersにしても残る
 // done: taxtype enum化
@@ -71,6 +75,8 @@ class ExpenceInput extends ConsumerStatefulWidget {
 }
 
 class ExpenceInputState extends ConsumerState<ExpenceInput> {
+  final _priceFieldController = TextEditingController(text: '');
+
   @override
   void initState() {
     super.initState();
@@ -307,7 +313,8 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                       ),
                       expence.price != null
                           ? TextFormField(
-                              initialValue: expence.price.toString(),
+                              // initialValue: expence.price.toString(),
+                              controller: _priceFieldController,
                               textAlign: TextAlign.right,
                               decoration: const InputDecoration(
                                 // filled: true,
@@ -319,6 +326,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                               },
                             )
                           : TextFormField(
+                              controller: _priceFieldController,
                               textAlign: TextAlign.right,
                               decoration: const InputDecoration(
                                 // filled: true,
@@ -432,6 +440,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                             'reportID': widget.reportID,
                             'userID': widget.userID,
                           });
+                          _priceFieldController.clear();
                         },
                         child: const Text('add / update'),
                       ),
