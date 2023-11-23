@@ -10,6 +10,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
@@ -426,6 +427,11 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           ref
                               .read(expenceListProvider.notifier)
                               .addExpence(expence);
+
+                          context.goNamed("expencescreen", queryParameters: {
+                            'reportID': widget.reportID,
+                            'userID': widget.userID,
+                          });
                         },
                         child: const Text('add / update'),
                       ),
