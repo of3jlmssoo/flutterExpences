@@ -15,6 +15,7 @@ void main() {
     debugPrint(
         '[${rec.loggerName}] ${rec.level.name}: ${rec.time}: ${rec.message}');
   });
+
   initializeDateFormatting("ja");
 
   runApp(
