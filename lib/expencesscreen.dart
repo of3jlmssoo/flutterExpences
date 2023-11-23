@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
@@ -59,7 +60,7 @@ class ExpencesScreen extends ConsumerWidget {
                   'expenceDateStr': DateTime.now().toString(),
                   'expenceTypeName': ExpenceType.transportation.name,
                   'taxTypeName': TaxType.invoice.name,
-                  'priceStr': '0',
+                  // 'priceStr': '',
                   'col1': '',
                   'col2': '',
                   'col3': '',
@@ -130,10 +131,13 @@ class ExpencesScreen extends ConsumerWidget {
                       // child: Text('zxc'),
                       child: Card(
                         child: ListTile(
-                          title: Text(intl.DateFormat.yMd()
-                              .format(expences[i].expenceDate!)),
+                          title: Text(
+                            // '${expences[i].expenceType!.name} ${intl.DateFormat.yMd().format(expences[i].expenceDate!)} ',
+                            '${expences[i].expenceType!.name} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(DateTime.now())}) ${expences[i].price}円',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           subtitle: Text(
-                              '${expences[i].expenceType!.name}  ${expences[i].col1!} ${expences[i].price}円'),
+                              '${expences[i].col1 != null ? expences[i].col1 : ''} ${expences[i].col2 != null ? expences[i].col2 : ''} ${expences[i].col3 != null ? expences[i].col3 : ''}'),
                           onTap: () {
                             ref
                                 .read(currentExpenceTypeProvider.notifier)

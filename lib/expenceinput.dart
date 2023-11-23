@@ -101,13 +101,23 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       createdDate: DateTime.parse(widget.createdDateStr!),
       expenceType: expenceType,
       expenceDate: DateTime.parse(widget.expenceDateStr!),
-      price: int.parse(widget.priceStr!),
-      col1: widget.col1,
-      col2: widget.col2,
-      col3: widget.col3,
+      // price: int.parse(widget.priceStr!),
+      // col1: widget.col1,
+      // col2: widget.col2,
+      // col3: widget.col3,
       taxType: taxType,
-      invoiceNumber: widget.invoiceNumber,
+      // invoiceNumber: widget.invoiceNumber,
     );
+    if (widget.priceStr != null)
+      expence = expence.copyWith(price: int.parse(widget.priceStr!));
+
+    if (widget.priceStr != null)
+      expence = expence.copyWith(price: int.parse(widget.priceStr!));
+    if (widget.col1 != null) expence = expence.copyWith(col1: widget.col1);
+    if (widget.col2 != null) expence = expence.copyWith(col2: widget.col2);
+    if (widget.col3 != null) expence = expence.copyWith(col3: widget.col3);
+    if (widget.invoiceNumber != null)
+      expence = expence.copyWith(invoiceNumber: widget.invoiceNumber);
 
     log.info('initState 1 : ${expence.toString()}');
   }
@@ -294,17 +304,30 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                       const Text(
                         '金額',
                       ),
-                      TextFormField(
-                        initialValue: expence.price.toString(),
-                        textAlign: TextAlign.right,
-                        decoration: const InputDecoration(
-                          // filled: true,
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          expence = expence.copyWith(price: int.parse(value));
-                        },
-                      ),
+                      expence.price != null
+                          ? TextFormField(
+                              initialValue: expence.price.toString(),
+                              textAlign: TextAlign.right,
+                              decoration: const InputDecoration(
+                                // filled: true,
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                expence =
+                                    expence.copyWith(price: int.parse(value));
+                              },
+                            )
+                          : TextFormField(
+                              textAlign: TextAlign.right,
+                              decoration: const InputDecoration(
+                                // filled: true,
+                                border: OutlineInputBorder(),
+                              ),
+                              onChanged: (value) {
+                                expence =
+                                    expence.copyWith(price: int.parse(value));
+                              },
+                            ),
                       const SizedBox(height: 20),
                       const Text(
                         'メモ',
@@ -404,7 +427,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                               .read(expenceListProvider.notifier)
                               .addExpence(expence);
                         },
-                        child: const Text('log list information'),
+                        child: const Text('add / update'),
                       ),
                     ],
                   ),
