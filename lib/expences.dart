@@ -22,13 +22,15 @@ class ExpenceList extends _$ExpenceList {
   List<Expence> build() => [];
 
   void addExpence(Expence expence) {
+    state = state.where((report) => report.id != expence.id).toList();
+
     state = [
       ...state,
       expence,
     ];
   }
 
-  void removeReport(Expence target) {
-    state = state.where((report) => report.id != target.id).toList();
+  void removeReport(Expence expence) {
+    state = state.where((report) => report.id != expence.id).toList();
   }
 }

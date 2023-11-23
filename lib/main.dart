@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
-import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/expenceinput.dart';
+import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/reportsscreen.dart';
 
 final log = Logger('MainLogger');
@@ -44,8 +44,15 @@ final GoRouter _router = GoRouter(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
             id: state.uri.queryParameters['id']!,
-            expenceTypeName: state.uri.queryParameters['expenceTypeName']!,
-            taxTypeName: state.uri.queryParameters['taxTypeName']!,
+            createdDateStr: state.uri.queryParameters['createdDateStr']!,
+            expenceTypeName: state.uri.queryParameters['expenceTypeName'],
+            expenceDateStr: state.uri.queryParameters['expenceDateStr'],
+            priceStr: state.uri.queryParameters['priceStr'],
+            col1: state.uri.queryParameters['col1'],
+            col2: state.uri.queryParameters['col2'],
+            col3: state.uri.queryParameters['col3'],
+            taxTypeName: state.uri.queryParameters['taxTypeName'],
+            invoiceNumber: state.uri.queryParameters['invoiceNumber'],
           ),
         ),
         GoRoute(

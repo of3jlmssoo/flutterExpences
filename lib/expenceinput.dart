@@ -2,7 +2,7 @@
 // todo: 経費種別=transporationで入力した内容が経費種別=othersにしても残る
 // done: taxtype enum化
 // done: taxType default
-// todo: valudator
+// todo: validator
 // todo: save button
 //
 //
@@ -17,62 +17,6 @@ import 'package:uuid/uuid.dart';
 import 'enums.dart';
 import 'expence.dart';
 import 'expenceproviders.dart';
-
-// part 'expenceinput.g.dart';
-
-// @riverpod
-// class ExpenceDate extends _$ExpenceDate {
-//   @override
-//   String build() {
-//     return intl.DateFormat.yMd().format(DateTime.now());
-//   }
-//
-//   void setExpenceDate(DateTime dt) {
-//     if (state != intl.DateFormat.yMd().format(dt))
-//       state = intl.DateFormat.yMd().format(dt);
-//   }
-// }
-//
-// @riverpod
-// // @Riverpod(keepAlive: true)
-// class CurrentTaxType extends _$CurrentTaxType {
-//   @override
-//   TaxType build() {
-//     return TaxType.invoice;
-//   }
-//
-//   // int get number => _number;
-//   // TaxType get taxtype => state;
-//   void setTaxType(String taxtypestr) {
-//     for (var type in TaxType.values) {
-//       if (taxtypestr == type.name) {
-//         state = type;
-//         break;
-//       }
-//     }
-//   }
-// }
-//
-// @riverpod
-// class CurrentExpenceType extends _$CurrentExpenceType {
-//   @override
-//   ExpenceType build() {
-//     return ExpenceType.transportation;
-//   }
-//
-//   void setExpenceType(String exptypestr) {
-//     for (var type in ExpenceType.values) {
-//       if (exptypestr == type.name) {
-//         state = type;
-//         break;
-//       }
-//     }
-//   }
-//
-//   ExpenceType getcurrentstate() {
-//     return state;
-//   }
-// }
 
 var uuid = const Uuid();
 final log = Logger('ExpenceInputLogger');
@@ -91,16 +35,34 @@ class ExpenceInput extends ConsumerStatefulWidget {
   String reportID;
   String userID;
   String id;
-  String expenceTypeName;
-  String taxTypeName;
+  String? expenceTypeName;
+  String? taxTypeName;
+  DateTime? createdDate;
+  DateTime? expenceDate;
+  String? col1;
+  String? col2;
+  String? col3;
+  int? price;
+  String? invoiceNumber;
+
+  String createdDateStr;
+  String? expenceDateStr;
+  String? priceStr;
 
   ExpenceInput({
     super.key,
-    required String this.reportID,
-    required String this.userID,
-    required String this.id,
-    required String this.expenceTypeName,
-    required String this.taxTypeName,
+    required this.reportID,
+    required this.userID,
+    required this.id,
+    required this.createdDateStr,
+    this.expenceTypeName,
+    this.taxTypeName,
+    this.expenceDateStr,
+    this.col1,
+    this.col2,
+    this.col3,
+    this.priceStr,
+    this.invoiceNumber,
   });
 
   @override
@@ -112,26 +74,42 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
   void initState() {
     super.initState();
 
-    ExpenceType expenceType;
+    ExpenceType expenceType = ExpenceType.transportation;
     for (var type in ExpenceType.values) {
       if (widget.expenceTypeName == type.name) {
         expenceType = type;
         break;
       }
     }
-
-    TaxType taxType;
+    // // ref.read(currentExpenceTypeProvider.notifier).expenceType(expenceType);
+    //
+    TaxType taxType = TaxType.invoice;
     for (var type in TaxType.values) {
       if (widget.taxTypeName == type.name) {
         taxType = type;
         break;
       }
     }
+    // // ref.read(currentTaxTypeProvider.notifier).taxType(taxType);
+
+    log.info('initState : ${widget.createdDateStr} ${widget.expenceDateStr}');
 
     expence = expence.copyWith(
-        userID: widget.userID, reportID: widget.reportID, id: widget.id);
+      userID: widget.userID,
+      reportID: widget.reportID,
+      id: widget.id,
+      createdDate: DateTime.parse(widget.createdDateStr!),
+      expenceType: expenceType,
+      expenceDate: DateTime.parse(widget.expenceDateStr!),
+      price: int.parse(widget.priceStr!),
+      col1: widget.col1,
+      col2: widget.col2,
+      col3: widget.col3,
+      taxType: taxType,
+      invoiceNumber: widget.invoiceNumber,
+    );
 
-    log.info('initState 1 : ref.watch(currentExpenceProvider).toString()');
+    log.info('initState 1 : ${expence.toString()}');
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -169,6 +147,28 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
 
   @override
   Widget build(BuildContext context) {
+    // final expenceTypeDefault = ref.watch(currentExpenceTypeProvider).name;
+    // final taxTypeDefault = ref.watch(currentTaxTypeProvider).name;
+
+    // ExpenceType expenceType = ExpenceType.transportation;
+    // for (var type in ExpenceType.values) {
+    //   if (widget.expenceTypeName == type.name) {
+    //     expenceType = type;
+    //     break;
+    //   }
+    // }
+    // ref.read(currentExpenceTypeProvider.notifier).expenceType(expenceType);
+    //
+    // TaxType taxType = TaxType.invoice;
+    // for (var type in TaxType.values) {
+    //   if (widget.taxTypeName == type.name) {
+    //     taxType = type;
+    //     break;
+    //   }
+    // }
+    // ref.read(currentTaxTypeProvider.notifier).taxType(taxType);
+
+    final et = ref.watch(currentExpenceTypeProvider);
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
     return Scaffold(
@@ -213,7 +213,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           fontSize: 12,
                         ),
 
-                        initialSelection: expenceTypeDefault,
+                        initialSelection: et.name,
                         onSelected: (String? value) {
                           log.info('経費種別0 value:${value}');
                           log.info('経費種別1 ${expence.expenceType}');
@@ -279,7 +279,10 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                                 ref
                                     .read(currentExpenceDateProvider.notifier)
                                     .expenceDate(selectedDate);
-                                log.info('日付 : ${expence.toString()}');
+                                log.info('日付1 : ${expence.toString()}');
+                                log.info('日付2 : ${DateTime.now().toString()}');
+                                log.info(
+                                    '日付3 : ${DateTime.parse(DateTime.now().toString())}');
                               }
                             },
                           ),
@@ -292,6 +295,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         '金額',
                       ),
                       TextFormField(
+                        initialValue: expence.price.toString(),
                         textAlign: TextAlign.right,
                         decoration: const InputDecoration(
                           // filled: true,
@@ -306,12 +310,13 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         'メモ',
                       ),
                       TextFormField(
+                        initialValue: expence.col3,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (value) {
                           expence = expence.copyWith(col3: value);
-                          log.info('${expence.toString()}');
+                          log.info('メモ : ${expence.toString()}');
                         },
                         maxLines: 5,
                       ),
@@ -334,7 +339,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         textStyle: const TextStyle(
                           fontSize: 12,
                         ),
-                        initialSelection: taxTypeDefault,
+                        initialSelection: tt.name,
                         onSelected: (String? value) {
                           late TaxType tType;
                           for (var type in TaxType.values) {
@@ -373,6 +378,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           children: [
                             const Text('インボイス番号'),
                             TextFormField(
+                              initialValue: expence.invoiceNumber,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                               ),
@@ -430,6 +436,7 @@ class InputDetails extends ConsumerWidget {
                   '乗車地',
                 ),
                 TextFormField(
+                  initialValue: expence.col1,
                   decoration: const InputDecoration(
                     // filled: true,
                     border: OutlineInputBorder(),
@@ -453,6 +460,7 @@ class InputDetails extends ConsumerWidget {
                   '降車地',
                 ),
                 TextFormField(
+                  initialValue: expence.col2,
                   decoration: const InputDecoration(
                     // filled: true,
                     border: OutlineInputBorder(),
@@ -498,6 +506,7 @@ class InputDetails extends ConsumerWidget {
                   '費用項目',
                 ),
                 TextFormField(
+                  initialValue: expence.col1,
                   decoration: const InputDecoration(
                     // filled: true,
                     border: OutlineInputBorder(),
