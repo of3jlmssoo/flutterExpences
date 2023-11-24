@@ -459,6 +459,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           context.goNamed("expencescreen", queryParameters: {
                             'reportID': widget.reportID,
                             'userID': widget.userID,
+                            'reportName': widget.reportName,
                           });
                           // _priceFieldController.clear();
                         },

@@ -193,6 +193,7 @@ class ExpencesScreen extends ConsumerWidget {
                                 'col3': expences[i].col3,
                                 'taxTypeName': expences[i].taxType!.name,
                                 'invoiceNumber': expences[i].invoiceNumber,
+                                'reportName': reportName,
                               },
                             );
                           },
