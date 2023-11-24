@@ -37,7 +37,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'listview',
           builder: (BuildContext context, GoRouterState state) {
-            return const ReportsScreen();
+            return ReportsScreen();
           },
         ),
         GoRoute(
@@ -56,6 +56,7 @@ final GoRouter _router = GoRouter(
             col3: state.uri.queryParameters['col3'],
             taxTypeName: state.uri.queryParameters['taxTypeName'],
             invoiceNumber: state.uri.queryParameters['invoiceNumber'],
+            reportName: state.uri.queryParameters['reportName']!,
           ),
         ),
         GoRoute(
@@ -64,6 +65,7 @@ final GoRouter _router = GoRouter(
           builder: (context, state) => ExpencesScreen(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
+            reportName: state.uri.queryParameters['reportName']!,
           ),
         ),
       ],
@@ -93,11 +95,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home Screen')),
+      appBar: AppBar(title: const Text('ホーム')),
       body: Center(
         child: ElevatedButton(
           onPressed: () => context.go('/listview'),
-          child: const Text('Go to the ListView screen'),
+          child: const Text('レポート一覧画面へ'),
         ),
       ),
     );

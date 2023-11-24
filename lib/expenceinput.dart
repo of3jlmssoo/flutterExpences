@@ -49,6 +49,7 @@ class ExpenceInput extends ConsumerStatefulWidget {
   String? col3;
   int? price;
   String? invoiceNumber;
+  String reportName;
 
   String createdDateStr;
   String? expenceDateStr;
@@ -68,6 +69,7 @@ class ExpenceInput extends ConsumerStatefulWidget {
     this.col3,
     this.priceStr,
     this.invoiceNumber,
+    required this.reportName,
   });
 
   @override
@@ -215,6 +217,16 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          child: const Icon(Icons.arrow_back, color: Colors.black),
+          onTap: () => Router.neglect(context, () {
+            context.goNamed("expencescreen", queryParameters: {
+              'reportID': widget.reportID,
+              'userID': widget.userID,
+              'reportName': widget.reportName,
+            });
+          }),
+        ),
         title: const Text(
           '経費入力',
         ),
@@ -437,12 +449,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           ],
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          log.info('logExpence : ${expence.toString()}');
-                        },
-                        child: const Text('log expence'),
-                      ),
+
                       ElevatedButton(
                         onPressed: () {
                           ref
@@ -453,9 +460,15 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                             'reportID': widget.reportID,
                             'userID': widget.userID,
                           });
-                          _priceFieldController.clear();
+                          // _priceFieldController.clear();
                         },
-                        child: const Text('add / update'),
+                        child: const Text('追加/更新'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          log.info('logExpence : ${expence.toString()}');
+                        },
+                        child: const Text('入力データ確認'),
                       ),
                     ],
                   ),

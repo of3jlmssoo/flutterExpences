@@ -14,18 +14,18 @@ final _currentReport = Provider<Report>((ref) => throw UnimplementedError());
 var uuid = const Uuid();
 
 class ReportsScreen extends ConsumerWidget {
-  const ReportsScreen({super.key});
-
+  ReportsScreen({super.key});
+  var userID = uuid.v7();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reports = ref.watch(reportListProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('Reports Screen')),
+      appBar: AppBar(title: const Text('レポート一覧')),
       body: Column(
         children: [
           ElevatedButton(
             onPressed: () => context.go('/'),
-            child: const Text('Go to the root screen'),
+            child: const Text('ホームへ戻る'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -35,11 +35,11 @@ class ReportsScreen extends ConsumerWidget {
                         createdDate: DateTime.now(),
                         col1: "col3",
                         totalPrice: 3,
-                        userID: uuid.v7(),
+                        userID: userID,
                         reportID: uuid.v7()),
                   );
             },
-            child: const Text('add new record'),
+            child: const Text('新しいレポート追加(constructing)'),
           ),
           Expanded(
             child: ListView(
@@ -60,12 +60,14 @@ class ReportsScreen extends ConsumerWidget {
                       ],
                       child: Card(
                         child: ListTile(
-                          title: Text(
-                              'ReportsScrenn$i ${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day} ${reports[i].name} ${reports[i].col1}'),
+                          title: Text('${reports[i].name}'),
+                          subtitle: Text(
+                              '${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day}'),
                           onTap: () {
                             context.goNamed("expencescreen", queryParameters: {
                               'reportID': reports[i].reportID,
                               'userID': reports[i].userID,
+                              'reportName': reports[i].name,
                             });
                           },
                         ),

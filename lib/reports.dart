@@ -21,7 +21,7 @@ class ReportList extends _$ReportList {
   List<Report> build() => [
         Report(
           userID: userID,
-          name: "name1",
+          name: "2023年10月国内交通費精算",
           createdDate: DateTime.now(),
           col1: "col1",
           totalPrice: 1,
@@ -29,7 +29,7 @@ class ReportList extends _$ReportList {
         ),
         Report(
           userID: userID,
-          name: "name2",
+          name: "2023年11月国内交通費精算",
           createdDate: DateTime.now(),
           col1: "col2",
           totalPrice: 2,

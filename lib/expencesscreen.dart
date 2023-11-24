@@ -18,9 +18,14 @@ var uuid = const Uuid();
 class ExpencesScreen extends ConsumerWidget {
   // const ExpencesScreen({super.key});
 
-  ExpencesScreen({super.key, required this.reportID, required this.userID});
+  ExpencesScreen(
+      {super.key,
+      required this.reportID,
+      required this.userID,
+      required this.reportName});
   final String reportID;
   final String userID;
+  final String reportName;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +41,8 @@ class ExpencesScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              '経費入力 ${reportID.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
+              // '経費入力 ${reportID.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
+              '経費入力 ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'add expence',
@@ -66,6 +72,7 @@ class ExpencesScreen extends ConsumerWidget {
                   'col2': '',
                   'col3': '',
                   'invoicenumber': '',
+                  'reportName': reportName,
                 },
               );
             },
@@ -78,7 +85,7 @@ class ExpencesScreen extends ConsumerWidget {
         children: [
           ElevatedButton(
             onPressed: () => context.go('/listview'),
-            child: const Text('Go to the Listview screen'),
+            child: const Text('レポート一覧へ'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -110,7 +117,7 @@ class ExpencesScreen extends ConsumerWidget {
                     taxType: TaxType.standardNoReceipt,
                   ));
             },
-            child: const Text('add test data'),
+            child: const Text('テストデータ追加'),
           ),
           Expanded(
             child: ListView(
