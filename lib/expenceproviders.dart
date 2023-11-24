@@ -1,4 +1,4 @@
-// dart run build_runner build
+// h
 import 'package:intl/intl.dart' as intl;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpodtest/enums.dart';
@@ -41,5 +41,17 @@ class CurrentExpenceDate extends _$CurrentExpenceDate {
 
   void expenceDate(DateTime dt) {
     state = intl.DateFormat.yMd().format(dt);
+  }
+}
+
+@riverpod
+class CurrentPrice extends _$CurrentPrice {
+  @override
+  int? build() {
+    return null;
+  }
+
+  void price(int price) {
+    state = price;
   }
 }

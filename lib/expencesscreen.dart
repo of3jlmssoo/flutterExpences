@@ -28,6 +28,7 @@ class ExpencesScreen extends ConsumerWidget {
     final et = ref.watch(currentExpenceTypeProvider);
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
+    final pr = ref.watch(currentPriceProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -150,6 +151,10 @@ class ExpencesScreen extends ConsumerWidget {
                             ref
                                 .read(currentExpenceDateProvider.notifier)
                                 .expenceDate(expences[i].expenceDate!);
+
+                            ref
+                                .read(currentPriceProvider.notifier)
+                                .price(expences[i].price!);
 
                             log.info(
                                 'Test Data 1-1 : ${expences[i].createdDate}');

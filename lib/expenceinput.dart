@@ -75,7 +75,10 @@ class ExpenceInput extends ConsumerStatefulWidget {
 }
 
 class ExpenceInputState extends ConsumerState<ExpenceInput> {
-  final _priceFieldController = TextEditingController(text: '');
+  final _priceFieldController = TextEditingController(
+      // text: expence.price != null ? expence.price.toString() : '');
+      // text: 13579.toString());
+      text: expence.price.toString());
 
   @override
   void initState() {
@@ -115,16 +118,36 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       taxType: taxType,
       // invoiceNumber: widget.invoiceNumber,
     );
-    if (widget.priceStr != null)
+    if (widget.priceStr != null) {
       expence = expence.copyWith(price: int.parse(widget.priceStr!));
+    }
 
-    if (widget.priceStr != null)
+    if (widget.priceStr != null) {
+      log.info('priceStr is not null! ${widget.priceStr} and ${expence.price}');
       expence = expence.copyWith(price: int.parse(widget.priceStr!));
-    if (widget.col1 != null) expence = expence.copyWith(col1: widget.col1);
-    if (widget.col2 != null) expence = expence.copyWith(col2: widget.col2);
-    if (widget.col3 != null) expence = expence.copyWith(col3: widget.col3);
-    if (widget.invoiceNumber != null)
+    }
+    if (widget.col1 != null) {
+      expence = expence.copyWith(col1: widget.col1);
+    } else {
+      expence = expence.copyWith(col1: '');
+    }
+
+    if (widget.col2 != null) {
+      expence = expence.copyWith(col2: widget.col2);
+    } else {
+      expence = expence.copyWith(col2: '');
+    }
+
+    if (widget.col3 != null) {
+      expence = expence.copyWith(col3: widget.col3);
+    } else {
+      expence = expence.copyWith(col3: '');
+    }
+    if (widget.invoiceNumber != null) {
       expence = expence.copyWith(invoiceNumber: widget.invoiceNumber);
+    } else {
+      expence = expence.copyWith(invoiceNumber: '');
+    }
 
     log.info('initState 1 : ${expence.toString()}');
   }
@@ -188,6 +211,8 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
     final et = ref.watch(currentExpenceTypeProvider);
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
+    final pr = ref.watch(currentPriceProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -311,32 +336,20 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                       const Text(
                         '金額',
                       ),
-                      expence.price != null
-                          ? TextFormField(
-                              // initialValue: expence.price.toString(),
-                              controller: _priceFieldController,
-                              textAlign: TextAlign.right,
-                              decoration: const InputDecoration(
-                                // filled: true,
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                expence =
-                                    expence.copyWith(price: int.parse(value));
-                              },
-                            )
-                          : TextFormField(
-                              controller: _priceFieldController,
-                              textAlign: TextAlign.right,
-                              decoration: const InputDecoration(
-                                // filled: true,
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (value) {
-                                expence =
-                                    expence.copyWith(price: int.parse(value));
-                              },
-                            ),
+
+                      TextFormField(
+                        initialValue: pr == null ? '' : pr.toString(),
+                        // controller: _priceFieldController,
+                        textAlign: TextAlign.right,
+                        decoration: const InputDecoration(
+                          // filled: true,
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (value) {
+                          expence = expence.copyWith(price: int.parse(value));
+                        },
+                      ),
+
                       const SizedBox(height: 20),
                       const Text(
                         'メモ',

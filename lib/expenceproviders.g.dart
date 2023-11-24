@@ -56,5 +56,20 @@ final currentExpenceDateProvider =
 );
 
 typedef _$CurrentExpenceDate = AutoDisposeNotifier<String>;
+String _$currentPriceHash() => r'01f3e0ca5a48e5b7d90d223d6d8428611d1b3fd5';
+
+/// See also [CurrentPrice].
+@ProviderFor(CurrentPrice)
+final currentPriceProvider =
+    AutoDisposeNotifierProvider<CurrentPrice, int?>.internal(
+  CurrentPrice.new,
+  name: r'currentPriceProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$currentPriceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$CurrentPrice = AutoDisposeNotifier<int?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

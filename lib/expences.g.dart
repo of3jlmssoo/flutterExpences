@@ -6,7 +6,7 @@ part of 'expences.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$expenceListHash() => r'4c6bca14129a547a3015efb1c7d282e446b60efb';
+String _$expenceListHash() => r'bea0c4b6c032951e5de0ff348a370fc70aacf70a';
 
 /// See also [ExpenceList].
 @ProviderFor(ExpenceList)

@@ -20,19 +20,6 @@ Expence _$ExpenceFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Expence {
-// required String userID,
-// required String reportID,
-// required String id,
-// required DateTime createdDate,
-// required ExpenceType expenceType,
-// required DateTime expenceDate,
-// required String col1,
-// required String col2,
-// required  col3,
-// required int price,
-// required TaxType taxType,
-// required String invoiceNumber,
-//
   String get userID => throw _privateConstructorUsedError;
   String get reportID => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
@@ -269,19 +256,6 @@ class _$ExpenceImpl implements _Expence {
   factory _$ExpenceImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpenceImplFromJson(json);
 
-// required String userID,
-// required String reportID,
-// required String id,
-// required DateTime createdDate,
-// required ExpenceType expenceType,
-// required DateTime expenceDate,
-// required String col1,
-// required String col2,
-// required  col3,
-// required int price,
-// required TaxType taxType,
-// required String invoiceNumber,
-//
   @override
   final String userID;
   @override
@@ -384,19 +358,7 @@ abstract class _Expence implements Expence {
 
   factory _Expence.fromJson(Map<String, dynamic> json) = _$ExpenceImpl.fromJson;
 
-  @override // required String userID,
-// required String reportID,
-// required String id,
-// required DateTime createdDate,
-// required ExpenceType expenceType,
-// required DateTime expenceDate,
-// required String col1,
-// required String col2,
-// required  col3,
-// required int price,
-// required TaxType taxType,
-// required String invoiceNumber,
-//
+  @override
   String get userID;
   @override
   String get reportID;
