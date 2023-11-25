@@ -12,28 +12,12 @@ import 'expence.dart';
 import 'package:collection/collection.dart';
 part 'expences.g.dart';
 
-final uuid = const Uuid();
+const uuid = Uuid();
 
-final List<Expence> _expences = [];
-
-// final sortedExpencesProvider = Provider<List<Expence>>((ref) {
-//   return _products.sorted((a, b) => a.price.compareTo(b.price));
-// });
-
-// @riverpod
 @Riverpod(keepAlive: true)
 class ExpenceList extends _$ExpenceList {
-  // final userID = uuid.v7();
   @override
-  // List<Expence> build() => [];
-  // List<Expence> build() => <Expence>[];
-
-  // List<Expence> build() {
-  //   return _expences.sorted((a, b) => a.expenceDate!.compareTo(b.expenceDate!));
-  // }
-
   List<Expence> build() => [];
-  // <Expence>[].sorted((a, b) => a.expenceDate!.compareTo(b.expenceDate!));
 
   void addExpence(Expence expence) {
     state = state.where((report) => report.id != expence.id).toList();

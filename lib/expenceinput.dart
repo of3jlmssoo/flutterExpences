@@ -164,21 +164,6 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
 
   final DateTime _date = DateTime.now();
 
-  // Future<DateTime> _selectDate(BuildContext context) async {
-  //   final DateTime? picked = await showDatePicker(
-  //     context: context,
-  //     initialDate: _date,
-  //     firstDate: DateTime(2016),
-  //     lastDate: DateTime.now().add(
-  //       Duration(days: 360),
-  //     ),
-  //   ); // if (picked != null) setState(() => _date = picked);
-  //   if (picked != null)
-  //     return picked;
-  //   else
-  //     return DateTime.now();
-  // }
-
   static const List<String> taxTypeList = <String>['one', 'two', 'Three', '直'];
 
   var expenceTypeDefault =
@@ -188,27 +173,6 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
 
   @override
   Widget build(BuildContext context) {
-    // final expenceTypeDefault = ref.watch(currentExpenceTypeProvider).name;
-    // final taxTypeDefault = ref.watch(currentTaxTypeProvider).name;
-
-    // ExpenceType expenceType = ExpenceType.transportation;
-    // for (var type in ExpenceType.values) {
-    //   if (widget.expenceTypeName == type.name) {
-    //     expenceType = type;
-    //     break;
-    //   }
-    // }
-    // ref.read(currentExpenceTypeProvider.notifier).expenceType(expenceType);
-    //
-    // TaxType taxType = TaxType.invoice;
-    // for (var type in TaxType.values) {
-    //   if (widget.taxTypeName == type.name) {
-    //     taxType = type;
-    //     break;
-    //   }
-    // }
-    // ref.read(currentTaxTypeProvider.notifier).taxType(taxType);
-
     final et = ref.watch(currentExpenceTypeProvider);
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);

@@ -16,9 +16,7 @@ final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
 var uuid = const Uuid();
 
 class ExpencesScreen extends ConsumerWidget {
-  // const ExpencesScreen({super.key});
-
-  ExpencesScreen(
+  const ExpencesScreen(
       {super.key,
       required this.reportID,
       required this.userID,
@@ -41,7 +39,6 @@ class ExpencesScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              // '経費入力 ${reportID.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
               '経費入力 ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
           IconButton(
             icon: const Icon(Icons.add),
