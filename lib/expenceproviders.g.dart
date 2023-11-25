@@ -56,7 +56,7 @@ final currentExpenceDateProvider =
 );
 
 typedef _$CurrentExpenceDate = AutoDisposeNotifier<String>;
-String _$currentPriceHash() => r'41ccc89eed32c5c2211813950a0088e64ddbbbe5';
+String _$currentPriceHash() => r'dfe74575d7d548a3adcb5999979d9f6ae89845e9';
 
 /// See also [CurrentPrice].
 @ProviderFor(CurrentPrice)

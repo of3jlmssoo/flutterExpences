@@ -57,6 +57,7 @@ class ExpencesScreen extends ConsumerWidget {
                   .read(currentTaxTypeProvider.notifier)
                   .taxType(TaxType.invoice);
 
+              ref.read(currentPriceProvider.notifier).price(null);
               context.goNamed(
                 "expenceinput",
                 queryParameters: {

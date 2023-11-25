@@ -78,9 +78,7 @@ class ExpenceInput extends ConsumerStatefulWidget {
 
 class ExpenceInputState extends ConsumerState<ExpenceInput> {
   final _priceFieldController = TextEditingController(
-      // text: expence.price != null ? expence.price.toString() : '');
-      // text: 13579.toString());
-      text: expence.price.toString());
+      text: expence.price != null ? expence.price.toString() : '');
 
   @override
   void initState() {
@@ -128,6 +126,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       log.info('priceStr is not null! ${widget.priceStr} and ${expence.price}');
       expence = expence.copyWith(price: int.parse(widget.priceStr!));
     }
+
     if (widget.col1 != null) {
       expence = expence.copyWith(col1: widget.col1);
     } else {
@@ -461,7 +460,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                             'userID': widget.userID,
                             'reportName': widget.reportName,
                           });
-                          // _priceFieldController.clear();
+                          _priceFieldController.clear();
                         },
                         child: const Text('追加/更新'),
                       ),

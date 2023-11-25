@@ -50,7 +50,7 @@ class CurrentPrice extends _$CurrentPrice {
     return null;
   }
 
-  void price(int price) {
+  void price(int? price) {
     state = price;
   }
 }
