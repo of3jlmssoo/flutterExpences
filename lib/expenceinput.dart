@@ -12,6 +12,8 @@
 //
 // dart run build_runner build expenceinput.dart
 
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -313,6 +315,14 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                       ),
 
                       TextFormField(
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              num.tryParse(value) == null) {
+                            return '半角数字を入力してください';
+                          }
+                          return null;
+                        },
                         initialValue: pr == null ? '' : pr.toString(),
                         // controller: _priceFieldController,
                         textAlign: TextAlign.right,
@@ -398,6 +408,15 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           children: [
                             const Text('インボイス番号'),
                             TextFormField(
+                              validator: (value) {
+                                if (expence.taxType == TaxType.invoice &&
+                                        (value == null || value.isEmpty) ||
+                                    value?.length != 3 ||
+                                    num.tryParse(value!)! == null) {
+                                  return 'インボイス番号(3桁)を入力してください';
+                                }
+                                return null;
+                              },
                               initialValue: expence.invoiceNumber,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -415,16 +434,18 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
 
                       ElevatedButton(
                         onPressed: () {
-                          ref
-                              .read(expenceListProvider.notifier)
-                              .addExpence(expence);
+                          if (_formKey.currentState!.validate()) {
+                            ref
+                                .read(expenceListProvider.notifier)
+                                .addExpence(expence);
 
-                          context.goNamed("expencescreen", queryParameters: {
-                            'reportID': widget.reportID,
-                            'userID': widget.userID,
-                            'reportName': widget.reportName,
-                          });
-                          _priceFieldController.clear();
+                            context.goNamed("expencescreen", queryParameters: {
+                              'reportID': widget.reportID,
+                              'userID': widget.userID,
+                              'reportName': widget.reportName,
+                            });
+                            _priceFieldController.clear();
+                          }
                         },
                         child: const Text('追加/更新'),
                       ),
@@ -464,6 +485,12 @@ class InputDetails extends ConsumerWidget {
                   '乗車地',
                 ),
                 TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "乗車地を入力してください";
+                    }
+                    return null;
+                  },
                   initialValue: expence.col1,
                   decoration: const InputDecoration(
                     // filled: true,
@@ -488,6 +515,13 @@ class InputDetails extends ConsumerWidget {
                   '降車地',
                 ),
                 TextFormField(
+                  validator: (value) {
+                    if (expence.expenceType == ExpenceType.transportation &&
+                        (value == null || value.isEmpty)) {
+                      return "降車地を入力してください";
+                    }
+                    return null;
+                  },
                   initialValue: expence.col2,
                   decoration: const InputDecoration(
                     // filled: true,
@@ -534,6 +568,12 @@ class InputDetails extends ConsumerWidget {
                   '費用項目',
                 ),
                 TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "費用項目を入力してください";
+                    }
+                    return null;
+                  },
                   initialValue: expence.col1,
                   decoration: const InputDecoration(
                     // filled: true,
