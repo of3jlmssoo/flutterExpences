@@ -1,3 +1,6 @@
+// firebase emulators:start --import ./emulators_data --export-on-exit
+//
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,10 +9,20 @@ import 'package:logging/logging.dart';
 import 'package:riverpodtest/expenceinput.dart';
 import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/reportsscreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import 'firebase_login.dart';
+import 'constants.dart';
+
+import 'firebase_options.dart';
 
 final log = Logger('MainLogger');
 
-void main() {
+void main() async {
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((LogRecord rec) {
     debugPrint(
@@ -17,6 +30,21 @@ void main() {
   });
 
   initializeDateFormatting("ja");
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  if (kDebugMode) {
+    try {
+      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
 
   runApp(
     const ProviderScope(
@@ -88,6 +116,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+bool loggedin = false;
+
 // The home screen
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -97,9 +127,39 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('ホーム')),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () => context.go('/listview'),
-          child: const Text('レポート一覧画面へ'),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => context.go('/listview'),
+              child: const Text('レポート一覧画面へ'),
+            ),
+            ElevatedButton(
+              child: const Text('Firebase login'),
+              onPressed: () async {
+                log.info('Firebase login Button Pressed');
+                loggedin = await firebaseLoginController(context);
+                if (!loggedin) {
+                  log.info('loggedin == null $loggedin');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 5),
+                      content: const Text('Please login again'),
+                      action: SnackBarAction(label: 'Close', onPressed: () {}),
+                    ),
+                  );
+                } else {
+                  log.info('loggedin != null $loggedin');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: const Duration(seconds: 5),
+                      content: const Text('You are logged in!'),
+                      action: SnackBarAction(label: 'Close', onPressed: () {}),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
