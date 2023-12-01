@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'constants.dart';
-import 'package:flutter/material.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:logging/logging.dart';
-
 import 'firebase_options.dart';
+import 'firebase_providers.dart';
 
 final log = Logger('FB-loginLogger');
 
@@ -29,14 +30,14 @@ Future<bool> firebaseLoginController(BuildContext context) async {
   return false;
 }
 
-class FirebaseLogin extends StatefulWidget {
+class FirebaseLogin extends ConsumerStatefulWidget {
   const FirebaseLogin({super.key});
 
   @override
-  State<FirebaseLogin> createState() => _FirebaseLoginState();
+  ConsumerState<FirebaseLogin> createState() => _FirebaseLoginState();
 }
 
-class _FirebaseLoginState extends State<FirebaseLogin> {
+class _FirebaseLoginState extends ConsumerState<FirebaseLogin> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -47,7 +48,9 @@ class _FirebaseLoginState extends State<FirebaseLogin> {
 
   @override
   Widget build(BuildContext context) {
+    final userinstance = ref.watch(firebaseAuthProvider);
     return Scaffold(
+      appBar: AppBar(title: const Text('Firebase login')),
       backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
@@ -123,9 +126,11 @@ class _FirebaseLoginState extends State<FirebaseLogin> {
                       log.info('Firabase initializeApped');
                       late UserCredential userCredential;
                       try {
+                        log.info('before signin : ${userinstance}');
                         userCredential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: email, password: password);
+                        log.info('after  signin : ${userinstance}');
                         log.info('FirebaseAuth..signInWithEmail authed!');
                         showSpinner = false;
                         Navigator.pop(context, userCredential);

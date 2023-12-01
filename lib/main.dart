@@ -15,6 +15,7 @@ import 'package:riverpodtest/expenceinput.dart';
 import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/firebase_data_add.dart';
 import 'package:riverpodtest/firebase_data_get.dart';
+import 'package:riverpodtest/firebase_providers.dart';
 import 'package:riverpodtest/reportsscreen.dart';
 
 import 'firebase_login.dart';
@@ -129,16 +130,18 @@ class MyApp extends StatelessWidget {
 bool loggedin = false;
 
 // The home screen
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userinstance = ref.watch(firebaseAuthProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('ホーム')),
       body: Center(
         child: Column(
           children: [
+            Text('user is ${userinstance.currentUser}'),
             ElevatedButton(
               onPressed: () => context.go('/listview'),
               child: const Text('レポート一覧画面へ'),
@@ -169,6 +172,11 @@ class HomeScreen extends StatelessWidget {
                 }
               },
             ),
+            ElevatedButton(
+                onPressed: () {
+                  userinstance.signOut();
+                },
+                child: const Text('singOut')),
             ElevatedButton(
               child: const Text('Firebase add data'),
               onPressed: () {
