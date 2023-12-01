@@ -136,12 +136,21 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userinstance = ref.watch(firebaseAuthProvider);
+    final authrepo = ref.watch(authRepositoryProvider);
+    final authstatechanges = ref.watch(authStateChangesProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('ホーム')),
       body: Center(
         child: Column(
           children: [
-            Text('user is ${userinstance.currentUser}'),
+            Text(
+              // 'user is ${ref.read(firebaseAuthProvider).authStateChanges()} '),
+              'user is ${authstatechanges}',
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('work elevatedbutton'),
+            ),
             ElevatedButton(
               onPressed: () => context.go('/listview'),
               child: const Text('レポート一覧画面へ'),
