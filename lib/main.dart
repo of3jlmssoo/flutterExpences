@@ -2,6 +2,10 @@
 //
 // firebase emulators:start --import ./emulators_data --export-on-exit
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,17 +13,11 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expenceinput.dart';
 import 'package:riverpodtest/expencesscreen.dart';
-import 'package:riverpodtest/firebase_adddata.dart';
+import 'package:riverpodtest/firebase_data_add.dart';
+import 'package:riverpodtest/firebase_data_get.dart';
 import 'package:riverpodtest/reportsscreen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import 'firebase_login.dart';
-import 'constants.dart';
-
 import 'firebase_options.dart';
 
 final log = Logger('MainLogger');
@@ -99,9 +97,14 @@ final GoRouter _router = GoRouter(
           ),
         ),
         GoRoute(
-          name: "fbadddata",
-          path: "fbadddata",
+          name: "fbdataadd",
+          path: "fbdataadd",
           builder: (context, state) => firebaseAddData(),
+        ),
+        GoRoute(
+          name: "fbdataget",
+          path: "fbdataget",
+          builder: (context, state) => GetSampleData(),
         ),
       ],
     ),
@@ -167,10 +170,17 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             ElevatedButton(
-                child: const Text('Firebase add data'),
-                onPressed: () {
-                  context.go("/fbadddata");
-                }),
+              child: const Text('Firebase add data'),
+              onPressed: () {
+                context.go("/fbdataadd");
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Firebase get data'),
+              onPressed: () {
+                context.go("/fbdataget");
+              },
+            ),
           ],
         ),
       ),
