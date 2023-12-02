@@ -145,7 +145,7 @@ class HomeScreen extends ConsumerWidget {
           children: [
             Text(
               // 'user is ${ref.read(firebaseAuthProvider).authStateChanges()} '),
-              'user is ${authstatechanges}',
+              'user is ${authstatechanges == null ? "please login" : userinstance.currentUser?.displayName}',
             ),
             ElevatedButton(
               onPressed: () {},
