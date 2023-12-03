@@ -181,15 +181,14 @@ class ExpencesScreen extends ConsumerWidget {
                                 'id': expences[i].id,
                                 'createdDateStr':
                                     expences[i].createdDate.toString(),
-                                'expenceTypeName':
-                                    expences[i].expenceType!.name,
+                                'expenceTypeName': expences[i].expenceType,
                                 'expenceDateStr':
                                     expences[i].expenceDate.toString(),
                                 'priceStr': expences[i].price.toString(),
                                 'col1': expences[i].col1,
                                 'col2': expences[i].col2,
                                 'col3': expences[i].col3,
-                                'taxTypeName': expences[i].taxType!.name,
+                                'taxTypeName': expences[i].taxType,
                                 'invoiceNumber': expences[i].invoiceNumber,
                                 'reportName': reportName,
                               },

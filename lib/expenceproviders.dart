@@ -18,12 +18,12 @@ part 'expenceproviders.g.dart';
 @riverpod
 class CurrentTaxType extends _$CurrentTaxType {
   @override
-  int build() {
-    return TaxType.invoice.id;
+  TaxType build() {
+    return TaxType.invoice;
   }
 
   void taxType(TaxType tt) {
-    state = tt.id;
+    state = tt;
   }
 }
 

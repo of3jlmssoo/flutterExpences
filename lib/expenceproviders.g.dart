@@ -6,12 +6,12 @@ part of 'expenceproviders.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentTaxTypeHash() => r'003cad81dbc82b6b6b32a8c25a6988ee6c2415e1';
+String _$currentTaxTypeHash() => r'82b8e5b5fb6d5e2044b79ff11de69c2edd2af295';
 
 /// See also [CurrentTaxType].
 @ProviderFor(CurrentTaxType)
 final currentTaxTypeProvider =
-    AutoDisposeNotifierProvider<CurrentTaxType, int>.internal(
+    AutoDisposeNotifierProvider<CurrentTaxType, TaxType>.internal(
   CurrentTaxType.new,
   name: r'currentTaxTypeProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -21,7 +21,7 @@ final currentTaxTypeProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$CurrentTaxType = AutoDisposeNotifier<int>;
+typedef _$CurrentTaxType = AutoDisposeNotifier<TaxType>;
 String _$currentExpenceTypeHash() =>
     r'a12d92b9f1ecd71aa4b752e0d75f412fe384c2be';
 

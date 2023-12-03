@@ -172,7 +172,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
   var expenceTypeDefault =
       <String?>[ExpenceType.values.map((e) => e.name).toList().first].first;
   var taxTypeDefault =
-      <String>[TaxType.values.map((e) => e.name).toList().first].first;
+      <String?>[TaxType.values.map((e) => e.name).toList().first].first;
 
   @override
   Widget build(BuildContext context) {
@@ -257,14 +257,14 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         dropdownMenuEntries: ExpenceType.values
                             .map((e) => e.name)
                             .toList()
-                            .map<DropdownMenuEntry<String>>((String value) {
+                            .map<DropdownMenuEntry<String>>((String? value) {
                           return DropdownMenuEntry<String>(
                               style: ButtonStyle(
                                   textStyle: MaterialStateTextStyle.resolveWith(
                                       (states) => const TextStyle(
                                             fontSize: 10,
                                           ))),
-                              value: value,
+                              value: value!,
                               label: value);
                         }).toList(),
                       ),
