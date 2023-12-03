@@ -33,13 +33,15 @@ class Expence with _$Expence {
     required String reportID,
     required String id,
     required DateTime createdDate,
-    ExpenceType? expenceType,
+    // ExpenceType? expenceType,
+    int? expenceType,
     DateTime? expenceDate,
     String? col1,
     String? col2,
     String? col3,
     int? price,
-    TaxType? taxType,
+    // TaxType? taxType,
+    int? taxType,
     String? invoiceNumber,
   }) = _Expence;
 

@@ -23,14 +23,15 @@ mixin _$Expence {
   String get userID => throw _privateConstructorUsedError;
   String get reportID => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
-  DateTime get createdDate => throw _privateConstructorUsedError;
-  ExpenceType? get expenceType => throw _privateConstructorUsedError;
+  DateTime get createdDate =>
+      throw _privateConstructorUsedError; // ExpenceType? expenceType,
+  int? get expenceType => throw _privateConstructorUsedError;
   DateTime? get expenceDate => throw _privateConstructorUsedError;
   String? get col1 => throw _privateConstructorUsedError;
   String? get col2 => throw _privateConstructorUsedError;
   String? get col3 => throw _privateConstructorUsedError;
-  int? get price => throw _privateConstructorUsedError;
-  TaxType? get taxType => throw _privateConstructorUsedError;
+  int? get price => throw _privateConstructorUsedError; // TaxType? taxType,
+  int? get taxType => throw _privateConstructorUsedError;
   String? get invoiceNumber => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,13 +49,13 @@ abstract class $ExpenceCopyWith<$Res> {
       String reportID,
       String id,
       DateTime createdDate,
-      ExpenceType? expenceType,
+      int? expenceType,
       DateTime? expenceDate,
       String? col1,
       String? col2,
       String? col3,
       int? price,
-      TaxType? taxType,
+      int? taxType,
       String? invoiceNumber});
 }
 
@@ -104,7 +105,7 @@ class _$ExpenceCopyWithImpl<$Res, $Val extends Expence>
       expenceType: freezed == expenceType
           ? _value.expenceType
           : expenceType // ignore: cast_nullable_to_non_nullable
-              as ExpenceType?,
+              as int?,
       expenceDate: freezed == expenceDate
           ? _value.expenceDate
           : expenceDate // ignore: cast_nullable_to_non_nullable
@@ -128,7 +129,7 @@ class _$ExpenceCopyWithImpl<$Res, $Val extends Expence>
       taxType: freezed == taxType
           ? _value.taxType
           : taxType // ignore: cast_nullable_to_non_nullable
-              as TaxType?,
+              as int?,
       invoiceNumber: freezed == invoiceNumber
           ? _value.invoiceNumber
           : invoiceNumber // ignore: cast_nullable_to_non_nullable
@@ -149,13 +150,13 @@ abstract class _$$ExpenceImplCopyWith<$Res> implements $ExpenceCopyWith<$Res> {
       String reportID,
       String id,
       DateTime createdDate,
-      ExpenceType? expenceType,
+      int? expenceType,
       DateTime? expenceDate,
       String? col1,
       String? col2,
       String? col3,
       int? price,
-      TaxType? taxType,
+      int? taxType,
       String? invoiceNumber});
 }
 
@@ -203,7 +204,7 @@ class __$$ExpenceImplCopyWithImpl<$Res>
       expenceType: freezed == expenceType
           ? _value.expenceType
           : expenceType // ignore: cast_nullable_to_non_nullable
-              as ExpenceType?,
+              as int?,
       expenceDate: freezed == expenceDate
           ? _value.expenceDate
           : expenceDate // ignore: cast_nullable_to_non_nullable
@@ -227,7 +228,7 @@ class __$$ExpenceImplCopyWithImpl<$Res>
       taxType: freezed == taxType
           ? _value.taxType
           : taxType // ignore: cast_nullable_to_non_nullable
-              as TaxType?,
+              as int?,
       invoiceNumber: freezed == invoiceNumber
           ? _value.invoiceNumber
           : invoiceNumber // ignore: cast_nullable_to_non_nullable
@@ -265,8 +266,9 @@ class _$ExpenceImpl extends _Expence {
   final String id;
   @override
   final DateTime createdDate;
+// ExpenceType? expenceType,
   @override
-  final ExpenceType? expenceType;
+  final int? expenceType;
   @override
   final DateTime? expenceDate;
   @override
@@ -277,8 +279,9 @@ class _$ExpenceImpl extends _Expence {
   final String? col3;
   @override
   final int? price;
+// TaxType? taxType,
   @override
-  final TaxType? taxType;
+  final int? taxType;
   @override
   final String? invoiceNumber;
 
@@ -348,13 +351,13 @@ abstract class _Expence extends Expence {
       required final String reportID,
       required final String id,
       required final DateTime createdDate,
-      final ExpenceType? expenceType,
+      final int? expenceType,
       final DateTime? expenceDate,
       final String? col1,
       final String? col2,
       final String? col3,
       final int? price,
-      final TaxType? taxType,
+      final int? taxType,
       final String? invoiceNumber}) = _$ExpenceImpl;
   _Expence._() : super._();
 
@@ -368,8 +371,8 @@ abstract class _Expence extends Expence {
   String get id;
   @override
   DateTime get createdDate;
-  @override
-  ExpenceType? get expenceType;
+  @override // ExpenceType? expenceType,
+  int? get expenceType;
   @override
   DateTime? get expenceDate;
   @override
@@ -380,8 +383,8 @@ abstract class _Expence extends Expence {
   String? get col3;
   @override
   int? get price;
-  @override
-  TaxType? get taxType;
+  @override // TaxType? taxType,
+  int? get taxType;
   @override
   String? get invoiceNumber;
   @override

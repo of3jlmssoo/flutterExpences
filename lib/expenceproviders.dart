@@ -4,21 +4,41 @@ import 'package:riverpodtest/enums.dart';
 
 part 'expenceproviders.g.dart';
 
+// @riverpod
+// class CurrentTaxType extends _$CurrentTaxType {
+//   @override
+//   TaxType build() {
+//     return TaxType.invoice;
+//   }
+
+//   void taxType(TaxType tt) {
+//     state = tt;
+//   }
+// }
 @riverpod
-// @Riverpod(keepAlive: true)
 class CurrentTaxType extends _$CurrentTaxType {
   @override
-  TaxType build() {
-    return TaxType.invoice;
+  int build() {
+    return TaxType.invoice.id;
   }
 
   void taxType(TaxType tt) {
-    state = tt;
+    state = tt.id;
   }
 }
 
+// @riverpod
+// class CurrentExpenceType extends _$CurrentExpenceType {
+//   @override
+//   ExpenceType build() {
+//     return ExpenceType.transportation;
+//   }
+
+//   void expenceType(ExpenceType et) {
+//     state = et;
+//   }
+// }
 @riverpod
-// @Riverpod(keepAlive: true)
 class CurrentExpenceType extends _$CurrentExpenceType {
   @override
   ExpenceType build() {

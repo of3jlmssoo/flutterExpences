@@ -35,8 +35,8 @@ Expence expence = Expence(
   id: 'dumyyid',
   createdDate: DateTime.now(),
   expenceDate: DateTime.now(),
-  expenceType: ExpenceType.transportation,
-  taxType: TaxType.invoice,
+  expenceType: ExpenceType.transportation.id,
+  taxType: TaxType.invoice.id,
 );
 
 class ExpenceInput extends ConsumerStatefulWidget {
@@ -112,13 +112,13 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       reportID: widget.reportID,
       id: widget.id,
       createdDate: DateTime.parse(widget.createdDateStr!),
-      expenceType: expenceType,
+      expenceType: expenceType.id,
       expenceDate: DateTime.parse(widget.expenceDateStr!),
       // price: int.parse(widget.priceStr!),
       // col1: widget.col1,
       // col2: widget.col2,
       // col3: widget.col3,
-      taxType: taxType,
+      taxType: taxType.id,
       // invoiceNumber: widget.invoiceNumber,
     );
     if (widget.priceStr != null) {
@@ -170,7 +170,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
   static const List<String> taxTypeList = <String>['one', 'two', 'Three', '直'];
 
   var expenceTypeDefault =
-      <String>[ExpenceType.values.map((e) => e.name).toList().first].first;
+      <String?>[ExpenceType.values.map((e) => e.name).toList().first].first;
   var taxTypeDefault =
       <String>[TaxType.values.map((e) => e.name).toList().first].first;
 
@@ -234,6 +234,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         ),
 
                         initialSelection: et.name,
+
                         onSelected: (String? value) {
                           log.info('経費種別0 value:${value}');
                           log.info('経費種別1 ${expence.expenceType}');
@@ -379,7 +380,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                               break;
                             }
                           }
-                          expence = expence.copyWith(taxType: tType);
+                          expence = expence.copyWith(taxType: tType.id);
                           ref
                               .read(currentTaxTypeProvider.notifier)
                               .taxType(tType);
@@ -443,7 +444,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                             log.info(
                                 'add/update ------> expence.expenceType:${expence.expenceType}');
                             log.info(
-                                'add/update ------> expence.expenceType:${expence.expenceType?.id}');
+                                'add/update ------> expence.expenceType:${expence.expenceType}');
 
                             var db = FirebaseFirestore.instance;
 

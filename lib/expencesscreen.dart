@@ -95,11 +95,11 @@ class ExpencesScreen extends ConsumerWidget {
                   id: uuid.v7(),
                   createdDate: DateTime.now(),
                   expenceDate: DateTime.now().subtract(Duration(days: 10)),
-                  expenceType: ExpenceType.others,
+                  expenceType: ExpenceType.others.id,
                   price: 123,
                   col1: '物品を購入したという申請',
                   col3: 'しかし、それが何かについてどこに記載するのか',
-                  taxType: TaxType.invoice,
+                  taxType: TaxType.invoice.id,
                   invoiceNumber: '12345678901234567'));
               ref.read(expenceListProvider.notifier).addExpence(Expence(
                     userID: userID,
@@ -107,12 +107,12 @@ class ExpencesScreen extends ConsumerWidget {
                     id: uuid.v7(),
                     createdDate: DateTime.now(),
                     expenceDate: DateTime.now().subtract(Duration(days: 20)),
-                    expenceType: ExpenceType.transportation,
+                    expenceType: ExpenceType.transportation.id,
                     price: 456,
                     col1: '東京の東京駅のそばの大手町',
                     col2: '神奈川東京千葉埼玉',
                     col3: 'なんのための交通費か。電車かバスかタクシーか',
-                    taxType: TaxType.standardNoReceipt,
+                    taxType: TaxType.standardNoReceipt.id,
                   ));
             },
             child: const Text('テストデータ追加'),
@@ -139,7 +139,7 @@ class ExpencesScreen extends ConsumerWidget {
                         child: ListTile(
                           title: Text(
                             // '${expences[i].expenceType!.name} ${intl.DateFormat.yMd().format(expences[i].expenceDate!)} ',
-                            '${expences[i].expenceType!.name} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
+                            '${expences[i].expenceType!} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
@@ -147,7 +147,7 @@ class ExpencesScreen extends ConsumerWidget {
                           onTap: () {
                             ref
                                 .read(currentExpenceTypeProvider.notifier)
-                                .expenceType(expences[i].expenceType!);
+                                .expenceType(expences[i].expenceType?.id);
 
                             ref
                                 .read(currentTaxTypeProvider.notifier)
