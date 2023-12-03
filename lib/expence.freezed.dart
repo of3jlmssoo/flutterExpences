@@ -238,7 +238,7 @@ class __$$ExpenceImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ExpenceImpl implements _Expence {
+class _$ExpenceImpl extends _Expence {
   _$ExpenceImpl(
       {required this.userID,
       required this.reportID,
@@ -251,7 +251,8 @@ class _$ExpenceImpl implements _Expence {
       this.col3,
       this.price,
       this.taxType,
-      this.invoiceNumber});
+      this.invoiceNumber})
+      : super._();
 
   factory _$ExpenceImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpenceImplFromJson(json);
@@ -341,7 +342,7 @@ class _$ExpenceImpl implements _Expence {
   }
 }
 
-abstract class _Expence implements Expence {
+abstract class _Expence extends Expence {
   factory _Expence(
       {required final String userID,
       required final String reportID,
@@ -355,6 +356,7 @@ abstract class _Expence implements Expence {
       final int? price,
       final TaxType? taxType,
       final String? invoiceNumber}) = _$ExpenceImpl;
+  _Expence._() : super._();
 
   factory _Expence.fromJson(Map<String, dynamic> json) = _$ExpenceImpl.fromJson;
 

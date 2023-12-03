@@ -33,7 +33,7 @@ class _firebaseAddDataState extends ConsumerState<firebaseAddData> {
                 log.info('user is not null');
               }
             },
-            child: const Text('add data'),
+            child: const Text('user status check'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -58,6 +58,8 @@ class _firebaseAddDataState extends ConsumerState<firebaseAddData> {
 void sample_add_data1() {
   var db = FirebaseFirestore.instance;
 
+  log.info('sample 1 start');
+
   final docData = {
     "stringExample": "Hello world!",
     "booleanExample": true,
@@ -79,6 +81,7 @@ void sample_add_data1() {
       .doc("one")
       .set(docData)
       .onError((e, _) => print("Error writing document: $e"));
+  log.info('sample 1 end');
 }
 
 class City {

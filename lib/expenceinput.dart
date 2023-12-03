@@ -14,6 +14,7 @@
 
 import 'dart:core';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -433,11 +434,49 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                       ),
 
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             ref
                                 .read(expenceListProvider.notifier)
                                 .addExpence(expence);
+
+                            log.info(
+                                'add/update ------> expence.expenceType:${expence.expenceType}');
+                            log.info(
+                                'add/update ------> expence.expenceType:${expence.expenceType?.id}');
+
+                            var db = FirebaseFirestore.instance;
+
+                            final expenceRef = db
+                                .collection('users')
+                                .doc(widget.userID)
+                                .collection('reports')
+                                .doc(widget.reportID)
+                                .collection('expences')
+                                .withConverter(
+                                  fromFirestore: Expence.fromFirestore,
+                                  toFirestore: (Expence expence, options) =>
+                                      expence.toFirestore(),
+                                )
+                                .doc(widget.id);
+                            await expenceRef.set(expence);
+
+// final city = City(
+//   name: "Los Angeles",
+//   state: "CA",
+//   country: "USA",
+//   capital: false,
+//   population: 5000000,
+//   regions: ["west_coast", "socal"],
+// );
+// final docRef = db
+//     .collection("cities")
+//     .withConverter(
+//       fromFirestore: City.fromFirestore,
+//       toFirestore: (City city, options) => city.toFirestore(),
+//     )
+//     .doc("LA");
+// await docRef.set(city);
 
                             context.goNamed("expencescreen", queryParameters: {
                               'reportID': widget.reportID,

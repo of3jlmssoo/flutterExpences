@@ -27,6 +27,7 @@ part 'expence.g.dart';
 
 @freezed
 class Expence with _$Expence {
+  const Expence._();
   factory Expence({
     required String userID,
     required String reportID,
