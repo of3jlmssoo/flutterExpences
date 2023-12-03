@@ -1,7 +1,7 @@
 # Miscellaneous
-emulators_data*/*
-firebase-export*/*
-firestore_export*/*
+**/emulators_data*/*
+**/firebase-export*/*
+**/firestore_export*/*
 firebase_options.dart
 *.class
 *.log
