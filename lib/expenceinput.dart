@@ -1,17 +1,3 @@
-// todo: price field
-// input tranportation
-// input next (price field left as it was)
-//
-// done: 経費種別を選ばないとnulになる
-// todo: 経費種別=transporationで入力した内容が経費種別=othersにしても残る
-// done: taxtype enum化
-// done: taxType default
-// todo: validator
-// todo: save button
-//
-//
-// dart run build_runner build expenceinput.dart
-
 import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -87,22 +73,25 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
   void initState() {
     super.initState();
 
-    ExpenceType expenceType = ExpenceType.transportation;
-    for (var type in ExpenceType.values) {
-      if (widget.expenceTypeName == type.name) {
-        expenceType = type;
-        break;
-      }
-    }
-    // // ref.read(currentExpenceTypeProvider.notifier).expenceType(expenceType);
-    //
-    TaxType taxType = TaxType.invoice;
-    for (var type in TaxType.values) {
-      if (widget.taxTypeName == type.name) {
-        taxType = type;
-        break;
-      }
-    }
+    log.info('initState() : widget.expenceTypeName ${widget.expenceTypeName}');
+    log.info('initState() : widget.taxTypeName ${widget.taxTypeName}');
+
+    // ExpenceType expenceType = ExpenceType.transportation;
+    // for (var type in ExpenceType.values) {
+    //   if (widget.expenceTypeName == type.name) {
+    //     expenceType = type;
+    //     break;
+    //   }
+    // }
+    // // // ref.read(currentExpenceTypeProvider.notifier).expenceType(expenceType);
+    // //
+    // TaxType taxType = TaxType.invoice;
+    // for (var type in TaxType.values) {
+    //   if (widget.taxTypeName == type.name) {
+    //     taxType = type;
+    //     break;
+    //   }
+    // }
     // // ref.read(currentTaxTypeProvider.notifier).taxType(taxType);
 
     log.info('initState : ${widget.createdDateStr} ${widget.expenceDateStr}');
@@ -112,13 +101,14 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       reportID: widget.reportID,
       id: widget.id,
       createdDate: DateTime.parse(widget.createdDateStr!),
-      expenceType: expenceType.id,
+      // expenceType: expenceType.id,
+      expenceType: int.tryParse(widget.expenceTypeName!),
       expenceDate: DateTime.parse(widget.expenceDateStr!),
       // price: int.parse(widget.priceStr!),
       // col1: widget.col1,
       // col2: widget.col2,
       // col3: widget.col3,
-      taxType: taxType.id,
+      taxType: int.tryParse(widget.taxTypeName!),
       // invoiceNumber: widget.invoiceNumber,
     );
     if (widget.priceStr != null) {
@@ -211,8 +201,8 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        '経費種別',
+                      Text(
+                        '経費種別 ${expence.expenceType} ${ExpenceType.values.toList().elementAt(expence.expenceType!).name}',
                       ),
 
                       DropdownMenu<String>(
@@ -233,7 +223,11 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           fontSize: 12,
                         ),
 
-                        initialSelection: et.name,
+                        // initialSelection: ExpenceType.values.toList().elementAt(expence.expenceType!),
+                        initialSelection: ExpenceType.values
+                            .toList()
+                            .elementAt(expence.expenceType!)
+                            .name,
 
                         onSelected: (String? value) {
                           log.info('経費種別0 value:${value}');
@@ -371,25 +365,32 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         textStyle: const TextStyle(
                           fontSize: 12,
                         ),
-                        initialSelection: tt.name,
+                        // initialSelection: tt.name,
+                        // initialSelection:TaxType.values.toList().elementAt(expence.taxType),
+                        initialSelection: TaxType.values
+                            .toList()
+                            .elementAt(expence.taxType!)
+                            .name,
+
                         onSelected: (String? value) {
                           late TaxType tType;
                           for (var type in TaxType.values) {
                             if (value == type.name) {
                               tType = type;
+                              log.info('tType = $tType');
                               break;
                             }
                           }
                           expence = expence.copyWith(taxType: tType.id);
                           ref
                               .read(currentTaxTypeProvider.notifier)
-                              .taxType(tType);
+                              .taxType(tType.id!);
                           log.info('TaxType : ${expence.toString()}');
                         },
                         dropdownMenuEntries: TaxType.values
                             .map((e) => e.name)
                             .toList()
-                            .map<DropdownMenuEntry<String>>((String value) {
+                            .map<DropdownMenuEntry<String>>((String? value) {
                           return DropdownMenuEntry<String>(
                               style: ButtonStyle(
                                   textStyle: MaterialStateTextStyle.resolveWith(
@@ -397,14 +398,14 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                                             fontSize: 10,
                                             // fontFamily: 'MPLUSRounded',
                                           ))),
-                              value: value,
+                              value: value!,
                               label: value);
                         }).toList(),
                       ),
                       const SizedBox(height: 20),
 
                       Visibility(
-                        visible: tt == TaxType.invoice,
+                        visible: tt == TaxType.invoice.id,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -460,7 +461,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                                       expence.toFirestore(),
                                 )
                                 .doc(widget.id);
-                            await expenceRef.set(expence);
+                            // await expenceRef.set(expence);
 
 // final city = City(
 //   name: "Los Angeles",

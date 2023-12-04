@@ -48,11 +48,11 @@ class ExpencesScreen extends ConsumerWidget {
 
               ref
                   .read(currentExpenceTypeProvider.notifier)
-                  .expenceType(ExpenceType.transportation);
+                  .expenceType(ExpenceType.transportation.id!);
 
               ref
                   .read(currentTaxTypeProvider.notifier)
-                  .taxType(TaxType.invoice);
+                  .taxType(TaxType.invoice.id!);
 
               ref.read(currentPriceProvider.notifier).price(null);
               context.goNamed(
@@ -87,8 +87,9 @@ class ExpencesScreen extends ConsumerWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              log.info('${ref.watch(expenceListProvider)}');
-
+              log.info('add test data : ${ref.watch(expenceListProvider)}');
+              log.info(
+                  'add test data : ExpenceType.others.id ${ExpenceType.others.id}');
               ref.read(expenceListProvider.notifier).addExpence(Expence(
                   userID: userID,
                   reportID: reportID,
@@ -100,7 +101,7 @@ class ExpencesScreen extends ConsumerWidget {
                   col1: '物品を購入したという申請',
                   col3: 'しかし、それが何かについてどこに記載するのか',
                   taxType: TaxType.invoice.id,
-                  invoiceNumber: '12345678901234567'));
+                  invoiceNumber: '123'));
               ref.read(expenceListProvider.notifier).addExpence(Expence(
                     userID: userID,
                     reportID: reportID,
@@ -147,7 +148,7 @@ class ExpencesScreen extends ConsumerWidget {
                           onTap: () {
                             ref
                                 .read(currentExpenceTypeProvider.notifier)
-                                .expenceType(expences[i].expenceType?.id);
+                                .expenceType(expences[i].expenceType!);
 
                             ref
                                 .read(currentTaxTypeProvider.notifier)
@@ -181,14 +182,15 @@ class ExpencesScreen extends ConsumerWidget {
                                 'id': expences[i].id,
                                 'createdDateStr':
                                     expences[i].createdDate.toString(),
-                                'expenceTypeName': expences[i].expenceType,
+                                'expenceTypeName':
+                                    expences[i].expenceType.toString(),
                                 'expenceDateStr':
                                     expences[i].expenceDate.toString(),
                                 'priceStr': expences[i].price.toString(),
                                 'col1': expences[i].col1,
                                 'col2': expences[i].col2,
                                 'col3': expences[i].col3,
-                                'taxTypeName': expences[i].taxType,
+                                'taxTypeName': expences[i].taxType.toString(),
                                 'invoiceNumber': expences[i].invoiceNumber,
                                 'reportName': reportName,
                               },

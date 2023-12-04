@@ -16,20 +16,43 @@ enum TaxType {
 }
 
 extension TaxTypeExt on TaxType {
-  static final names = {
-    TaxType.invoice: 'インボイス対象',
-    TaxType.standardNoReceipt: 'レシート無し対象',
-    TaxType.others: 'その他',
-  };
-  String? get name => names[this];
+  String get name {
+    switch (this) {
+      case TaxType.invoice:
+        return 'インボイス対象';
+      case TaxType.standardNoReceipt:
+        return 'レシート無し対象';
+      case TaxType.others:
+        return 'その他';
+    }
+  }
 
-  static final ids = {
-    TaxType.invoice: TaxType.invoice.index,
-    TaxType.standardNoReceipt: TaxType.standardNoReceipt.index,
-    TaxType.others: TaxType.others.index,
-  };
-  int? get id => ids[this];
+  int get id {
+    switch (this) {
+      case TaxType.invoice:
+        return TaxType.invoice.index;
+      case TaxType.standardNoReceipt:
+        return TaxType.standardNoReceipt.index;
+      case TaxType.others:
+        return TaxType.others.index;
+    }
+  }
 }
+
+//
+// static final names = {
+//   TaxType.invoice: 'インボイス対象',
+//   TaxType.standardNoReceipt: 'レシート無し対象',
+//   TaxType.others: 'その他',
+// };
+// String? get name => names[this];
+
+// static final ids = {
+//   TaxType.invoice: TaxType.invoice.index,
+//   TaxType.standardNoReceipt: TaxType.standardNoReceipt.index,
+//   TaxType.others: TaxType.others.index,
+// };
+// int? get id => ids[this];
 
 enum ExpenceType {
   transportation,
@@ -38,13 +61,16 @@ enum ExpenceType {
 }
 
 extension ExpenceTypeExt on ExpenceType {
-  static final names = {
-    ExpenceType.transportation: '交通費',
-    ExpenceType.others: 'その他',
-    ExpenceType.test: '直',
-  };
-
-  String? get name => names[this];
+  String get name {
+    switch (this) {
+      case ExpenceType.transportation:
+        return '交通費';
+      case ExpenceType.others:
+        return 'その他';
+      case ExpenceType.test:
+        return 'テスト(直)';
+    }
+  }
 
   static final ids = {
     ExpenceType.transportation: ExpenceType.transportation.index,

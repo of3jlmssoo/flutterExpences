@@ -18,12 +18,25 @@ part 'expenceproviders.g.dart';
 @riverpod
 class CurrentTaxType extends _$CurrentTaxType {
   @override
-  TaxType build() {
-    return TaxType.invoice;
+  int? build() {
+    return TaxType.invoice.id;
   }
 
-  void taxType(TaxType tt) {
+  void taxType(int tt) {
     state = tt;
+  }
+
+  String? name(int i) {
+    switch (i) {
+      case TaxType.invoice:
+        return TaxType.invoice.name;
+      case TaxType.standardNoReceipt:
+        return TaxType.standardNoReceipt.name;
+      case TaxType.others:
+        return TaxType.others.name;
+      default:
+        return 'default value';
+    }
   }
 }
 
@@ -41,13 +54,27 @@ class CurrentTaxType extends _$CurrentTaxType {
 @riverpod
 class CurrentExpenceType extends _$CurrentExpenceType {
   @override
-  ExpenceType build() {
-    return ExpenceType.transportation;
+  int? build() {
+    return ExpenceType.transportation.id;
   }
 
-  void expenceType(ExpenceType et) {
+  void expenceType(int et) {
     state = et;
   }
+
+  // String? name(int i) {
+  //   print('CurrentExpenceType ---> i:$i ${ExpenceType.transportation.name}');
+  //   switch (i) {
+  //     case ExpenceType.transportation.id:
+  //       return ExpenceType.transportation.name;
+  //     case ExpenceType.others.id:
+  //       return ExpenceType.others.name;
+  //     case ExpenceType.test.id:
+  //       return ExpenceType.test.name;
+  //     default:
+  //       return 'default value';
+  //   }
+  // }
 }
 
 @riverpod
