@@ -76,24 +76,6 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
     log.info('initState() : widget.expenceTypeName ${widget.expenceTypeName}');
     log.info('initState() : widget.taxTypeName ${widget.taxTypeName}');
 
-    // ExpenceType expenceType = ExpenceType.transportation;
-    // for (var type in ExpenceType.values) {
-    //   if (widget.expenceTypeName == type.name) {
-    //     expenceType = type;
-    //     break;
-    //   }
-    // }
-    // // // ref.read(currentExpenceTypeProvider.notifier).expenceType(expenceType);
-    // //
-    // TaxType taxType = TaxType.invoice;
-    // for (var type in TaxType.values) {
-    //   if (widget.taxTypeName == type.name) {
-    //     taxType = type;
-    //     break;
-    //   }
-    // }
-    // // ref.read(currentTaxTypeProvider.notifier).taxType(taxType);
-
     log.info('initState : ${widget.createdDateStr} ${widget.expenceDateStr}');
 
     expence = expence.copyWith(
@@ -101,15 +83,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       reportID: widget.reportID,
       id: widget.id,
       createdDate: DateTime.parse(widget.createdDateStr!),
-      // expenceType: expenceType.id,
       expenceType: int.tryParse(widget.expenceTypeName!),
       expenceDate: DateTime.parse(widget.expenceDateStr!),
-      // price: int.parse(widget.priceStr!),
-      // col1: widget.col1,
-      // col2: widget.col2,
-      // col3: widget.col3,
       taxType: int.tryParse(widget.taxTypeName!),
-      // invoiceNumber: widget.invoiceNumber,
     );
     if (widget.priceStr != null) {
       expence = expence.copyWith(price: int.parse(widget.priceStr!));
@@ -365,13 +341,10 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         textStyle: const TextStyle(
                           fontSize: 12,
                         ),
-                        // initialSelection: tt.name,
-                        // initialSelection:TaxType.values.toList().elementAt(expence.taxType),
                         initialSelection: TaxType.values
                             .toList()
                             .elementAt(expence.taxType!)
                             .name,
-
                         onSelected: (String? value) {
                           late TaxType tType;
                           for (var type in TaxType.values) {
@@ -462,23 +435,6 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                                 )
                                 .doc(widget.id);
                             await expenceRef.set(expence);
-
-// final city = City(
-//   name: "Los Angeles",
-//   state: "CA",
-//   country: "USA",
-//   capital: false,
-//   population: 5000000,
-//   regions: ["west_coast", "socal"],
-// );
-// final docRef = db
-//     .collection("cities")
-//     .withConverter(
-//       fromFirestore: City.fromFirestore,
-//       toFirestore: (City city, options) => city.toFirestore(),
-//     )
-//     .doc("LA");
-// await docRef.set(city);
 
                             context.goNamed("expencescreen", queryParameters: {
                               'reportID': widget.reportID,
