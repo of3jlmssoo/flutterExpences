@@ -9,22 +9,6 @@ import 'enums.dart';
 part 'expence.freezed.dart';
 part 'expence.g.dart';
 
-/// The response of the `GET /api/Expence` endpoint.
-///
-/// It is defined using `freezed` and `json_serializable`.
-//
-// レポートID
-// ID
-// 入力日付
-// 経費種別
-// 日付
-// 費用項目/乗車地
-// 降車地
-// 金額
-// メモ
-// 税タイプ
-// enum ExpenceType { transportation, others }
-
 @freezed
 class Expence with _$Expence {
   const Expence._();
@@ -45,8 +29,6 @@ class Expence with _$Expence {
     String? invoiceNumber,
   }) = _Expence;
 
-  /// Convert a JSON object into an [Expence] instance.
-  /// This enables type-safe reading of the API response.
   factory Expence.fromJson(Map<String, dynamic> json) =>
       _$ExpenceFromJson(json);
 
