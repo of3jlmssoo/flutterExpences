@@ -1,10 +1,5 @@
 // dart run build_runner watch
 
-// @riverpod
-// class ReportList extends _$ReportList {
-//   @override
-//   Future<List<Todo>> build() async => [/* ... */];
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 
