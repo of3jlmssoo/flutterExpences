@@ -4,17 +4,6 @@ import 'package:riverpodtest/enums.dart';
 
 part 'expenceproviders.g.dart';
 
-// @riverpod
-// class CurrentTaxType extends _$CurrentTaxType {
-//   @override
-//   TaxType build() {
-//     return TaxType.invoice;
-//   }
-
-//   void taxType(TaxType tt) {
-//     state = tt;
-//   }
-// }
 @riverpod
 class CurrentTaxType extends _$CurrentTaxType {
   @override
@@ -40,17 +29,6 @@ class CurrentTaxType extends _$CurrentTaxType {
   }
 }
 
-// @riverpod
-// class CurrentExpenceType extends _$CurrentExpenceType {
-//   @override
-//   ExpenceType build() {
-//     return ExpenceType.transportation;
-//   }
-
-//   void expenceType(ExpenceType et) {
-//     state = et;
-//   }
-// }
 @riverpod
 class CurrentExpenceType extends _$CurrentExpenceType {
   @override
@@ -61,20 +39,6 @@ class CurrentExpenceType extends _$CurrentExpenceType {
   void expenceType(int et) {
     state = et;
   }
-
-  // String? name(int i) {
-  //   print('CurrentExpenceType ---> i:$i ${ExpenceType.transportation.name}');
-  //   switch (i) {
-  //     case ExpenceType.transportation.id:
-  //       return ExpenceType.transportation.name;
-  //     case ExpenceType.others.id:
-  //       return ExpenceType.others.name;
-  //     case ExpenceType.test.id:
-  //       return ExpenceType.test.name;
-  //     default:
-  //       return 'default value';
-  //   }
-  // }
 }
 
 @riverpod
