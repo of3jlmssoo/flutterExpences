@@ -461,7 +461,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                                       expence.toFirestore(),
                                 )
                                 .doc(widget.id);
-                            // await expenceRef.set(expence);
+                            await expenceRef.set(expence);
 
 // final city = City(
 //   name: "Los Angeles",
