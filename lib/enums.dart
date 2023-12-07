@@ -54,3 +54,14 @@ extension ExpenceTypeExt on ExpenceType {
 
   int? get id => ids[this];
 }
+
+String getExpenceType(int i) {
+  switch (i) {
+    case 1:
+      return ExpenceType.others.name;
+    case 2:
+      return ExpenceType.test.name;
+    default:
+      return ExpenceType.transportation.name;
+  }
+}

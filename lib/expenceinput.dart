@@ -82,7 +82,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       userID: widget.userID,
       reportID: widget.reportID,
       id: widget.id,
-      createdDate: DateTime.parse(widget.createdDateStr!),
+      createdDate: DateTime.parse(widget.createdDateStr),
       expenceType: int.tryParse(widget.expenceTypeName!),
       expenceDate: DateTime.parse(widget.expenceDateStr!),
       taxType: int.tryParse(widget.taxTypeName!),
@@ -142,7 +142,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
 
   @override
   Widget build(BuildContext context) {
-    final et = ref.watch(currentExpenceTypeProvider);
+    // final et = ref.watch(currentExpenceTypeProvider);
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
     final pr = ref.watch(currentPriceProvider);
@@ -360,7 +360,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           expence = expence.copyWith(taxType: tType.id);
                           ref
                               .read(currentTaxTypeProvider.notifier)
-                              .taxType(tType.id!);
+                              .taxType(tType.id);
                           log.info('TaxType : ${expence.toString()}');
                         },
                         dropdownMenuEntries: TaxType.values
@@ -424,7 +424,11 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                                 'add/update ------> expence.expenceType:${expence.expenceType}');
 
                             var db = FirebaseFirestore.instance;
-
+                            log.info('expenceinput add/update1 : $db');
+                            log.info(
+                                'expenceinput add/update2 : ${widget.userID}');
+                            log.info(
+                                'expenceinput add/update3 : ${widget.reportID}');
                             final expenceRef = db
                                 .collection('users')
                                 .doc(widget.userID)

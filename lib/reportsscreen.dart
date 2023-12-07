@@ -64,6 +64,8 @@ class ReportsScreen extends ConsumerWidget {
                           subtitle: Text(
                               '${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day}'),
                           onTap: () {
+                            log.info(
+                                'reportsScreen : reportID ${reports[i].reportID}');
                             context.goNamed("expencescreen", queryParameters: {
                               'reportID': reports[i].reportID,
                               'userID': reports[i].userID,

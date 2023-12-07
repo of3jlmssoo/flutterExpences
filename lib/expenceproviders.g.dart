@@ -23,7 +23,7 @@ final currentTaxTypeProvider =
 
 typedef _$CurrentTaxType = AutoDisposeNotifier<int?>;
 String _$currentExpenceTypeHash() =>
-    r'6f2b15241fdf95436acc758c89a576ee6d78f81c';
+    r'775e6b53c585067414c3095fcf6fcc4306663cc5';
 
 /// See also [CurrentExpenceType].
 @ProviderFor(CurrentExpenceType)

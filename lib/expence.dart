@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'enums.dart';
+// import 'enums.dart';
 
 part 'expence.freezed.dart';
 part 'expence.g.dart';

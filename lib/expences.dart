@@ -17,6 +17,9 @@ class ExpenceList extends _$ExpenceList {
   void addExpence(Expence expence) {
     state = state.where((report) => report.id != expence.id).toList();
 
+    print('addExpence1 : $state');
+    print('addExpence2 : ${expence.reportID}');
+
     state = [
       ...state,
       expence,

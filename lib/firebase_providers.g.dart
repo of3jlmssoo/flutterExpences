@@ -36,10 +36,9 @@ final authStateChangesProvider = AutoDisposeStreamProvider<User?>.internal(
 );
 
 typedef AuthStateChangesRef = AutoDisposeStreamProviderRef<User?>;
-String _$firebaseAuthHash() =>
-    r'da7d0f7e31b51bc441519009554032fa71b19de7'; ///////////////////////////////////////////////////////////////////////////
-///
-/// Copied from [firebaseAuth].
+String _$firebaseAuthHash() => r'da7d0f7e31b51bc441519009554032fa71b19de7';
+
+/// See also [firebaseAuth].
 @ProviderFor(firebaseAuth)
 final firebaseAuthProvider =
     NotifierProvider<firebaseAuth, FirebaseAuth>.internal(
