@@ -178,7 +178,8 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '経費種別 ${expence.expenceType} ${ExpenceType.values.toList().elementAt(expence.expenceType!).name}',
+                        // '経費種別 ${expence.expenceType} ${ExpenceType.values.toList().elementAt(expence.expenceType).name}',
+                        '経費種別',
                       ),
 
                       DropdownMenu<String>(
@@ -200,6 +201,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                         ),
 
                         // initialSelection: ExpenceType.values.toList().elementAt(expence.expenceType!),
+
                         initialSelection: ExpenceType.values
                             .toList()
                             .elementAt(expence.expenceType!)
@@ -212,12 +214,13 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           late var epType;
                           for (var type in ExpenceType.values) {
                             if (value == type.name) {
-                              epType = type;
+                              epType = type.index;
                               break;
                             }
                           }
                           log.info('経費種別2 ${epType}');
                           expence = expence.copyWith(expenceType: epType);
+                          log.info('経費種別2 --------');
                           ref
                               .read(currentExpenceTypeProvider.notifier)
                               .expenceType(epType);
@@ -470,7 +473,7 @@ class InputDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final etype = ref.watch(currentExpenceTypeProvider);
-    if (etype == ExpenceType.transportation) {
+    if (etype == ExpenceType.transportation.index) {
       return Row(
         children: [
           Expanded(

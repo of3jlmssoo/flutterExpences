@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import 'enums.dart';
 import 'expence.dart';
 import 'expenceproviders.dart';
+import 'firebase_providers.dart';
 
 final log = Logger('ExpencesScreen');
 final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
@@ -32,6 +34,7 @@ class ExpencesScreen extends ConsumerWidget {
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
     final pr = ref.watch(currentPriceProvider);
+    final userinstance = ref.watch(firebaseAuthProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,12 +62,13 @@ class ExpencesScreen extends ConsumerWidget {
                 "expenceinput",
                 queryParameters: {
                   'reportID': reportID,
-                  'userID': userID,
+                  'userID': userinstance.currentUser!.uid,
                   'id': uuid.v7(),
                   'createdDateStr': DateTime.now().toString(),
                   'expenceDateStr': DateTime.now().toString(),
-                  'expenceTypeName': ExpenceType.transportation.name,
-                  'taxTypeName': TaxType.invoice.name,
+                  'expenceTypeName':
+                      ExpenceType.transportation.index.toString(),
+                  'taxTypeName': TaxType.invoice.index.toString(),
                   // 'priceStr': '',
                   'col1': '',
                   'col2': '',
@@ -86,12 +90,13 @@ class ExpencesScreen extends ConsumerWidget {
             child: const Text('レポート一覧へ'),
           ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               log.info('add test data : ${ref.watch(expenceListProvider)}');
               log.info(
                   'add test data : ExpenceType.others.id ${ExpenceType.others.id}');
-              ref.read(expenceListProvider.notifier).addExpence(Expence(
-                  userID: userID,
+
+              var testExpence = Expence(
+                  userID: userinstance.currentUser!.uid,
                   reportID: reportID,
                   id: uuid.v7(),
                   createdDate: DateTime.now(),
@@ -101,20 +106,55 @@ class ExpencesScreen extends ConsumerWidget {
                   col1: '物品を購入したという申請',
                   col3: 'しかし、それが何かについてどこに記載するのか',
                   taxType: TaxType.invoice.id,
-                  invoiceNumber: '123'));
-              ref.read(expenceListProvider.notifier).addExpence(Expence(
-                    userID: userID,
-                    reportID: reportID,
-                    id: uuid.v7(),
-                    createdDate: DateTime.now(),
-                    expenceDate: DateTime.now().subtract(Duration(days: 20)),
-                    expenceType: ExpenceType.transportation.id,
-                    price: 456,
-                    col1: '東京の東京駅のそばの大手町',
-                    col2: '神奈川東京千葉埼玉',
-                    col3: 'なんのための交通費か。電車かバスかタクシーか',
-                    taxType: TaxType.standardNoReceipt.id,
-                  ));
+                  invoiceNumber: '123');
+              ref.read(expenceListProvider.notifier).addExpence(testExpence);
+
+              var db = FirebaseFirestore.instance;
+
+              log.info(
+                  'add test data : userID ${testExpence.userID} vs ${userinstance.currentUser!.uid}');
+
+              final expenceRef = db
+                  .collection('users')
+                  .doc(testExpence.userID)
+                  .collection('reports')
+                  .doc(testExpence.reportID)
+                  .collection('expences')
+                  .withConverter(
+                    fromFirestore: Expence.fromFirestore,
+                    toFirestore: (Expence expence, options) =>
+                        expence.toFirestore(),
+                  )
+                  .doc(testExpence.id);
+              await expenceRef.set(testExpence);
+
+              testExpence = Expence(
+                userID: userinstance.currentUser!.uid,
+                reportID: reportID,
+                id: uuid.v7(),
+                createdDate: DateTime.now(),
+                expenceDate: DateTime.now().subtract(Duration(days: 20)),
+                expenceType: ExpenceType.transportation.id,
+                price: 456,
+                col1: '東京の東京駅のそばの大手町',
+                col2: '神奈川東京千葉埼玉',
+                col3: 'なんのための交通費か。電車かバスかタクシーか',
+                taxType: TaxType.standardNoReceipt.id,
+              );
+              ref.read(expenceListProvider.notifier).addExpence(testExpence);
+              final expenceRef2 = db
+                  .collection('users')
+                  .doc(testExpence.userID)
+                  .collection('reports')
+                  .doc(testExpence.reportID)
+                  .collection('expences')
+                  .withConverter(
+                    fromFirestore: Expence.fromFirestore,
+                    toFirestore: (Expence expence, options) =>
+                        expence.toFirestore(),
+                  )
+                  .doc(testExpence.id);
+              await expenceRef2.set(testExpence);
             },
             child: const Text('テストデータ追加'),
           ),

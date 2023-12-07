@@ -149,6 +149,7 @@ class HomeScreen extends ConsumerWidget {
                   ? "please login"
                   : "user is " + userinstance.currentUser!.displayName!,
             ),
+            Text('\n${userinstance.currentUser!.uid}'),
             ElevatedButton(
               onPressed: () {},
               child: const Text('work elevatedbutton'),
