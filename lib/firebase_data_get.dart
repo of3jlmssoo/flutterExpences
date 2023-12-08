@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
+import 'package:riverpodtest/reports.dart';
 import 'expence.dart';
 import 'firebase_providers.dart';
 
@@ -23,6 +24,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
             .doc(userinstance.currentUser!.uid)
             .collection('reports')
             .snapshots();
+    final reportlist = ref.watch(reportListProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Firebase Firestore get data')),
@@ -49,34 +51,6 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
               } else {
                 log.info('get data test 3 : data does not exist');
               }
-
-              // docRef.get().then(
-              //   (DocumentSnapshot doc) {
-              //     log.info('get data test3 $doc.data()');
-              //     // final data = doc.data() as Map<String, dynamic>;
-              //     // log.info('get data test : $data');
-              //   },
-              //   onError: (e) => print("Error getting document: $e"),
-              // );
-              //
-              //
-              //
-              // final ref = db
-              //     .collection("users")
-              //     .doc(userinstance.currentUser!.uid)
-              //     .collection('reports')
-              //     .doc('018c42e5-69e5-73b1-a84a-13dc8b5779b7')
-              //     .withConverter(
-              //       fromFirestore: Expence.fromFirestore,
-              //       toFirestore: (Expence expence, _) => expence.toFirestore(),
-              //     );
-              // final docSnap = await ref.get();
-              // final expence = docSnap.data(); // Convert to City object
-              // if (expence != null) {
-              //   log.info(expence);
-              // } else {
-              //   log.info("No such document.");
-              // }
             },
             child: const Text('test'),
           ),
@@ -89,12 +63,57 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
               log.info(
                   'get data test6 : ${db.collectionGroup("report").where("userId", isEqualTo: userinstance.currentUser!.uid).get()}');
               db
-                  .collectionGroup("reports")
-                  .where("userID", isEqualTo: userinstance.currentUser!.uid)
+                  .collection("users")
+                  .doc(userinstance.currentUser!.uid)
+                  .collection("reports")
+                  // .doc("018c42e5-69e5-73b1-a84a-13dc8b5779b7")
+                  // .collection("expences")
                   .get()
-                  .then((value) => {log.info('${value.docs.first}')});
+                  .then(
+                (querySnapshot) {
+                  log.info("Successfully completed : ${querySnapshot.size}");
+                  for (var docSnapshot in querySnapshot.docs) {
+                    log.info('in the querySnapshot loop');
+                    log.info('${docSnapshot.id} => ${docSnapshot.data()}');
+                  }
+                  log.info('after querySnapshot loop');
+                },
+                onError: (e) => log.info("Error completing: $e"),
+              );
             },
             child: const Text('test2'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              var db = FirebaseFirestore.instance;
+              for (var v in reportlist) {
+                log.info(v);
+                final docData = {
+                  // required String userID,
+                  // required String reportID,
+                  // required String name,
+                  // required DateTime createdDate,
+                  // // required String Expence,
+                  // required String col1,
+                  // required int totalPrice,
+                  // String? totalPriceStr,
+                  "userID": v.userID,
+                  "reportID": v.reportID,
+                  "name": v.name,
+                  "createdDate": v.createdDate,
+                  "col1": v.col1,
+                  "totalPriceStr": v.totalPrice.toString(),
+                };
+                db
+                    .collection("users")
+                    .doc(userinstance.currentUser!.uid)
+                    .collection("reports")
+                    .doc(v.reportID)
+                    .set(docData)
+                    .onError((e, _) => print("Error writing document: $e"));
+              }
+            },
+            child: const Text('test3 (put data to firestore'),
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
@@ -119,9 +138,8 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
                         return ListTile(
-                          // title: Text(data['userID']),
-                          title: Text('userID'),
-                          subtitle: Text(data['reortID']),
+                          title: Text(data['name']),
+                          // subtitle: Text('reortID'),
                         );
                       })
                       .toList()

@@ -13,6 +13,7 @@ _$ReportImpl _$$ReportImplFromJson(Map<String, dynamic> json) => _$ReportImpl(
       createdDate: DateTime.parse(json['createdDate'] as String),
       col1: json['col1'] as String,
       totalPrice: json['totalPrice'] as int,
+      totalPriceStr: json['totalPriceStr'] as String?,
     );
 
 Map<String, dynamic> _$$ReportImplToJson(_$ReportImpl instance) =>
@@ -23,4 +24,5 @@ Map<String, dynamic> _$$ReportImplToJson(_$ReportImpl instance) =>
       'createdDate': instance.createdDate.toIso8601String(),
       'col1': instance.col1,
       'totalPrice': instance.totalPrice,
+      'totalPriceStr': instance.totalPriceStr,
     };
