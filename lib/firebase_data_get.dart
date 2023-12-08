@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/reports.dart';
 import 'expence.dart';
@@ -89,14 +90,6 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
               for (var v in reportlist) {
                 log.info(v);
                 final docData = {
-                  // required String userID,
-                  // required String reportID,
-                  // required String name,
-                  // required DateTime createdDate,
-                  // // required String Expence,
-                  // required String col1,
-                  // required int totalPrice,
-                  // String? totalPriceStr,
                   "userID": v.userID,
                   "reportID": v.reportID,
                   "name": v.name,
@@ -113,7 +106,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                     .onError((e, _) => print("Error writing document: $e"));
               }
             },
-            child: const Text('test3 (put data to firestore'),
+            child: const Text('test3 (put data, reports, to firestore'),
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
@@ -139,7 +132,11 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                             document.data()! as Map<String, dynamic>;
                         return ListTile(
                           title: Text(data['name']),
-                          // subtitle: Text('reortID'),
+                          // subtitle: Text(intl.DateFormat.yMd()
+                          //     .format(data['createdDate'].toDate())),
+
+                          subtitle: Text(
+                              '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())}'),
                         );
                       })
                       .toList()
