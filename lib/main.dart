@@ -13,6 +13,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expenceinput.dart';
 import 'package:riverpodtest/expencesscreen.dart';
+import 'package:riverpodtest/expencesscreenfs.dart';
 import 'package:riverpodtest/firebase_data_add.dart';
 import 'package:riverpodtest/firebase_data_get.dart';
 import 'package:riverpodtest/firebase_providers.dart';
@@ -92,6 +93,15 @@ final GoRouter _router = GoRouter(
           name: "expencescreen",
           path: "expencescreen",
           builder: (context, state) => ExpencesScreen(
+            reportID: state.uri.queryParameters['reportID']!,
+            userID: state.uri.queryParameters['userID']!,
+            reportName: state.uri.queryParameters['reportName']!,
+          ),
+        ),
+        GoRoute(
+          name: "expencescreenfs",
+          path: "expencescreenfs",
+          builder: (context, state) => ExpencesScreenFs(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
             reportName: state.uri.queryParameters['reportName']!,

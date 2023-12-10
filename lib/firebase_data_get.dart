@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/reports.dart';
-import 'expence.dart';
+
 import 'firebase_providers.dart';
 
 final log = Logger('Firestore get data');
@@ -130,13 +131,29 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                       .map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
-                        return ListTile(
-                          title: Text(data['name']),
-                          // subtitle: Text(intl.DateFormat.yMd()
-                          //     .format(data['createdDate'].toDate())),
+                        return Dismissible(
+                          key: ValueKey(["reportID"]),
+                          onDismissed: (_) {},
+                          child: Card(
+                            child: ListTile(
+                              title: Text(data['name']),
+                              // subtitle: Text(intl.DateFormat.yMd()
+                              //     .format(data['createdDate'].toDate())),
 
-                          subtitle: Text(
-                              '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())}'),
+                              subtitle: Text(
+                                  '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())}'),
+                              onTap: () {
+                                log.info(
+                                    'reportsScreen : reportID ${data['reportID']}');
+                                context
+                                    .goNamed("expencescreenfs", queryParameters: {
+                                  'reportID': data['reportID'],
+                                  'userID': data['userID'],
+                                  'reportName': data['name'],
+                                });
+                              },
+                            ),
+                          ),
                         );
                       })
                       .toList()
