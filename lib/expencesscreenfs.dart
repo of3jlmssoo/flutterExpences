@@ -36,13 +36,23 @@ class ExpencesScreenFs extends ConsumerWidget {
     final pr = ref.watch(currentPriceProvider);
     final userinstance = ref.watch(firebaseAuthProvider);
 
+    final Stream<QuerySnapshot> _expencesStream =
+        // FirebaseFirestore.instance.collection('cities').snapshots();
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(userinstance.currentUser!.uid)
+            .collection('reports')
+            .doc(reportID)
+            .collection('expences')
+            .snapshots();
+
     return Scaffold(
       appBar: AppBar(
           title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              '経費入力(firestore) ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
+              '経費一覧(firestore) ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'add expence',
@@ -159,91 +169,148 @@ class ExpencesScreenFs extends ConsumerWidget {
             child: const Text('テストデータ追加'),
           ),
           Expanded(
-            child: ListView(
-              children: [
-                if (expences.isNotEmpty) const Divider(height: 0),
-                for (var i = 0; i < expences.length; i++) ...[
-                  if (i > 0) const Divider(height: 0),
-                  Dismissible(
-                    key: ValueKey(expences[i].id),
-                    onDismissed: (_) {
-                      ref
-                          .read(expenceListProvider.notifier)
-                          .removeReport(expences[i]);
-                    },
-                    child: ProviderScope(
-                      overrides: [
-                        _currentExpence.overrideWithValue(expences[i]),
-                      ],
-                      // child: Text('zxc'),
-                      child: Card(
-                        child: ListTile(
-                          title: Text(
-                            // '${expences[i].expenceType!.name} ${intl.DateFormat.yMd().format(expences[i].expenceDate!)} ',
-                            // '${expences[i].expenceType!} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
-                            '${getExpenceType(expences[i].expenceType!)} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _expencesStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('_expencesStream Something went wrong');
+                } else {
+                  log.info('_expencesStream StreamBuilder has no error');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Text("Loading (経費情報待ち)");
+                } else {
+                  log.info('_expencesStream StreamBuilder after Loading');
+                }
+                return ListView(
+                  children: snapshot.data!.docs
+                      .map((DocumentSnapshot document) {
+                        Map<String, dynamic> data =
+                            document.data()! as Map<String, dynamic>;
+                        return Dismissible(
+                          key: ValueKey(data["id"]),
+                          onDismissed: (_) {},
+                          child: Card(
+                            child: ListTile(
+                              title: Text(
+                                '${getExpenceType(data["expenceType"])} ${intl.DateFormat.yMMMd('ja').format(data["expenceDate"].toDate())} (${DateFormat.E('ja').format(data["expenceDate"].toDate())}) ${data["price"]}円',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                  '${data["col1"] != null ? data["col1"] : ''} ${data["col2"] != null ? data["col2"] : ''} ${data["col3"] != null ? data["col3"] : ''}'),
+
+                              // title: Text(data['name']),
+                              // // subtitle: Text(intl.DateFormat.yMd()
+                              // //     .format(data['createdDate'].toDate())),
+
+                              // subtitle: Text(
+                              //     '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())}'),
+                              // onTap: () {
+                              //   log.info(
+                              //       'reportsScreen : reportID ${data['reportID']}');
+                              //   context.goNamed("expencescreenfs",
+                              //       queryParameters: {
+                              //         'reportID': data['reportID'],
+                              //         'userID': data['userID'],
+                              //         'reportName': data['name'],
+                              //       });
+                              // },
+                            ),
                           ),
-                          subtitle: Text(
-                              '${expences[i].col1 != null ? expences[i].col1 : ''} ${expences[i].col2 != null ? expences[i].col2 : ''} ${expences[i].col3 != null ? expences[i].col3 : ''}'),
-                          onTap: () {
-                            ref
-                                .read(currentExpenceTypeProvider.notifier)
-                                .expenceType(expences[i].expenceType!);
-
-                            ref
-                                .read(currentTaxTypeProvider.notifier)
-                                .taxType(expences[i].taxType!);
-
-                            ref
-                                .read(currentExpenceDateProvider.notifier)
-                                .expenceDate(expences[i].expenceDate!);
-
-                            ref
-                                .read(currentPriceProvider.notifier)
-                                .price(expences[i].price!);
-
-                            log.info(
-                                'Test Data 1-1 : ${expences[i].createdDate}');
-                            log.info(
-                                'Test Data 1-2 : ${expences[i].expenceDate}');
-                            log.info(
-                                'Test Data 2 : ${expences[i].expenceType}');
-                            log.info('Test Data 3 : ${expences[i].taxType}');
-                            log.info('Test Data 4 : ${et} and ${tt}');
-                            log.info('Test Data 5 : ${ed}');
-                            log.info(
-                                'Test Data 6 : ${expences[i].invoiceNumber}');
-
-                            context.goNamed(
-                              "expenceinput",
-                              queryParameters: {
-                                'reportID': expences[i].reportID,
-                                'userID': expences[i].userID,
-                                'id': expences[i].id,
-                                'createdDateStr':
-                                    expences[i].createdDate.toString(),
-                                'expenceTypeName':
-                                    expences[i].expenceType.toString(),
-                                'expenceDateStr':
-                                    expences[i].expenceDate.toString(),
-                                'priceStr': expences[i].price.toString(),
-                                'col1': expences[i].col1,
-                                'col2': expences[i].col2,
-                                'col3': expences[i].col3,
-                                'taxTypeName': expences[i].taxType.toString(),
-                                'invoiceNumber': expences[i].invoiceNumber,
-                                'reportName': reportName,
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ],
+                        );
+                      })
+                      .toList()
+                      .cast(),
+                );
+              },
             ),
+            // child: ListView(
+            //   children: [
+            //     if (expences.isNotEmpty) const Divider(height: 0),
+            //     for (var i = 0; i < expences.length; i++) ...[
+            //       if (i > 0) const Divider(height: 0),
+            //       Dismissible(
+            //         key: ValueKey(expences[i].id),
+            //         onDismissed: (_) {
+            //           ref
+            //               .read(expenceListProvider.notifier)
+            //               .removeReport(expences[i]);
+            //         },
+            //         child: ProviderScope(
+            //           overrides: [
+            //             _currentExpence.overrideWithValue(expences[i]),
+            //           ],
+            //           // child: Text('zxc'),
+            //           child: Card(
+            //             child: ListTile(
+            //               title: Text(
+            //                 // '${expences[i].expenceType!.name} ${intl.DateFormat.yMd().format(expences[i].expenceDate!)} ',
+            //                 // '${expences[i].expenceType!} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
+            //                 '${getExpenceType(expences[i].expenceType!)} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
+            //                 style: TextStyle(fontWeight: FontWeight.bold),
+            //               ),
+            //               subtitle: Text(
+            //                   '${expences[i].col1 != null ? expences[i].col1 : ''} ${expences[i].col2 != null ? expences[i].col2 : ''} ${expences[i].col3 != null ? expences[i].col3 : ''}'),
+            //               onTap: () {
+            //                 ref
+            //                     .read(currentExpenceTypeProvider.notifier)
+            //                     .expenceType(expences[i].expenceType!);
+
+            //                 ref
+            //                     .read(currentTaxTypeProvider.notifier)
+            //                     .taxType(expences[i].taxType!);
+
+            //                 ref
+            //                     .read(currentExpenceDateProvider.notifier)
+            //                     .expenceDate(expences[i].expenceDate!);
+
+            //                 ref
+            //                     .read(currentPriceProvider.notifier)
+            //                     .price(expences[i].price!);
+
+            //                 log.info(
+            //                     'Test Data 1-1 : ${expences[i].createdDate}');
+            //                 log.info(
+            //                     'Test Data 1-2 : ${expences[i].expenceDate}');
+            //                 log.info(
+            //                     'Test Data 2 : ${expences[i].expenceType}');
+            //                 log.info('Test Data 3 : ${expences[i].taxType}');
+            //                 log.info('Test Data 4 : ${et} and ${tt}');
+            //                 log.info('Test Data 5 : ${ed}');
+            //                 log.info(
+            //                     'Test Data 6 : ${expences[i].invoiceNumber}');
+
+            //                 context.goNamed(
+            //                   "expenceinput",
+            //                   queryParameters: {
+            //                     'reportID': expences[i].reportID,
+            //                     'userID': expences[i].userID,
+            //                     'id': expences[i].id,
+            //                     'createdDateStr':
+            //                         expences[i].createdDate.toString(),
+            //                     'expenceTypeName':
+            //                         expences[i].expenceType.toString(),
+            //                     'expenceDateStr':
+            //                         expences[i].expenceDate.toString(),
+            //                     'priceStr': expences[i].price.toString(),
+            //                     'col1': expences[i].col1,
+            //                     'col2': expences[i].col2,
+            //                     'col3': expences[i].col3,
+            //                     'taxTypeName': expences[i].taxType.toString(),
+            //                     'invoiceNumber': expences[i].invoiceNumber,
+            //                     'reportName': reportName,
+            //                   },
+            //                 );
+            //               },
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ],
+            // ),
           )
         ],
       ),

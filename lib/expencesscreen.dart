@@ -42,7 +42,7 @@ class ExpencesScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              '経費入力 ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
+              '経費一覧 ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'add expence',

@@ -132,7 +132,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
                         return Dismissible(
-                          key: ValueKey(["reportID"]),
+                          key: ValueKey(data["reportID"]),
                           onDismissed: (_) {},
                           child: Card(
                             child: ListTile(
@@ -145,12 +145,12 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                               onTap: () {
                                 log.info(
                                     'reportsScreen : reportID ${data['reportID']}');
-                                context
-                                    .goNamed("expencescreenfs", queryParameters: {
-                                  'reportID': data['reportID'],
-                                  'userID': data['userID'],
-                                  'reportName': data['name'],
-                                });
+                                context.goNamed("expencescreenfs",
+                                    queryParameters: {
+                                      'reportID': data['reportID'],
+                                      'userID': data['userID'],
+                                      'reportName': data['name'],
+                                    });
                               },
                             ),
                           ),
