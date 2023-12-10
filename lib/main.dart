@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expenceinput.dart';
+import 'package:riverpodtest/expenceinputfs.dart';
 import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/expencesscreenfs.dart';
 import 'package:riverpodtest/firebase_data_add.dart';
@@ -74,6 +75,25 @@ final GoRouter _router = GoRouter(
           name: 'expenceinput',
           path: 'expenceinput',
           builder: (context, state) => ExpenceInput(
+            reportID: state.uri.queryParameters['reportID']!,
+            userID: state.uri.queryParameters['userID']!,
+            id: state.uri.queryParameters['id']!,
+            createdDateStr: state.uri.queryParameters['createdDateStr']!,
+            expenceTypeName: state.uri.queryParameters['expenceTypeName'],
+            expenceDateStr: state.uri.queryParameters['expenceDateStr'],
+            priceStr: state.uri.queryParameters['priceStr'],
+            col1: state.uri.queryParameters['col1'],
+            col2: state.uri.queryParameters['col2'],
+            col3: state.uri.queryParameters['col3'],
+            taxTypeName: state.uri.queryParameters['taxTypeName'],
+            invoiceNumber: state.uri.queryParameters['invoiceNumber'],
+            reportName: state.uri.queryParameters['reportName']!,
+          ),
+        ),
+        GoRoute(
+          name: 'expenceinputfs',
+          path: 'expenceinputfs',
+          builder: (context, state) => ExpenceInputFs(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
             id: state.uri.queryParameters['id']!,
