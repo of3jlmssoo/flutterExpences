@@ -208,6 +208,11 @@ class ExpencesScreenFs extends ConsumerWidget {
                               // subtitle: Text(
                               //     '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())}'),
                               onTap: () {
+                                log.info(
+                                    'expenceinputfs : data["price"].toString() : ${data["price"].toString()}');
+                                ref
+                                    .read(currentPriceProvider.notifier)
+                                    .price(int.parse(data["price"].toString()));
                                 context.goNamed(
                                   "expenceinputfs",
                                   queryParameters: {

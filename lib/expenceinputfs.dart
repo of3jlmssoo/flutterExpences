@@ -88,7 +88,10 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
       taxType: int.tryParse(widget.taxTypeName!),
     );
     if (widget.priceStr != null) {
+      log.info(
+          'expenceinputfs initState() : widget.priceStr : ${widget.priceStr}');
       expence = expence.copyWith(price: int.parse(widget.priceStr!));
+      log.info('expenceinputfs initState() : expence.price : ${expence.price}');
     }
 
     if (widget.priceStr != null) {
@@ -160,7 +163,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
           }),
         ),
         title: const Text(
-          '経費入力',
+          '経費入力(FS)',
         ),
       ),
       body: Form(
