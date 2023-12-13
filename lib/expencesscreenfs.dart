@@ -217,6 +217,10 @@ class ExpencesScreenFs extends ConsumerWidget {
                                     .read(currentTaxTypeProvider.notifier)
                                     .taxType(
                                         int.parse(data["taxType"].toString()));
+                                ref
+                                    .read(currentExpenceTypeProvider.notifier)
+                                    .expenceType(int.parse(
+                                        data["expenceType"].toString()));
                                 context.goNamed(
                                   "expenceinputfs",
                                   queryParameters: {

@@ -155,7 +155,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
         leading: GestureDetector(
           child: const Icon(Icons.arrow_back, color: Colors.black),
           onTap: () => Router.neglect(context, () {
-            context.goNamed("expencescreen", queryParameters: {
+            context.goNamed("expencescreenfs", queryParameters: {
               'reportID': widget.reportID,
               'userID': widget.userID,
               'reportName': widget.reportName,
@@ -480,6 +480,7 @@ class InputDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final etype = ref.watch(currentExpenceTypeProvider);
+    log.info('expenceinputfs : etype $etype  ');
     if (etype == ExpenceType.transportation.index) {
       return Row(
         children: [
