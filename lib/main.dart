@@ -219,14 +219,14 @@ class HomeScreen extends ConsumerWidget {
                   userinstance.signOut();
                 },
                 child: const Text('singOut')),
+            // ElevatedButton(
+            //   child: const Text('Firebase add data'),
+            //   onPressed: () {
+            //     context.go("/fbdataadd");
+            //   },
+            // ),
             ElevatedButton(
-              child: const Text('Firebase add data'),
-              onPressed: () {
-                context.go("/fbdataadd");
-              },
-            ),
-            ElevatedButton(
-              child: const Text('Firebase get data'),
+              child: const Text('Firebase version'),
               onPressed: () {
                 context.go("/fbdataget");
               },

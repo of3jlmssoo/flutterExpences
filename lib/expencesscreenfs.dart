@@ -67,7 +67,7 @@ class ExpencesScreenFs extends ConsumerWidget {
 
               ref.read(currentPriceProvider.notifier).price(null);
               context.goNamed(
-                "expenceinput",
+                "expenceinputfs",
                 queryParameters: {
                   'reportID': reportID,
                   'userID': userinstance.currentUser!.uid,
@@ -96,7 +96,7 @@ class ExpencesScreenFs extends ConsumerWidget {
       body: Column(
         children: [
           ElevatedButton(
-            onPressed: () => context.go('/listview'),
+            onPressed: () => context.go('/fbdataget'),
             child: const Text('レポート一覧へ'),
           ),
           ElevatedButton(

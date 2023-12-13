@@ -8,7 +8,7 @@ import 'package:riverpodtest/reports.dart';
 
 import 'firebase_providers.dart';
 
-final log = Logger('Firestore get data');
+final log = Logger('Firestore');
 
 class GetSampleData extends ConsumerStatefulWidget {
   @override
@@ -29,62 +29,62 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
     final reportlist = ref.watch(reportListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Firebase Firestore get data')),
+      appBar: AppBar(title: const Text('Firebase版')),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () async {
-              var db = FirebaseFirestore.instance;
-              log.info('get data test1 : ${userinstance.currentUser!.uid}');
-              log.info('get data test2 : ${db}');
-              final docRef = db
-                  .collection("users")
-                  .doc("Z03K3uR3GXH5eoN9Mh52TaAaJKVn")
-                  .collection("reports")
-                  .doc("018c4343-b6cd-7f2e-b973-9487b87bb860")
-                  .collection("expences")
-                  .doc("018c4345-7377-7a1b-89db-35b008224564");
-
-              var postDoc = await docRef.get();
-              if (postDoc.exists) {
-                log.info(
-                    'get data test 3 : data exists ${postDoc.data()?.length}');
-                log.info('get data test 3 : data exists ${postDoc.data()}');
-              } else {
-                log.info('get data test 3 : data does not exist');
-              }
-            },
-            child: const Text('test'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              var db = FirebaseFirestore.instance;
-              log.info('get data test4 : ${userinstance.currentUser!.uid}');
-              log.info('get data test5 : ${db}');
-
-              log.info(
-                  'get data test6 : ${db.collectionGroup("report").where("userId", isEqualTo: userinstance.currentUser!.uid).get()}');
-              db
-                  .collection("users")
-                  .doc(userinstance.currentUser!.uid)
-                  .collection("reports")
-                  // .doc("018c42e5-69e5-73b1-a84a-13dc8b5779b7")
-                  // .collection("expences")
-                  .get()
-                  .then(
-                (querySnapshot) {
-                  log.info("Successfully completed : ${querySnapshot.size}");
-                  for (var docSnapshot in querySnapshot.docs) {
-                    log.info('in the querySnapshot loop');
-                    log.info('${docSnapshot.id} => ${docSnapshot.data()}');
-                  }
-                  log.info('after querySnapshot loop');
-                },
-                onError: (e) => log.info("Error completing: $e"),
-              );
-            },
-            child: const Text('test2'),
-          ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     var db = FirebaseFirestore.instance;
+          //     log.info('get data test1 : ${userinstance.currentUser!.uid}');
+          //     log.info('get data test2 : ${db}');
+          //     final docRef = db
+          //         .collection("users")
+          //         .doc("Z03K3uR3GXH5eoN9Mh52TaAaJKVn")
+          //         .collection("reports")
+          //         .doc("018c4343-b6cd-7f2e-b973-9487b87bb860")
+          //         .collection("expences")
+          //         .doc("018c4345-7377-7a1b-89db-35b008224564");
+          //
+          //     var postDoc = await docRef.get();
+          //     if (postDoc.exists) {
+          //       log.info(
+          //           'get data test 3 : data exists ${postDoc.data()?.length}');
+          //       log.info('get data test 3 : data exists ${postDoc.data()}');
+          //     } else {
+          //       log.info('get data test 3 : data does not exist');
+          //     }
+          //   },
+          //   child: const Text('test'),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     var db = FirebaseFirestore.instance;
+          //     log.info('get data test4 : ${userinstance.currentUser!.uid}');
+          //     log.info('get data test5 : ${db}');
+          //
+          //     log.info(
+          //         'get data test6 : ${db.collectionGroup("report").where("userId", isEqualTo: userinstance.currentUser!.uid).get()}');
+          //     db
+          //         .collection("users")
+          //         .doc(userinstance.currentUser!.uid)
+          //         .collection("reports")
+          //         // .doc("018c42e5-69e5-73b1-a84a-13dc8b5779b7")
+          //         // .collection("expences")
+          //         .get()
+          //         .then(
+          //       (querySnapshot) {
+          //         log.info("Successfully completed : ${querySnapshot.size}");
+          //         for (var docSnapshot in querySnapshot.docs) {
+          //           log.info('in the querySnapshot loop');
+          //           log.info('${docSnapshot.id} => ${docSnapshot.data()}');
+          //         }
+          //         log.info('after querySnapshot loop');
+          //       },
+          //       onError: (e) => log.info("Error completing: $e"),
+          //     );
+          //   },
+          //   child: const Text('test2'),
+          // ),
           ElevatedButton(
             onPressed: () async {
               var db = FirebaseFirestore.instance;
