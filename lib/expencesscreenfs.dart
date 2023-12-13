@@ -51,8 +51,6 @@ class ExpencesScreenFs extends ConsumerWidget {
           title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-              '経費一覧(firestore) ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'add expence',
@@ -89,6 +87,8 @@ class ExpencesScreenFs extends ConsumerWidget {
               );
             },
           ),
+          Text(
+              '経費一覧(firestore) ${reportName.substring(0, reportID.length > 8 ? 8 : reportID.length)}'),
 
           // Icon(Icons.add),
         ],

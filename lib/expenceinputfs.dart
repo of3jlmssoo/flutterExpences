@@ -286,7 +286,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const InputDetails(),
+                      const InputDetailsFs(),
                       const SizedBox(height: 20),
                       const Text(
                         '金額',
@@ -446,7 +446,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                                 .doc(widget.id);
                             await expenceRef.set(expence);
 
-                            context.goNamed("expencescreen", queryParameters: {
+                            log.info('expenceinputfs : before goNamed');
+                            context
+                                .goNamed("expencescreenfs", queryParameters: {
                               'reportID': widget.reportID,
                               'userID': widget.userID,
                               'reportName': widget.reportName,
@@ -474,8 +476,8 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
   }
 }
 
-class InputDetails extends ConsumerWidget {
-  const InputDetails({super.key});
+class InputDetailsFs extends ConsumerWidget {
+  const InputDetailsFs({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
