@@ -213,6 +213,10 @@ class ExpencesScreenFs extends ConsumerWidget {
                                 ref
                                     .read(currentPriceProvider.notifier)
                                     .price(int.parse(data["price"].toString()));
+                                ref
+                                    .read(currentTaxTypeProvider.notifier)
+                                    .taxType(
+                                        int.parse(data["taxType"].toString()));
                                 context.goNamed(
                                   "expenceinputfs",
                                   queryParameters: {
@@ -221,32 +225,16 @@ class ExpencesScreenFs extends ConsumerWidget {
                                     'id': data["id"],
                                     'createdDateStr':
                                         data["createdDate"].toDate().toString(),
-                                    // intl.DateFormat('yyyy年MM月dd日').format(
-                                    //     data['createdDate'].toDate()),
-                                    // intl.DateFormat()
-                                    //     .format(
-                                    //         data['createdDate'].toDate())
-                                    //     .toString(),
-
                                     'expenceDateStr':
-                                        // expences[i].expenceDate.toString(),
                                         data["expenceDate"].toDate().toString(),
-                                    // intl.DateFormat()
-                                    //     .format(
-                                    //         data['expenceDate'].toDate())
-                                    //     .toString(),
                                     'expenceTypeName':
-                                        // expences[i].expenceType.toString(),
                                         data["expenceType"].toString(),
-
                                     'priceStr': data["price"].toString(),
                                     'col1': data["col1"],
                                     'col2': data["col2"],
                                     'col3': data["col3"],
-                                    'taxTypeName':
-                                        // expences[i].taxType.toString(),
-                                        data["taxType"].toString(),
-                                    'invoiceNumber': data["iinvoiceNumber"],
+                                    'taxTypeName': data["taxType"].toString(),
+                                    'invoiceNumber': data["invoiceNumber"],
                                     'reportName': reportName,
                                   },
                                 );
