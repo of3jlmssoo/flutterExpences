@@ -232,8 +232,12 @@ class HomeScreen extends ConsumerWidget {
             // ),
             ElevatedButton(
               child: const Text('レポート一覧'),
-              onPressed: () {
-                context.go("/fbdataget");
+              onPressed: () async {
+                if (userinstance.currentUser == null) {
+                  loggedin = await firebaseLoginController(context);
+                } else {
+                  context.go("/fbdataget");
+                }
               },
             ),
           ],
