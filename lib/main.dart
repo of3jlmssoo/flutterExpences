@@ -188,16 +188,13 @@ class HomeScreen extends ConsumerWidget {
             Text(
                 '\n${userinstance.currentUser != null ? userinstance.currentUser?.uid : "please login again"}'),
             // Text('\n${userinstance.currentUser}'),
+
+            // ElevatedButton(
+            //   onPressed: () => context.go('/listview'),
+            //   child: const Text('レポート一覧画面へ'),
+            // ),
             ElevatedButton(
-              onPressed: () {},
-              child: const Text('work elevatedbutton'),
-            ),
-            ElevatedButton(
-              onPressed: () => context.go('/listview'),
-              child: const Text('レポート一覧画面へ'),
-            ),
-            ElevatedButton(
-              child: const Text('Firebase login'),
+              child: const Text('ログイン'),
               onPressed: () async {
                 log.info('Firebase login Button Pressed');
                 loggedin = await firebaseLoginController(context);
@@ -226,7 +223,7 @@ class HomeScreen extends ConsumerWidget {
                 onPressed: () {
                   userinstance.signOut();
                 },
-                child: const Text('singOut')),
+                child: const Text('ログアウト')),
             // ElevatedButton(
             //   child: const Text('Firebase add data'),
             //   onPressed: () {
@@ -234,7 +231,7 @@ class HomeScreen extends ConsumerWidget {
             //   },
             // ),
             ElevatedButton(
-              child: const Text('Firebase version'),
+              child: const Text('レポート一覧'),
               onPressed: () {
                 context.go("/fbdataget");
               },
