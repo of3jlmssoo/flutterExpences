@@ -26,25 +26,25 @@ Expence expence = Expence(
 );
 
 class ExpenceInput extends ConsumerStatefulWidget {
-  String reportID;
-  String userID;
-  String id;
-  String? expenceTypeName;
-  String? taxTypeName;
-  DateTime? createdDate;
-  DateTime? expenceDate;
-  String? col1;
-  String? col2;
-  String? col3;
-  int? price;
-  String? invoiceNumber;
-  String reportName;
+  final String reportID;
+  final String userID;
+  final String id;
+  final String? expenceTypeName;
+  final String? taxTypeName;
+  // DateTime? createdDate;
+  // DateTime? expenceDate;
+  final String col1;
+  final String col2;
+  final String col3;
+  // int? price;
+  final String invoiceNumber;
+  final String reportName;
 
-  String createdDateStr;
-  String? expenceDateStr;
-  String? priceStr;
+  final String createdDateStr;
+  final String expenceDateStr;
+  final String priceStr;
 
-  ExpenceInput({
+  const ExpenceInput({
     super.key,
     required this.reportID,
     required this.userID,
@@ -52,12 +52,12 @@ class ExpenceInput extends ConsumerStatefulWidget {
     required this.createdDateStr,
     this.expenceTypeName,
     this.taxTypeName,
-    this.expenceDateStr,
-    this.col1,
-    this.col2,
-    this.col3,
-    this.priceStr,
-    this.invoiceNumber,
+    this.expenceDateStr = "",
+    this.col1 = "",
+    this.col2 = "",
+    this.col3 = "",
+    this.priceStr = "",
+    this.invoiceNumber = "",
     required this.reportName,
   });
 
@@ -84,40 +84,40 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       id: widget.id,
       createdDate: DateTime.parse(widget.createdDateStr),
       expenceType: int.tryParse(widget.expenceTypeName!),
-      expenceDate: DateTime.parse(widget.expenceDateStr!),
+      expenceDate: DateTime.parse(widget.expenceDateStr),
       taxType: int.tryParse(widget.taxTypeName!),
     );
-    if (widget.priceStr != null) {
-      expence = expence.copyWith(price: int.parse(widget.priceStr!));
-    }
+    // if (widget.priceStr != null) {
+    expence = expence.copyWith(price: int.parse(widget.priceStr));
+    // }
 
-    if (widget.priceStr != null) {
-      log.info('priceStr is not null! ${widget.priceStr} and ${expence.price}');
-      expence = expence.copyWith(price: int.parse(widget.priceStr!));
-    }
+    // if (widget.priceStr != null) {
+    log.info('priceStr is not null! ${widget.priceStr} and ${expence.price}');
+    expence = expence.copyWith(price: int.parse(widget.priceStr));
+    // }
 
-    if (widget.col1 != null) {
-      expence = expence.copyWith(col1: widget.col1);
-    } else {
-      expence = expence.copyWith(col1: '');
-    }
+    // if (widget.col1 != null) {
+    expence = expence.copyWith(col1: widget.col1);
+    // } else {
+    //   expence = expence.copyWith(col1: '');
+    // }
 
-    if (widget.col2 != null) {
-      expence = expence.copyWith(col2: widget.col2);
-    } else {
-      expence = expence.copyWith(col2: '');
-    }
+    // if (widget.col2 != null) {
+    expence = expence.copyWith(col2: widget.col2);
+    // } else {
+    //   expence = expence.copyWith(col2: '');
+    // }
 
-    if (widget.col3 != null) {
-      expence = expence.copyWith(col3: widget.col3);
-    } else {
-      expence = expence.copyWith(col3: '');
-    }
-    if (widget.invoiceNumber != null) {
-      expence = expence.copyWith(invoiceNumber: widget.invoiceNumber);
-    } else {
-      expence = expence.copyWith(invoiceNumber: '');
-    }
+    // if (widget.col3 != null) {
+    expence = expence.copyWith(col3: widget.col3);
+    // } else {
+    //   expence = expence.copyWith(col3: '');
+    // }
+    // if (widget.invoiceNumber != null) {
+    expence = expence.copyWith(invoiceNumber: widget.invoiceNumber);
+    // } else {
+    //   expence = expence.copyWith(invoiceNumber: '');
+    // }
 
     log.info('initState 1 : ${expence.toString()}');
   }
@@ -177,7 +177,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         // '経費種別 ${expence.expenceType} ${ExpenceType.values.toList().elementAt(expence.expenceType).name}',
                         '経費種別',
                       ),
@@ -211,7 +211,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                           log.info('経費種別0 value:${value}');
                           log.info('経費種別1 ${expence.expenceType}');
 
-                          late var epType;
+                          late int epType;
                           for (var type in ExpenceType.values) {
                             if (value == type.name) {
                               epType = type.index;
@@ -388,10 +388,10 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
                             const Text('インボイス番号'),
                             TextFormField(
                               validator: (value) {
-                                if (expence.taxType == TaxType.invoice &&
+                                if (expence.taxType == TaxType.invoice.index &&
                                         (value == null || value.isEmpty) ||
                                     value?.length != 3 ||
-                                    num.tryParse(value!)! == null) {
+                                    num.tryParse(value!) == null) {
                                   return 'インボイス番号(3桁)を入力してください';
                                 }
                                 return null;
@@ -520,7 +520,8 @@ class InputDetails extends ConsumerWidget {
                 ),
                 TextFormField(
                   validator: (value) {
-                    if (expence.expenceType == ExpenceType.transportation &&
+                    if (expence.expenceType ==
+                            ExpenceType.transportation.index &&
                         (value == null || value.isEmpty)) {
                       return "降車地を入力してください";
                     }

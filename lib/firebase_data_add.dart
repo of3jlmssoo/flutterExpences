@@ -19,15 +19,15 @@ class firebaseAddData extends ConsumerStatefulWidget {
 class _firebaseAddDataState extends ConsumerState<firebaseAddData> {
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(firebaseAuthProvider);
+    final userinstance = ref.watch(firebaseAuthProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('Firebase Firestore add data')),
       body: Column(
         children: [
-          Text('abc'),
+          const Text('abc'),
           ElevatedButton(
             onPressed: () {
-              if (user == null) {
+              if (userinstance.currentUser == null) {
                 log.info('user is null');
               } else {
                 log.info('user is not null');
@@ -80,7 +80,7 @@ void sample_add_data1() {
       .collection("data")
       .doc("one")
       .set(docData)
-      .onError((e, _) => print("Error writing document: $e"));
+      .onError((e, _) => log.info("Error writing document: $e"));
   log.info('sample 1 end');
 }
 

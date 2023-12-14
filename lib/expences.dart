@@ -2,10 +2,13 @@
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
+import 'package:logging/logging.dart';
 
 import 'expence.dart';
 import 'package:collection/collection.dart';
 part 'expences.g.dart';
+
+final log = Logger('Expences');
 
 const uuid = Uuid();
 
@@ -17,8 +20,8 @@ class ExpenceList extends _$ExpenceList {
   void addExpence(Expence expence) {
     state = state.where((report) => report.id != expence.id).toList();
 
-    print('addExpence1 : $state');
-    print('addExpence2 : ${expence.reportID}');
+    log.info('addExpence1 : $state');
+    log.info('addExpence2 : ${expence.reportID}');
 
     state = [
       ...state,

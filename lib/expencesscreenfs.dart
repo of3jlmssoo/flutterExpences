@@ -14,7 +14,7 @@ import 'expenceproviders.dart';
 import 'firebase_providers.dart';
 
 final log = Logger('ExpencesScreenFs');
-final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
+// final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
 var uuid = const Uuid();
 
 class ExpencesScreenFs extends ConsumerWidget {
@@ -29,11 +29,11 @@ class ExpencesScreenFs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final expences = ref.watch(expenceListProvider);
-    final et = ref.watch(currentExpenceTypeProvider);
-    final tt = ref.watch(currentTaxTypeProvider);
-    final ed = ref.watch(currentExpenceDateProvider);
-    final pr = ref.watch(currentPriceProvider);
+    // final expences = ref.watch(expenceListProvider);
+    // final et = ref.watch(currentExpenceTypeProvider);
+    // final tt = ref.watch(currentTaxTypeProvider);
+    // final ed = ref.watch(currentExpenceDateProvider);
+    // final pr = ref.watch(currentPriceProvider);
     final userinstance = ref.watch(firebaseAuthProvider);
 
     final Stream<QuerySnapshot> _expencesStream =
@@ -63,7 +63,7 @@ class ExpencesScreenFs extends ConsumerWidget {
 
               ref
                   .read(currentTaxTypeProvider.notifier)
-                  .taxType(TaxType.invoice.id!);
+                  .taxType(TaxType.invoice.id);
 
               ref.read(currentPriceProvider.notifier).price(null);
               context.goNamed(
@@ -110,7 +110,8 @@ class ExpencesScreenFs extends ConsumerWidget {
                   reportID: reportID,
                   id: uuid.v7(),
                   createdDate: DateTime.now(),
-                  expenceDate: DateTime.now().subtract(Duration(days: 10)),
+                  expenceDate:
+                      DateTime.now().subtract(const Duration(days: 10)),
                   expenceType: ExpenceType.others.id,
                   price: 123,
                   col1: '物品を購入したという申請',
@@ -143,7 +144,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                 reportID: reportID,
                 id: uuid.v7(),
                 createdDate: DateTime.now(),
-                expenceDate: DateTime.now().subtract(Duration(days: 20)),
+                expenceDate: DateTime.now().subtract(const Duration(days: 20)),
                 expenceType: ExpenceType.transportation.id,
                 price: 456,
                 col1: '東京の東京駅のそばの大手町',
@@ -196,10 +197,12 @@ class ExpencesScreenFs extends ConsumerWidget {
                             child: ListTile(
                               title: Text(
                                 '${getExpenceType(data["expenceType"])} ${intl.DateFormat.yMMMd('ja').format(data["expenceDate"].toDate())} (${DateFormat.E('ja').format(data["expenceDate"].toDate())}) ${data["price"]}円',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ),
                               subtitle: Text(
-                                  '${data["col1"] != null ? data["col1"] : ''} ${data["col2"] != null ? data["col2"] : ''} ${data["col3"] != null ? data["col3"] : ''}'),
+                                  // '${data["col1"] != null ? data["col1"] : ''} ${data["col2"] != null ? data["col2"] : ''} ${sodata["col3"] != null ? data["col3"] : ''}'),
+                                  '${data["col1"] ?? ''} ${data["col2"] ?? ''} ${data["col3"] ?? ''}'),
 
                               // title: Text(data['name']),
                               // // subtitle: Text(intl.DateFormat.yMd()

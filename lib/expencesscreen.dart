@@ -33,7 +33,7 @@ class ExpencesScreen extends ConsumerWidget {
     final et = ref.watch(currentExpenceTypeProvider);
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
-    final pr = ref.watch(currentPriceProvider);
+    // final pr = ref.watch(currentPriceProvider);
     final userinstance = ref.watch(firebaseAuthProvider);
 
     return Scaffold(
@@ -55,7 +55,7 @@ class ExpencesScreen extends ConsumerWidget {
 
               ref
                   .read(currentTaxTypeProvider.notifier)
-                  .taxType(TaxType.invoice.id!);
+                  .taxType(TaxType.invoice.id);
 
               ref.read(currentPriceProvider.notifier).price(null);
               context.goNamed(
@@ -100,7 +100,8 @@ class ExpencesScreen extends ConsumerWidget {
                   reportID: reportID,
                   id: uuid.v7(),
                   createdDate: DateTime.now(),
-                  expenceDate: DateTime.now().subtract(Duration(days: 10)),
+                  expenceDate:
+                      DateTime.now().subtract(const Duration(days: 10)),
                   expenceType: ExpenceType.others.id,
                   price: 123,
                   col1: '物品を購入したという申請',
@@ -133,7 +134,7 @@ class ExpencesScreen extends ConsumerWidget {
                 reportID: reportID,
                 id: uuid.v7(),
                 createdDate: DateTime.now(),
-                expenceDate: DateTime.now().subtract(Duration(days: 20)),
+                expenceDate: DateTime.now().subtract(const Duration(days: 20)),
                 expenceType: ExpenceType.transportation.id,
                 price: 456,
                 col1: '東京の東京駅のそばの大手町',
@@ -182,10 +183,10 @@ class ExpencesScreen extends ConsumerWidget {
                             // '${expences[i].expenceType!.name} ${intl.DateFormat.yMd().format(expences[i].expenceDate!)} ',
                             // '${expences[i].expenceType!} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
                             '${getExpenceType(expences[i].expenceType!)} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                              '${expences[i].col1 != null ? expences[i].col1 : ''} ${expences[i].col2 != null ? expences[i].col2 : ''} ${expences[i].col3 != null ? expences[i].col3 : ''}'),
+                              '${expences[i].col1 ?? ''} ${expences[i].col2 ?? ''} ${expences[i].col3 ?? ''}'),
                           onTap: () {
                             ref
                                 .read(currentExpenceTypeProvider.notifier)

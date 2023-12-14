@@ -12,8 +12,7 @@ import 'firebase_providers.dart';
 final log = Logger('FB-loginLogger');
 
 Future<bool> firebaseLoginController(BuildContext context) async {
-  var result;
-  result = await Navigator.push(
+  var result = await Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => const FirebaseLogin()),
   );

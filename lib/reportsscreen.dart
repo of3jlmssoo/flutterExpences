@@ -15,7 +15,7 @@ var uuid = const Uuid();
 
 class ReportsScreen extends ConsumerWidget {
   ReportsScreen({super.key});
-  var userID = uuid.v7();
+  final userID = uuid.v7();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reports = ref.watch(reportListProvider);

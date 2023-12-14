@@ -11,6 +11,8 @@ import 'firebase_providers.dart';
 final log = Logger('Firestore');
 
 class GetSampleData extends ConsumerStatefulWidget {
+  const GetSampleData({super.key});
+
   @override
   _GetSampleDataState createState() => _GetSampleDataState();
 }
@@ -104,7 +106,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                     .collection("reports")
                     .doc(v.reportID)
                     .set(docData)
-                    .onError((e, _) => print("Error writing document: $e"));
+                    .onError((e, _) => log.info("Error writing document: $e"));
               }
             },
             child: const Text('test3 (put data, reports, to firestore'),

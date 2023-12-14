@@ -17,11 +17,11 @@ class CurrentTaxType extends _$CurrentTaxType {
 
   String? name(int i) {
     switch (i) {
-      case TaxType.invoice:
+      case 0:
         return TaxType.invoice.name;
-      case TaxType.standardNoReceipt:
+      case 1:
         return TaxType.standardNoReceipt.name;
-      case TaxType.others:
+      case 2:
         return TaxType.others.name;
       default:
         return 'default value';

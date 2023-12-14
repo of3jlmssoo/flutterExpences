@@ -80,13 +80,13 @@ final GoRouter _router = GoRouter(
             id: state.uri.queryParameters['id']!,
             createdDateStr: state.uri.queryParameters['createdDateStr']!,
             expenceTypeName: state.uri.queryParameters['expenceTypeName'],
-            expenceDateStr: state.uri.queryParameters['expenceDateStr'],
-            priceStr: state.uri.queryParameters['priceStr'],
-            col1: state.uri.queryParameters['col1'],
-            col2: state.uri.queryParameters['col2'],
-            col3: state.uri.queryParameters['col3'],
+            expenceDateStr: state.uri.queryParameters['expenceDateStr']!,
+            priceStr: state.uri.queryParameters['priceStr']!,
+            col1: state.uri.queryParameters['col1']!,
+            col2: state.uri.queryParameters['col2']!,
+            col3: state.uri.queryParameters['col3']!,
             taxTypeName: state.uri.queryParameters['taxTypeName'],
-            invoiceNumber: state.uri.queryParameters['invoiceNumber'],
+            invoiceNumber: state.uri.queryParameters['invoiceNumber']!,
             reportName: state.uri.queryParameters['reportName']!,
           ),
         ),
@@ -99,13 +99,19 @@ final GoRouter _router = GoRouter(
             id: state.uri.queryParameters['id']!,
             createdDateStr: state.uri.queryParameters['createdDateStr']!,
             expenceTypeName: state.uri.queryParameters['expenceTypeName'],
-            expenceDateStr: state.uri.queryParameters['expenceDateStr'],
-            priceStr: state.uri.queryParameters['priceStr'],
-            col1: state.uri.queryParameters['col1'],
-            col2: state.uri.queryParameters['col2'],
-            col3: state.uri.queryParameters['col3'],
+            expenceDateStr: state.uri.queryParameters['expenceDateStr']!,
+            // priceStr: state.uri.queryParameters['priceStr']!,
+            priceStr: state.uri.queryParameters['priceStr'] == null
+                ? ""
+                : state.uri.queryParameters['priceStr']!,
+            col1: state.uri.queryParameters['col1']!,
+            col2: state.uri.queryParameters['col2']!,
+            col3: state.uri.queryParameters['col3']!,
             taxTypeName: state.uri.queryParameters['taxTypeName'],
-            invoiceNumber: state.uri.queryParameters['invoiceNumber'],
+            // invoiceNumber: state.uri.queryParameters['invoiceNumber']!,
+            invoiceNumber: state.uri.queryParameters['invoiceNumber'] == null
+                ? ""
+                : state.uri.queryParameters['invoiceNumber']!,
             reportName: state.uri.queryParameters['reportName']!,
           ),
         ),
@@ -130,12 +136,12 @@ final GoRouter _router = GoRouter(
         GoRoute(
           name: "fbdataadd",
           path: "fbdataadd",
-          builder: (context, state) => firebaseAddData(),
+          builder: (context, state) => const firebaseAddData(),
         ),
         GoRoute(
           name: "fbdataget",
           path: "fbdataget",
-          builder: (context, state) => GetSampleData(),
+          builder: (context, state) => const GetSampleData(),
         ),
       ],
     ),
@@ -166,7 +172,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userinstance = ref.watch(firebaseAuthProvider);
-    final authrepo = ref.watch(authRepositoryProvider);
+    // final authrepo = ref.watch(authRepositoryProvider);
     final authstatechanges = ref.watch(authStateChangesProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('ホーム')),
@@ -177,7 +183,7 @@ class HomeScreen extends ConsumerWidget {
               // 'user is ${ref.read(firebaseAuthProvider).authStateChanges()} '),
               authstatechanges.value == null
                   ? "please login"
-                  : "user is " + userinstance.currentUser!.displayName!,
+                  : "user is  ${userinstance.currentUser!.displayName!}",
             ),
             Text(
                 '\n${userinstance.currentUser != null ? userinstance.currentUser?.uid : "please login again"}'),
