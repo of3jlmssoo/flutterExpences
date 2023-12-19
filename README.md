@@ -9,3 +9,4 @@
     freezed
     firebase, firestore
 
+![Test Image ](docs/diagram.drawio.png)
