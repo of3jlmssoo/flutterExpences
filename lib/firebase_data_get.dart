@@ -135,7 +135,20 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                             document.data()! as Map<String, dynamic>;
                         return Dismissible(
                           key: ValueKey(data["reportID"]),
-                          onDismissed: (_) {},
+                          onDismissed: (_) {
+                            FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(data["userID"])
+                                .collection("reports")
+                                .doc(data["reportID"])
+                                .delete()
+                                .then(
+                                  (doc) => log.info(
+                                      "expencesscreenfs :Document deleted"),
+                                  onError: (e) => log.info(
+                                      "expencesscreenfs :Error updating document $e"),
+                                );
+                          },
                           child: Card(
                             child: ListTile(
                               title: Text(data['name']),

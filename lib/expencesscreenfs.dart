@@ -192,7 +192,24 @@ class ExpencesScreenFs extends ConsumerWidget {
                             document.data()! as Map<String, dynamic>;
                         return Dismissible(
                           key: ValueKey(data["id"]),
-                          onDismissed: (_) {},
+                          onDismissed: (_) {
+                            log.info(
+                                "expencesscreenfs : uuid ${userID} ${data["reportID"]} ${data["id"]}");
+                            FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(userID)
+                                .collection("reports")
+                                .doc(data["reportID"])
+                                .collection("expences")
+                                .doc(data["id"])
+                                .delete()
+                                .then(
+                                  (doc) => log.info(
+                                      "expencesscreenfs :Document deleted"),
+                                  onError: (e) => log.info(
+                                      "expencesscreenfs :Error updating document $e"),
+                                );
+                          },
                           child: Card(
                             child: ListTile(
                               title: Text(
