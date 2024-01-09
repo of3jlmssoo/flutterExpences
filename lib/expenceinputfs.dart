@@ -26,6 +26,7 @@ Expence expence = Expence(
 );
 
 class ExpenceInputFs extends ConsumerStatefulWidget {
+  // go_routerでの受け渡しのため日付、金額もStringで定義
   final String reportID;
   final String userID;
   final String id;
@@ -150,9 +151,11 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
   @override
   Widget build(BuildContext context) {
     // final et = ref.watch(currentExpenceTypeProvider);
+
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
     final pr = ref.watch(currentPriceProvider);
+    final et = ref.watch(currentExpenceTypeProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -388,7 +391,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                       const SizedBox(height: 20),
 
                       Visibility(
-                        visible: tt == TaxType.invoice.id,
+                        visible: expence.taxType == TaxType.invoice.id,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -486,7 +489,7 @@ class InputDetailsFs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final etype = ref.watch(currentExpenceTypeProvider);
-    log.info('expenceinputfs : etype $etype  ');
+    log.info('expenceinputfs : etype $etype');
     if (etype == ExpenceType.transportation.index) {
       return Row(
         children: [

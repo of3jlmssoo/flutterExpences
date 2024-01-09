@@ -213,6 +213,8 @@ class ExpencesScreenFs extends ConsumerWidget {
                               onTap: () {
                                 log.info(
                                     'expenceinputfs : data["price"].toString() : ${data["price"].toString()}');
+                                log.info(
+                                    'expenceinputfs : data["expenceTyoe"].toString() : ${data["expenceType"].toString()}');
                                 ref
                                     .read(currentPriceProvider.notifier)
                                     .price(int.parse(data["price"].toString()));
@@ -220,10 +222,14 @@ class ExpencesScreenFs extends ConsumerWidget {
                                     .read(currentTaxTypeProvider.notifier)
                                     .taxType(
                                         int.parse(data["taxType"].toString()));
+                                log.info(
+                                    "expenceinputfs : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
                                 ref
                                     .read(currentExpenceTypeProvider.notifier)
                                     .expenceType(int.parse(
                                         data["expenceType"].toString()));
+                                log.info(
+                                    "expenceinputfs : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
                                 context.goNamed(
                                   "expenceinputfs",
                                   queryParameters: {

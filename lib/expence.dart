@@ -55,13 +55,9 @@ class Expence with _$Expence {
 
   Map<String, dynamic> toFirestore() {
     return {
-      // if (userID != null)
       "userID": userID,
-      // if (reportID != null)
       "reportID": reportID,
-      // if (id != null)
       "id": id,
-      // if (createdDate != null)
       "createdDate": createdDate,
       if (expenceType != null) "expenceType": expenceType,
       if (expenceDate != null) "expenceDate": expenceDate,

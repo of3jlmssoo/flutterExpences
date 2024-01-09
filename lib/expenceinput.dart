@@ -26,6 +26,7 @@ Expence expence = Expence(
 );
 
 class ExpenceInput extends ConsumerStatefulWidget {
+  // go_routerでの受け渡しのため日付、金額もStringで定義
   final String reportID;
   final String userID;
   final String id;
@@ -87,39 +88,12 @@ class ExpenceInputState extends ConsumerState<ExpenceInput> {
       expenceDate: DateTime.parse(widget.expenceDateStr),
       taxType: int.tryParse(widget.taxTypeName!),
     );
-    // if (widget.priceStr != null) {
-    expence = expence.copyWith(price: int.parse(widget.priceStr));
-    // }
 
-    // if (widget.priceStr != null) {
-    log.info('priceStr is not null! ${widget.priceStr} and ${expence.price}');
     expence = expence.copyWith(price: int.parse(widget.priceStr));
-    // }
-
-    // if (widget.col1 != null) {
     expence = expence.copyWith(col1: widget.col1);
-    // } else {
-    //   expence = expence.copyWith(col1: '');
-    // }
-
-    // if (widget.col2 != null) {
     expence = expence.copyWith(col2: widget.col2);
-    // } else {
-    //   expence = expence.copyWith(col2: '');
-    // }
-
-    // if (widget.col3 != null) {
     expence = expence.copyWith(col3: widget.col3);
-    // } else {
-    //   expence = expence.copyWith(col3: '');
-    // }
-    // if (widget.invoiceNumber != null) {
     expence = expence.copyWith(invoiceNumber: widget.invoiceNumber);
-    // } else {
-    //   expence = expence.copyWith(invoiceNumber: '');
-    // }
-
-    log.info('initState 1 : ${expence.toString()}');
   }
 
   final _formKey = GlobalKey<FormState>();
