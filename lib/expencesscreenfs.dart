@@ -83,6 +83,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                   'col3': '',
                   'invoicenumber': '',
                   'reportName': reportName,
+                  'priceStr': '',
                 },
               );
             },

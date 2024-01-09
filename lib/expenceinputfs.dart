@@ -94,6 +94,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
 
     if (widget.priceStr != "") {
       expence = expence.copyWith(price: int.parse(widget.priceStr));
+    } else {
+      expence = expence.copyWith(
+          price: null); // to make the field blank in case of new record
     }
 
     log.info('expenceinputfs initState() : expence.price : ${expence.price}');
@@ -150,8 +153,6 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
 
   @override
   Widget build(BuildContext context) {
-    // final et = ref.watch(currentExpenceTypeProvider);
-
     final tt = ref.watch(currentTaxTypeProvider);
     final ed = ref.watch(currentExpenceDateProvider);
     final pr = ref.watch(currentPriceProvider);
@@ -308,7 +309,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                           }
                           return null;
                         },
-                        initialValue: pr == null ? '' : pr.toString(),
+                        initialValue: expence.price == null
+                            ? ''
+                            : expence.price.toString(),
                         // controller: _priceFieldController,
                         textAlign: TextAlign.right,
                         decoration: const InputDecoration(
