@@ -90,8 +90,9 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
           ElevatedButton(
             onPressed: () async {
               var db = FirebaseFirestore.instance;
+              log.info("firebase_data_get db: $db");
               for (var v in reportlist) {
-                log.info(v);
+                log.info("firebase_data_get v: ${v}");
                 final docData = {
                   "userID": v.userID,
                   "reportID": v.reportID,
@@ -99,6 +100,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                   "createdDate": v.createdDate,
                   "col1": v.col1,
                   "totalPriceStr": v.totalPrice.toString(),
+                  "status": v.status.name,
                 };
                 db
                     .collection("users")
@@ -109,7 +111,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                     .onError((e, _) => log.info("Error writing document: $e"));
               }
             },
-            child: const Text('test3 (put data, reports, to firestore'),
+            child: const Text('テストデータ作成 (put data, reports, to firestore'),
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(

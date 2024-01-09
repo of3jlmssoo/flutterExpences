@@ -6,7 +6,7 @@ part of 'expenceproviders.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentTaxTypeHash() => r'b5b95ac90d81be48f76d80b2dc48e5206a1a75b8';
+String _$currentTaxTypeHash() => r'7a9d834d84e93537675fe78c985645f1a823d05b';
 
 /// See also [CurrentTaxType].
 @ProviderFor(CurrentTaxType)

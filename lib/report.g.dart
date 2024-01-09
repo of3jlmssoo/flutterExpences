@@ -14,6 +14,7 @@ _$ReportImpl _$$ReportImplFromJson(Map<String, dynamic> json) => _$ReportImpl(
       col1: json['col1'] as String,
       totalPrice: json['totalPrice'] as int,
       totalPriceStr: json['totalPriceStr'] as String?,
+      status: $enumDecode(_$StatusEnumMap, json['status']),
     );
 
 Map<String, dynamic> _$$ReportImplToJson(_$ReportImpl instance) =>
@@ -25,4 +26,11 @@ Map<String, dynamic> _$$ReportImplToJson(_$ReportImpl instance) =>
       'col1': instance.col1,
       'totalPrice': instance.totalPrice,
       'totalPriceStr': instance.totalPriceStr,
+      'status': _$StatusEnumMap[instance.status]!,
     };
+
+const _$StatusEnumMap = {
+  Status.making: 'making',
+  Status.submitted: 'submitted',
+  Status.other: 'other',
+};

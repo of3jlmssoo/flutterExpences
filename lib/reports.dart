@@ -29,6 +29,7 @@ class ReportList extends _$ReportList {
           col1: "col1",
           totalPrice: 1,
           reportID: uuid.v7(),
+          status: Status.making,
         ),
         Report(
           userID: FirebaseAuth.instance.currentUser!.uid,
@@ -37,6 +38,7 @@ class ReportList extends _$ReportList {
           col1: "col2",
           totalPrice: 2,
           reportID: uuid.v7(),
+          status: Status.making,
         )
       ];
 

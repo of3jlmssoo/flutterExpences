@@ -31,12 +31,14 @@ class ReportsScreen extends ConsumerWidget {
             onPressed: () {
               ref.read(reportListProvider.notifier).addReport(
                     Report(
-                        name: "name3",
-                        createdDate: DateTime.now(),
-                        col1: "col3",
-                        totalPrice: 3,
-                        userID: userID,
-                        reportID: uuid.v7()),
+                      name: "name3",
+                      createdDate: DateTime.now(),
+                      col1: "col3",
+                      totalPrice: 3,
+                      userID: userID,
+                      reportID: uuid.v7(),
+                      status: Status.making,
+                    ),
                   );
             },
             child: const Text('新しいレポート追加(constructing)'),

@@ -7,6 +7,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'report.freezed.dart';
 part 'report.g.dart';
 
+enum Status {
+  making,
+  submitted,
+  other,
+}
+
 @freezed
 class Report with _$Report {
   factory Report({
@@ -18,6 +24,7 @@ class Report with _$Report {
     required String col1,
     required int totalPrice,
     String? totalPriceStr,
+    required Status status,
   }) = _Report;
 
   /// Convert a JSON object into an [Expence] instance.

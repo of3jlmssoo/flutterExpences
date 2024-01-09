@@ -28,6 +28,7 @@ mixin _$Report {
   String get col1 => throw _privateConstructorUsedError;
   int get totalPrice => throw _privateConstructorUsedError;
   String? get totalPriceStr => throw _privateConstructorUsedError;
+  Status get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,7 +47,8 @@ abstract class $ReportCopyWith<$Res> {
       DateTime createdDate,
       String col1,
       int totalPrice,
-      String? totalPriceStr});
+      String? totalPriceStr,
+      Status status});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$ReportCopyWithImpl<$Res, $Val extends Report>
     Object? col1 = null,
     Object? totalPrice = null,
     Object? totalPriceStr = freezed,
+    Object? status = null,
   }) {
     return _then(_value.copyWith(
       userID: null == userID
@@ -99,6 +102,10 @@ class _$ReportCopyWithImpl<$Res, $Val extends Report>
           ? _value.totalPriceStr
           : totalPriceStr // ignore: cast_nullable_to_non_nullable
               as String?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as Status,
     ) as $Val);
   }
 }
@@ -117,7 +124,8 @@ abstract class _$$ReportImplCopyWith<$Res> implements $ReportCopyWith<$Res> {
       DateTime createdDate,
       String col1,
       int totalPrice,
-      String? totalPriceStr});
+      String? totalPriceStr,
+      Status status});
 }
 
 /// @nodoc
@@ -138,6 +146,7 @@ class __$$ReportImplCopyWithImpl<$Res>
     Object? col1 = null,
     Object? totalPrice = null,
     Object? totalPriceStr = freezed,
+    Object? status = null,
   }) {
     return _then(_$ReportImpl(
       userID: null == userID
@@ -168,6 +177,10 @@ class __$$ReportImplCopyWithImpl<$Res>
           ? _value.totalPriceStr
           : totalPriceStr // ignore: cast_nullable_to_non_nullable
               as String?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as Status,
     ));
   }
 }
@@ -182,7 +195,8 @@ class _$ReportImpl implements _Report {
       required this.createdDate,
       required this.col1,
       required this.totalPrice,
-      this.totalPriceStr});
+      this.totalPriceStr,
+      required this.status});
 
   factory _$ReportImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReportImplFromJson(json);
@@ -202,10 +216,12 @@ class _$ReportImpl implements _Report {
   final int totalPrice;
   @override
   final String? totalPriceStr;
+  @override
+  final Status status;
 
   @override
   String toString() {
-    return 'Report(userID: $userID, reportID: $reportID, name: $name, createdDate: $createdDate, col1: $col1, totalPrice: $totalPrice, totalPriceStr: $totalPriceStr)';
+    return 'Report(userID: $userID, reportID: $reportID, name: $name, createdDate: $createdDate, col1: $col1, totalPrice: $totalPrice, totalPriceStr: $totalPriceStr, status: $status)';
   }
 
   @override
@@ -223,13 +239,14 @@ class _$ReportImpl implements _Report {
             (identical(other.totalPrice, totalPrice) ||
                 other.totalPrice == totalPrice) &&
             (identical(other.totalPriceStr, totalPriceStr) ||
-                other.totalPriceStr == totalPriceStr));
+                other.totalPriceStr == totalPriceStr) &&
+            (identical(other.status, status) || other.status == status));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, userID, reportID, name,
-      createdDate, col1, totalPrice, totalPriceStr);
+      createdDate, col1, totalPrice, totalPriceStr, status);
 
   @JsonKey(ignore: true)
   @override
@@ -253,7 +270,8 @@ abstract class _Report implements Report {
       required final DateTime createdDate,
       required final String col1,
       required final int totalPrice,
-      final String? totalPriceStr}) = _$ReportImpl;
+      final String? totalPriceStr,
+      required final Status status}) = _$ReportImpl;
 
   factory _Report.fromJson(Map<String, dynamic> json) = _$ReportImpl.fromJson;
 
@@ -271,6 +289,8 @@ abstract class _Report implements Report {
   int get totalPrice;
   @override
   String? get totalPriceStr;
+  @override
+  Status get status;
   @override
   @JsonKey(ignore: true)
   _$$ReportImplCopyWith<_$ReportImpl> get copyWith =>
