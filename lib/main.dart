@@ -196,34 +196,41 @@ class HomeScreen extends ConsumerWidget {
             // ),
             ElevatedButton(
               child: const Text('ログイン'),
-              onPressed: () async {
-                log.info('Firebase login Button Pressed');
-                loggedin = await firebaseLoginController(context);
-                if (!loggedin) {
-                  log.info('loggedin == null $loggedin');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: const Duration(seconds: 5),
-                      content: const Text('Please login again'),
-                      action: SnackBarAction(label: 'Close', onPressed: () {}),
-                    ),
-                  );
-                } else {
-                  log.info('loggedin != null $loggedin');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      duration: const Duration(seconds: 5),
-                      content: const Text('You are logged in!'),
-                      action: SnackBarAction(label: 'Close', onPressed: () {}),
-                    ),
-                  );
-                }
-              },
+              onPressed: authstatechanges.value != null
+                  ? null
+                  : () async {
+                      log.info('Firebase login Button Pressed');
+                      loggedin = await firebaseLoginController(context);
+                      if (!loggedin) {
+                        log.info('loggedin == null $loggedin');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: const Duration(seconds: 5),
+                            content: const Text('Please login again'),
+                            action: SnackBarAction(
+                                label: 'Close', onPressed: () {}),
+                          ),
+                        );
+                      } else {
+                        log.info('loggedin != null $loggedin');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: const Duration(seconds: 5),
+                            content: const Text('You are logged in!'),
+                            action: SnackBarAction(
+                                label: 'Close', onPressed: () {}),
+                          ),
+                        );
+                      }
+                    },
             ),
+
             ElevatedButton(
-                onPressed: () {
-                  userinstance.signOut();
-                },
+                onPressed: authstatechanges.value == null
+                    ? null
+                    : () {
+                        userinstance.signOut();
+                      },
                 child: const Text('ログアウト')),
             // ElevatedButton(
             //   child: const Text('Firebase add data'),
@@ -233,13 +240,15 @@ class HomeScreen extends ConsumerWidget {
             // ),
             ElevatedButton(
               child: const Text('レポート一覧'),
-              onPressed: () async {
-                if (userinstance.currentUser == null) {
-                  loggedin = await firebaseLoginController(context);
-                } else {
-                  context.go("/fbdataget");
-                }
-              },
+              onPressed: authstatechanges.value == null
+                  ? null
+                  : () async {
+                      if (userinstance.currentUser == null) {
+                        loggedin = await firebaseLoginController(context);
+                      } else {
+                        context.go("/fbdataget");
+                      }
+                    },
             ),
           ],
         ),
