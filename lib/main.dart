@@ -94,26 +94,26 @@ final GoRouter _router = GoRouter(
           name: 'expenceinputfs',
           path: 'expenceinputfs',
           builder: (context, state) => ExpenceInputFs(
-            reportID: state.uri.queryParameters['reportID']!,
-            userID: state.uri.queryParameters['userID']!,
-            id: state.uri.queryParameters['id']!,
-            createdDateStr: state.uri.queryParameters['createdDateStr']!,
-            expenceTypeName: state.uri.queryParameters['expenceTypeName'],
-            expenceDateStr: state.uri.queryParameters['expenceDateStr']!,
-            // priceStr: state.uri.queryParameters['priceStr']!,
-            priceStr: state.uri.queryParameters['priceStr'] == null
-                ? ""
-                : state.uri.queryParameters['priceStr']!,
-            col1: state.uri.queryParameters['col1']!,
-            col2: state.uri.queryParameters['col2']!,
-            col3: state.uri.queryParameters['col3']!,
-            taxTypeName: state.uri.queryParameters['taxTypeName'],
-            // invoiceNumber: state.uri.queryParameters['invoiceNumber']!,
-            invoiceNumber: state.uri.queryParameters['invoiceNumber'] == null
-                ? ""
-                : state.uri.queryParameters['invoiceNumber']!,
-            reportName: state.uri.queryParameters['reportName']!,
-          ),
+              reportID: state.uri.queryParameters['reportID']!,
+              userID: state.uri.queryParameters['userID']!,
+              id: state.uri.queryParameters['id']!,
+              createdDateStr: state.uri.queryParameters['createdDateStr']!,
+              expenceTypeName: state.uri.queryParameters['expenceTypeName'],
+              expenceDateStr: state.uri.queryParameters['expenceDateStr']!,
+              // priceStr: state.uri.queryParameters['priceStr']!,
+              priceStr: state.uri.queryParameters['priceStr'] == null
+                  ? ""
+                  : state.uri.queryParameters['priceStr']!,
+              col1: state.uri.queryParameters['col1']!,
+              col2: state.uri.queryParameters['col2']!,
+              col3: state.uri.queryParameters['col3']!,
+              taxTypeName: state.uri.queryParameters['taxTypeName'],
+              // invoiceNumber: state.uri.queryParameters['invoiceNumber']!,
+              invoiceNumber: state.uri.queryParameters['invoiceNumber'] == null
+                  ? ""
+                  : state.uri.queryParameters['invoiceNumber']!,
+              reportName: state.uri.queryParameters['reportName']!,
+              reportStatus: state.uri.queryParameters['status']!),
         ),
         GoRoute(
           name: "expencescreen",
@@ -131,6 +131,7 @@ final GoRouter _router = GoRouter(
             reportID: state.uri.queryParameters['reportID']!,
             userID: state.uri.queryParameters['userID']!,
             reportName: state.uri.queryParameters['reportName']!,
+            reportStatus: state.uri.queryParameters['reportStatus']!,
           ),
         ),
         GoRoute(

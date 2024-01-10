@@ -9,6 +9,7 @@ import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'enums.dart';
+
 import 'expence.dart';
 import 'expenceproviders.dart';
 
@@ -40,6 +41,7 @@ class ExpenceInputFs extends ConsumerStatefulWidget {
   // final int? price;
   final String invoiceNumber;
   final String reportName;
+  final String reportStatus;
 
   final String createdDateStr;
   final String expenceDateStr;
@@ -60,6 +62,7 @@ class ExpenceInputFs extends ConsumerStatefulWidget {
     this.priceStr = "",
     this.invoiceNumber = "",
     required this.reportName,
+    required this.reportStatus,
   });
 
   @override
@@ -163,11 +166,15 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
         leading: GestureDetector(
           child: const Icon(Icons.arrow_back, color: Colors.black),
           onTap: () => Router.neglect(context, () {
-            context.goNamed("expencescreenfs", queryParameters: {
-              'reportID': widget.reportID,
-              'userID': widget.userID,
-              'reportName': widget.reportName,
-            });
+            context.goNamed(
+              "expencescreenfs",
+              queryParameters: {
+                'reportID': widget.reportID,
+                'userID': widget.userID,
+                'reportName': widget.reportName,
+                'reportStatus': widget.reportStatus.toString(),
+              },
+            );
           }),
         ),
         title: const Text(
@@ -462,6 +469,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                               'reportID': widget.reportID,
                               'userID': widget.userID,
                               'reportName': widget.reportName,
+                              'reportStatus': widget.reportStatus.toString(),
                             });
                             _priceFieldController.clear();
                           }

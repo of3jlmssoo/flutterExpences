@@ -31,7 +31,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
     final reportlist = ref.watch(reportListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Firebase版')),
+      appBar: AppBar(title: const Text('経費レポート一覧')),
       body: Column(
         children: [
           // ElevatedButton(
@@ -158,7 +158,8 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                               //     .format(data['createdDate'].toDate())),
 
                               subtitle: Text(
-                                  '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())}'),
+                                  '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())} '
+                                  '${data['status'] == 'submitted' ? "申請済み" : data['status'] == 'making' ? '作成中' : 'その他'}'),
                               onTap: () {
                                 log.info(
                                     'reportsScreen : reportID ${data['reportID']}');
@@ -167,6 +168,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                                       'reportID': data['reportID'],
                                       'userID': data['userID'],
                                       'reportName': data['name'],
+                                      'reportStatus': data['status'],
                                     });
                               },
                             ),
