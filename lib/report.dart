@@ -8,7 +8,7 @@ part 'report.freezed.dart';
 part 'report.g.dart';
 
 enum Status {
-  making(en: 'makeing', jp: '作成中'),
+  making(en: 'making', jp: '作成中'),
   submitted(en: 'submitted', jp: '申請済み'),
   other(en: 'other(paying)', jp: 'その他(支払い手続き中)');
 

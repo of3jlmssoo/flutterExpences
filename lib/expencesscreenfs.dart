@@ -107,59 +107,64 @@ class ExpencesScreenFs extends ConsumerWidget {
             child: const Text('レポート一覧へ'),
           ),
           ElevatedButton(
-            onPressed: () {
-              ref
-                  .read(currentExpenceTypeProvider.notifier)
-                  .expenceType(ExpenceType.transportation.id!);
+            onPressed: reportStatus != Status.making.en
+                ? null
+                : () {
+                    log.info('expencesscreenfs : reportStatus ${reportStatus}');
+                    ref
+                        .read(currentExpenceTypeProvider.notifier)
+                        .expenceType(ExpenceType.transportation.id!);
 
-              ref
-                  .read(currentTaxTypeProvider.notifier)
-                  .taxType(TaxType.invoice.id);
+                    ref
+                        .read(currentTaxTypeProvider.notifier)
+                        .taxType(TaxType.invoice.id);
 
-              ref.read(currentPriceProvider.notifier).price(null);
-              context.goNamed(
-                "expenceinputfs",
-                queryParameters: {
-                  'reportID': reportID,
-                  'userID': userinstance.currentUser!.uid,
-                  'id': uuid.v7(),
-                  'createdDateStr': DateTime.now().toString(),
-                  'expenceDateStr': DateTime.now().toString(),
-                  'expenceTypeName':
-                      ExpenceType.transportation.index.toString(),
-                  'taxTypeName': TaxType.invoice.index.toString(),
-                  // 'priceStr': '',
-                  'col1': '',
-                  'col2': '',
-                  'col3': '',
-                  'invoicenumber': '',
-                  'reportName': reportName,
-                  'priceStr': '',
-                  'status': Status.making.en,
-                },
-              );
-            },
+                    ref.read(currentPriceProvider.notifier).price(null);
+                    context.goNamed(
+                      "expenceinputfs",
+                      queryParameters: {
+                        'reportID': reportID,
+                        'userID': userinstance.currentUser!.uid,
+                        'id': uuid.v7(),
+                        'createdDateStr': DateTime.now().toString(),
+                        'expenceDateStr': DateTime.now().toString(),
+                        'expenceTypeName':
+                            ExpenceType.transportation.index.toString(),
+                        'taxTypeName': TaxType.invoice.index.toString(),
+                        // 'priceStr': '',
+                        'col1': '',
+                        'col2': '',
+                        'col3': '',
+                        'invoicenumber': '',
+                        'reportName': reportName,
+                        'priceStr': '',
+                        'status': Status.making.en,
+                      },
+                    );
+                  },
             child: const Text('経費追加'),
           ),
           ElevatedButton(
-              onPressed: () {
-                // final washingtonRef = db.collection("cites").doc("DC");
-                // washingtonRef.update({"capital": true}).then(
-                //         (value) => print("DocumentSnapshot successfully updated!"),
-                //     onError: (e) => print("Error updating document $e"));
-                // final reportRef = db.collection.
-                final reportRef = FirebaseFirestore.instance
-                    .collection("users")
-                    .doc(userID)
-                    .collection('reports')
-                    .doc(reportID);
-                // reportRef.update({"status": Status.submitted.name}).then(
-                reportRef.update({"status": Status.submitted.en}).then(
-                    (value) => log.info(
-                        "expencesscreenfs : DocumentSnapshot successfully updated!"),
-                    onError: (e) => log
-                        .info("expencesscreenfs : Error updating document $e"));
-              },
+              onPressed: reportStatus != Status.making.en
+                  ? null
+                  : () {
+                      // final washingtonRef = db.collection("cites").doc("DC");
+                      // washingtonRef.update({"capital": true}).then(
+                      //         (value) => print("DocumentSnapshot successfully updated!"),
+                      //     onError: (e) => print("Error updating document $e"));
+                      // final reportRef = db.collection.
+                      final reportRef = FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(userID)
+                          .collection('reports')
+                          .doc(reportID);
+                      // reportRef.update({"status": Status.submitted.name}).then(
+                      reportRef.update({"status": Status.submitted.en}).then(
+                          (value) => log.info(
+                              "expencesscreenfs : DocumentSnapshot successfully updated!"),
+                          onError: (e) => log.info(
+                              "expencesscreenfs : Error updating document $e"));
+                    },
               child: const Text('レポート申請')),
           ElevatedButton(
             onPressed: () async {
@@ -309,6 +314,9 @@ class ExpencesScreenFs extends ConsumerWidget {
                                         data["expenceType"].toString()));
                                 log.info(
                                     "expenceinputfs : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
+                                log.info(
+                                    "expenceinputfs : reportStatus ${reportStatus}");
+                                log.info("expenceinputfs : data ${data}");
                                 context.goNamed(
                                   "expenceinputfs",
                                   queryParameters: {
@@ -328,6 +336,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                                     'taxTypeName': data["taxType"].toString(),
                                     'invoiceNumber': data["invoiceNumber"],
                                     'reportName': reportName,
+                                    'status': reportStatus,
                                     // 'reportStatus' :
                                   },
                                 );

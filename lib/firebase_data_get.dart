@@ -163,6 +163,8 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                               onTap: () {
                                 log.info(
                                     'reportsScreen : reportID ${data['reportID']}');
+                                log.info(
+                                    'reportsScreen : status ${data['status']}');
                                 context.goNamed("expencescreenfs",
                                     queryParameters: {
                                       'reportID': data['reportID'],

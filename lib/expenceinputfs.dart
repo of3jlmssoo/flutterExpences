@@ -1,5 +1,5 @@
 import 'dart:core';
-
+import 'package:intl/intl.dart' as intl;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,6 +9,7 @@ import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'enums.dart';
+import 'report.dart';
 
 import 'expence.dart';
 import 'expenceproviders.dart';
@@ -195,12 +196,16 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text('${widget.reportStatus}'),
                       const Text(
                         // '経費種別 ${expence.expenceType} ${ExpenceType.values.toList().elementAt(expence.expenceType).name}',
                         '経費種別',
                       ),
 
                       DropdownMenu<String>(
+                        enabled: widget.reportStatus == Status.making.en
+                            ? true
+                            : false,
                         trailingIcon:
                             const Icon(Icons.arrow_drop_down, size: 10),
                         inputDecorationTheme: InputDecorationTheme(
@@ -271,43 +276,51 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                           Row(
                             children: [
                               const SizedBox(width: 12),
-                              Text('${ed}'),
+                              Text(
+                                  '${intl.DateFormat.yMd().format(expence.expenceDate!)}'),
                             ],
                           ),
                           TextButton(
                             child: const Text(
                               '日付指定',
                             ),
-                            onPressed: () async {
-                              final selectedDate = await showDatePicker(
-                                context: context,
-                                initialDate: _date,
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime.now(),
-                              );
-                              if (selectedDate != null) {
-                                expence =
-                                    expence.copyWith(expenceDate: selectedDate);
-                                ref
-                                    .read(currentExpenceDateProvider.notifier)
-                                    .expenceDate(selectedDate);
-                                log.info('日付1 : ${expence.toString()}');
-                                log.info('日付2 : ${DateTime.now().toString()}');
-                                log.info(
-                                    '日付3 : ${DateTime.parse(DateTime.now().toString())}');
-                              }
-                            },
+                            onPressed: widget.reportStatus != Status.making.en
+                                ? null
+                                : () async {
+                                    final selectedDate = await showDatePicker(
+                                      context: context,
+                                      initialDate: _date,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime.now(),
+                                    );
+                                    if (selectedDate != null) {
+                                      expence = expence.copyWith(
+                                          expenceDate: selectedDate);
+                                      ref
+                                          .read(currentExpenceDateProvider
+                                              .notifier)
+                                          .expenceDate(selectedDate);
+                                      log.info('日付1 : ${expence.toString()}');
+                                      log.info(
+                                          '日付2 : ${DateTime.now().toString()}');
+                                      log.info(
+                                          '日付3 : ${DateTime.parse(DateTime.now().toString())}');
+                                    }
+                                  },
                           ),
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const InputDetailsFs(),
+                      InputDetailsFs(reportStatus: widget.reportStatus),
                       const SizedBox(height: 20),
                       const Text(
                         '金額',
                       ),
 
                       TextFormField(
+                        readOnly: widget.reportStatus == Status.making.en
+                            ? false
+                            : true,
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
@@ -335,6 +348,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                         'メモ',
                       ),
                       TextFormField(
+                        readOnly: widget.reportStatus == Status.making.en
+                            ? false
+                            : true,
                         initialValue: expence.col3,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -351,6 +367,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                         '税タイプ',
                       ),
                       DropdownMenu<String>(
+                        enabled: widget.reportStatus == Status.making.en
+                            ? true
+                            : false,
                         trailingIcon:
                             const Icon(Icons.arrow_drop_down, size: 10),
                         inputDecorationTheme: InputDecorationTheme(
@@ -407,6 +426,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                           children: [
                             const Text('インボイス番号'),
                             TextFormField(
+                              readOnly: widget.reportStatus == Status.making.en
+                                  ? false
+                                  : true,
                               validator: (value) {
                                 if (expence.taxType == TaxType.invoice.index &&
                                         (value == null || value.isEmpty) ||
@@ -495,12 +517,13 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
 }
 
 class InputDetailsFs extends ConsumerWidget {
-  const InputDetailsFs({super.key});
+  const InputDetailsFs({super.key, required this.reportStatus});
+  final String reportStatus;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final etype = ref.watch(currentExpenceTypeProvider);
-    log.info('expenceinputfs : etype $etype');
+    // log.info('expenceinputfs : etype $etype');
     if (etype == ExpenceType.transportation.index) {
       return Row(
         children: [
@@ -513,6 +536,7 @@ class InputDetailsFs extends ConsumerWidget {
                   '乗車地',
                 ),
                 TextFormField(
+                  readOnly: reportStatus == Status.making.en ? false : true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "乗車地を入力してください";
@@ -543,6 +567,7 @@ class InputDetailsFs extends ConsumerWidget {
                   '降車地',
                 ),
                 TextFormField(
+                  readOnly: reportStatus == Status.making.en ? false : true,
                   validator: (value) {
                     if (expence.expenceType ==
                             ExpenceType.transportation.index &&
@@ -597,6 +622,7 @@ class InputDetailsFs extends ConsumerWidget {
                   '費用項目',
                 ),
                 TextFormField(
+                  readOnly: reportStatus == Status.making.en ? false : true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "費用項目を入力してください";
