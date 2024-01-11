@@ -19,6 +19,45 @@ final log = Logger('ExpencesScreenFs');
 // final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
 var uuid = const Uuid();
 
+Future<int> queryTotalPrice(String userID, String reportID) async {
+  int result = 0;
+  var expencesRef = FirebaseFirestore.instance
+      .collection("users")
+      .doc(userID)
+      .collection('reports')
+      .doc(reportID)
+      .collection('expences');
+  var allExpences = await expencesRef.get();
+  for (var doc in allExpences.docs) {
+    result += doc.data()['price'] as int;
+  }
+
+  log.info('=======> $result');
+  return result;
+  // await FirebaseFirestore.instance
+  //     .collection("users")
+  //     .doc(userID)
+  //     .collection('reports')
+  //     .doc(reportID)
+  //     .collection('expences')
+  //     .get()
+  //     .then(
+  //   (querySnapshot) {
+  //     print("Successfully completed");
+  //     for (var docSnapshot in querySnapshot.docs) {
+  //       result += docSnapshot.data()['price'] as int;
+  //       log.info(
+  //           'expencesscreenfs : ---> ${docSnapshot.data()['price']} and result $result');
+  //       // print('${docSnapshot.id} => ${docSnapshot.data()}');
+  //     }
+  //   },
+  //   onError: (e) => print("Error completing: $e"),
+  // );
+  //
+  // log.info('expencesscreenfs : ---> $result');
+  // return result;
+}
+
 class ExpencesScreenFs extends ConsumerWidget {
   const ExpencesScreenFs({
     super.key,
@@ -51,6 +90,7 @@ class ExpencesScreenFs extends ConsumerWidget {
             .collection('expences')
             .snapshots();
 
+    // int totalPrice = 0;
     return Scaffold(
       appBar: AppBar(
           title: Row(
@@ -95,13 +135,14 @@ class ExpencesScreenFs extends ConsumerWidget {
           //   },
           // ),
           Text(//'${reportName.substring(start)}'),
-              '${reportName.substring(0, reportID.length > 14 ? 14 : reportID.length)}'),
+              '${reportName.substring(0, reportName.length > 14 ? 14 : reportName.length)}'),
 
           // Icon(Icons.add),
         ],
       )),
       body: Column(
         children: [
+          // Text('$totalPrice'),
           ElevatedButton(
             onPressed: () => context.go('/fbdataget'),
             child: const Text('レポート一覧へ'),
@@ -164,6 +205,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                               "expencesscreenfs : DocumentSnapshot successfully updated!"),
                           onError: (e) => log.info(
                               "expencesscreenfs : Error updating document $e"));
+                      context.go('/fbdataget');
                     },
               child: const Text('レポート申請')),
           ElevatedButton(

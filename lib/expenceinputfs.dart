@@ -74,6 +74,8 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
   final _priceFieldController = TextEditingController(
       text: expence.price != null ? expence.price.toString() : '');
 
+  int initialPrice = 0;
+
   @override
   void initState() {
     super.initState();
@@ -98,6 +100,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
 
     if (widget.priceStr != "") {
       expence = expence.copyWith(price: int.parse(widget.priceStr));
+      initialPrice = expence.price!;
     } else {
       expence = expence.copyWith(
           price: null); // to make the field blank in case of new record
@@ -196,7 +199,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${widget.reportStatus}'),
+                      // Text('${widget.reportStatus}'),
                       const Text(
                         // '経費種別 ${expence.expenceType} ${ExpenceType.values.toList().elementAt(expence.expenceType).name}',
                         '経費種別',
@@ -484,6 +487,19 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                                 )
                                 .doc(widget.id);
                             await expenceRef.set(expence);
+                            // if (initialPrice != expence.price) {
+                            //   final priceRef = db
+                            //       .collection("users")
+                            //       .doc(widget.userID)
+                            //       .collection('reports')
+                            //       .doc(widget.reportID)
+                            //       .collection('expences');
+                            //   washingtonRef.update({"capital": true}).then(
+                            //       (value) => print(
+                            //           "DocumentSnapshot successfully updated!"),
+                            //       onError: (e) =>
+                            //           print("Error updating document $e"));
+                            // }
 
                             log.info('expenceinputfs : before goNamed');
                             context
