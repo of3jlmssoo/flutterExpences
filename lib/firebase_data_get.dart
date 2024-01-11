@@ -253,7 +253,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                             document.data()! as Map<String, dynamic>;
                         return Dismissible(
                           key: ValueKey(data["reportID"]),
-                          onDismissed: (_) {
+                          onDismissed: (_) async {
                             FirebaseFirestore.instance
                                 .collection("users")
                                 .doc(data["userID"])
@@ -262,10 +262,39 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                                 .delete()
                                 .then(
                                   (doc) => log.info(
-                                      "expencesscreenfs :Document deleted"),
+                                      "firebase_data_get :Document deleted"),
                                   onError: (e) => log.info(
-                                      "expencesscreenfs :Error updating document $e"),
+                                      "firebase_data_get :Error updating document $e"),
                                 );
+                            ///////////////////////////////////////
+                            int result = 0;
+                            var expencesRef = FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(data["userID"])
+                                .collection('reports')
+                                .doc(data["reportID"])
+                                .collection('expences');
+                            var allExpences = await expencesRef.get();
+                            for (var doc in allExpences.docs) {
+                              result += doc.data()['price'] as int;
+                            }
+
+                            log.info('=======> $result');
+
+                            final reportRef = FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(data["userID"])
+                                .collection("reports")
+                                .doc(data["reportID"]);
+                            reportRef.update({
+                              "totalPriceStr": result.toString()
+                            }).then(
+                                (value) => print(
+                                    "DocumentSnapshot successfully updated!"),
+                                onError: (e) =>
+                                    print("Error updating document $e"));
+
+                            ///////////////////////////////////////
                           },
                           child: Card(
                             child: ListTile(
@@ -276,7 +305,37 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                               subtitle: Text(
                                   '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())} '
                                   '${data['status'] == 'submitted' ? "申請済み" : data['status'] == 'making' ? '作成中' : 'その他'}'),
-                              onTap: () {
+                              onTap: () async {
+                                ///////////////////////////////////////
+                                int result = 0;
+                                var expencesRef = FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(data["userID"])
+                                    .collection('reports')
+                                    .doc(data["reportID"])
+                                    .collection('expences');
+                                var allExpences = await expencesRef.get();
+                                for (var doc in allExpences.docs) {
+                                  result += doc.data()['price'] as int;
+                                }
+
+                                log.info('=======> $result');
+
+                                final reportRef = FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(data["userID"])
+                                    .collection("reports")
+                                    .doc(data["reportID"]);
+                                reportRef.update({
+                                  "totalPriceStr": result.toString()
+                                }).then(
+                                    (value) => print(
+                                        "DocumentSnapshot successfully updated!"),
+                                    onError: (e) =>
+                                        print("Error updating document $e"));
+
+                                ///////////////////////////////////////
+
                                 log.info(
                                     'reportsScreen : reportID ${data['reportID']}');
                                 log.info(

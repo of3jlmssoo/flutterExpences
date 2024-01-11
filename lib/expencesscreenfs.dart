@@ -275,6 +275,31 @@ class ExpencesScreenFs extends ConsumerWidget {
                   )
                   .doc(testExpence.id);
               await expenceRef2.set(testExpence);
+              ///////////////////////////////////////
+              int result = 0;
+              var expencesRef = FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(testExpence.userID)
+                  .collection('reports')
+                  .doc(testExpence.reportID)
+                  .collection('expences');
+              var allExpences = await expencesRef.get();
+              for (var doc in allExpences.docs) {
+                result += doc.data()['price'] as int;
+              }
+
+              log.info('=======> $result');
+
+              final reportRef = FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(testExpence.userID)
+                  .collection("reports")
+                  .doc(testExpence.reportID);
+              reportRef.update({"totalPriceStr": result.toString()}).then(
+                  (value) => print("DocumentSnapshot successfully updated!"),
+                  onError: (e) => print("Error updating document $e"));
+
+              ///////////////////////////////////////
             },
             child: const Text('テストデータ追加'),
           ),
@@ -301,7 +326,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                             document.data()! as Map<String, dynamic>;
                         return Dismissible(
                           key: ValueKey(data["id"]),
-                          onDismissed: (_) {
+                          onDismissed: (_) async {
                             log.info(
                                 "expencesscreenfs : uuid ${userID} ${data["reportID"]} ${data["id"]}");
                             FirebaseFirestore.instance
@@ -318,6 +343,35 @@ class ExpencesScreenFs extends ConsumerWidget {
                                   onError: (e) => log.info(
                                       "expencesscreenfs :Error updating document $e"),
                                 );
+                            ///////////////////////////////////////
+                            int result = 0;
+                            var expencesRef = FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(data["userID"])
+                                .collection('reports')
+                                .doc(data["reportID"])
+                                .collection('expences');
+                            var allExpences = await expencesRef.get();
+                            for (var doc in allExpences.docs) {
+                              result += doc.data()['price'] as int;
+                            }
+
+                            log.info('=======> $result');
+
+                            final reportRef = FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(data["userID"])
+                                .collection("reports")
+                                .doc(data["reportID"]);
+                            reportRef.update({
+                              "totalPriceStr": result.toString()
+                            }).then(
+                                (value) => print(
+                                    "DocumentSnapshot successfully updated!"),
+                                onError: (e) =>
+                                    print("Error updating document $e"));
+
+                            ///////////////////////////////////////
                           },
                           child: Card(
                             child: ListTile(

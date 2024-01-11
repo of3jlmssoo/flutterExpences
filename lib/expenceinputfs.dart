@@ -501,6 +501,36 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                             //           print("Error updating document $e"));
                             // }
 
+                            ///////////////////////////////////////
+                            int result = 0;
+                            var expencesRef = FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(widget.userID)
+                                .collection('reports')
+                                .doc(widget.reportID)
+                                .collection('expences');
+                            var allExpences = await expencesRef.get();
+                            for (var doc in allExpences.docs) {
+                              result += doc.data()['price'] as int;
+                            }
+
+                            log.info('=======> $result');
+
+                            final reportRef = FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(widget.userID)
+                                .collection("reports")
+                                .doc(widget.reportID);
+                            reportRef.update({
+                              "totalPriceStr": result.toString()
+                            }).then(
+                                (value) => print(
+                                    "DocumentSnapshot successfully updated!"),
+                                onError: (e) =>
+                                    print("Error updating document $e"));
+
+                            ///////////////////////////////////////
+
                             log.info('expenceinputfs : before goNamed');
                             context
                                 .goNamed("expencescreenfs", queryParameters: {
