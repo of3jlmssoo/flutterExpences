@@ -93,53 +93,100 @@ class ExpencesScreenFs extends ConsumerWidget {
     // int totalPrice = 0;
     return Scaffold(
       appBar: AppBar(
-          title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // IconButton(
-          //   icon: const Icon(Icons.add),
-          //   tooltip: 'add expence',
-          //   onPressed: () {
-          //     log.info('IconButton pressed');
-          //
-          //     ref
-          //         .read(currentExpenceTypeProvider.notifier)
-          //         .expenceType(ExpenceType.transportation.id!);
-          //
-          //     ref
-          //         .read(currentTaxTypeProvider.notifier)
-          //         .taxType(TaxType.invoice.id);
-          //
-          //     ref.read(currentPriceProvider.notifier).price(null);
-          //     context.goNamed(
-          //       "expenceinputfs",
-          //       queryParameters: {
-          //         'reportID': reportID,
-          //         'userID': userinstance.currentUser!.uid,
-          //         'id': uuid.v7(),
-          //         'createdDateStr': DateTime.now().toString(),
-          //         'expenceDateStr': DateTime.now().toString(),
-          //         'expenceTypeName':
-          //             ExpenceType.transportation.index.toString(),
-          //         'taxTypeName': TaxType.invoice.index.toString(),
-          //         // 'priceStr': '',
-          //         'col1': '',
-          //         'col2': '',
-          //         'col3': '',
-          //         'invoicenumber': '',
-          //         'reportName': reportName,
-          //         'priceStr': '',
-          //         'status': Status.making.en,
-          //       },
-          //     );
-          //   },
-          // ),
-          Text(//'${reportName.substring(start)}'),
-              '${reportName.substring(0, reportName.length > 14 ? 14 : reportName.length)}'),
+        // actions: <Widget>[
+        //   IconButton(
+        //     icon: const Icon(Icons.add_alert),
+        //     tooltip: 'Show Snackbar',
+        //     onPressed: () {
+        //       log.info('expencesscreen:AppBar actions pressed');
+        //
+        //       // ScaffoldMessenger.of(context).showSnackBar(
+        //       //     const SnackBar(content: Text('This is a snackbar')));
+        //     },
+        //   )
+        // ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // IconButton(
+            //   icon: const Icon(Icons.add),
+            //   tooltip: 'add expence',
+            //   onPressed: () {
+            //     log.info('IconButton pressed');
+            //
+            //     ref
+            //         .read(currentExpenceTypeProvider.notifier)
+            //         .expenceType(ExpenceType.transportation.id!);
+            //
+            //     ref
+            //         .read(currentTaxTypeProvider.notifier)
+            //         .taxType(TaxType.invoice.id);
+            //
+            //     ref.read(currentPriceProvider.notifier).price(null);
+            //     context.goNamed(
+            //       "expenceinputfs",
+            //       queryParameters: {
+            //         'reportID': reportID,
+            //         'userID': userinstance.currentUser!.uid,
+            //         'id': uuid.v7(),
+            //         'createdDateStr': DateTime.now().toString(),
+            //         'expenceDateStr': DateTime.now().toString(),
+            //         'expenceTypeName':
+            //             ExpenceType.transportation.index.toString(),
+            //         'taxTypeName': TaxType.invoice.index.toString(),
+            //         // 'priceStr': '',
+            //         'col1': '',
+            //         'col2': '',
+            //         'col3': '',
+            //         'invoicenumber': '',
+            //         'reportName': reportName,
+            //         'priceStr': '',
+            //         'status': Status.making.en,
+            //       },
+            //     );
+            //   },
+            // ),
+            Text(//'${reportName.substring(start)}'),
+                '${reportName.substring(0, reportName.length > 14 ? 14 : reportName.length)}'),
 
-          // Icon(Icons.add),
-        ],
-      )),
+            // Icon(Icons.add),
+          ],
+        ),
+      ),
+      endDrawer: Align(
+        alignment: Alignment.topRight,
+        child: SizedBox(
+          height: 200,
+          child: Drawer(
+              child: ListView(
+            padding: const EdgeInsets.all(8),
+            children: <Widget>[
+              Container(
+                height: 50,
+                child: const Center(child: Text('Entry A')),
+              ),
+              Container(
+                height: 50,
+                child: const Center(child: Text('Entry B')),
+              ),
+              Container(
+                height: 50,
+                child: const Center(child: Text('Entry C')),
+              ),
+            ],
+          )
+              // child: ListView.builder(itemBuilder: (BuildContext context, int index) {
+              //   return ListTile(
+              //     leading: Icon(Icons.list),
+              //     title: Text("GFG item $index"),
+              //     trailing: Icon(Icons.done),
+              //   );
+              // }),
+              //elevation: 20.0,
+              //semanticLabel: 'endDrawer',
+              ),
+        ),
+      ),
       body: Column(
         children: [
           // Text('$totalPrice'),
