@@ -325,6 +325,9 @@ class ExpencesScreenFs extends ConsumerWidget {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
                         return Dismissible(
+                          direction: reportStatus == Status.making.en
+                              ? DismissDirection.horizontal
+                              : DismissDirection.none,
                           key: ValueKey(data["id"]),
                           onDismissed: (_) async {
                             log.info(
