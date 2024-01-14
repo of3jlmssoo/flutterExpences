@@ -71,6 +71,38 @@ class ExpencesScreenFs extends ConsumerWidget {
   final String reportName;
   final String reportStatus;
 
+  void addNewExpence(
+      WidgetRef ref, FirebaseAuth userinstance, BuildContext context) {
+    log.info('expencesscreenfs : reportStatus ${reportStatus}');
+    ref
+        .read(currentExpenceTypeProvider.notifier)
+        .expenceType(ExpenceType.transportation.id!);
+
+    ref.read(currentTaxTypeProvider.notifier).taxType(TaxType.invoice.id);
+
+    ref.read(currentPriceProvider.notifier).price(null);
+    context.goNamed(
+      "expenceinputfs",
+      queryParameters: {
+        'reportID': reportID,
+        'userID': userinstance.currentUser!.uid,
+        'id': uuid.v7(),
+        'createdDateStr': DateTime.now().toString(),
+        'expenceDateStr': DateTime.now().toString(),
+        'expenceTypeName': ExpenceType.transportation.index.toString(),
+        'taxTypeName': TaxType.invoice.index.toString(),
+        // 'priceStr': '',
+        'col1': '',
+        'col2': '',
+        'col3': '',
+        'invoicenumber': '',
+        'reportName': reportName,
+        'priceStr': '',
+        'status': Status.making.en,
+      },
+    );
+  }
+
   void addTestData(WidgetRef ref, FirebaseAuth userinstance) async {
     log.info('add test data : ${ref.watch(expenceListProvider)}');
     log.info('add test data : ExpenceType.others.id ${ExpenceType.others.id}');
@@ -286,44 +318,14 @@ class ExpencesScreenFs extends ConsumerWidget {
             onPressed: () => context.go('/fbdataget'),
             child: const Text('レポート一覧へ'),
           ),
-          ElevatedButton(
-            onPressed: reportStatus != Status.making.en
-                ? null
-                : () {
-                    log.info('expencesscreenfs : reportStatus ${reportStatus}');
-                    ref
-                        .read(currentExpenceTypeProvider.notifier)
-                        .expenceType(ExpenceType.transportation.id!);
-
-                    ref
-                        .read(currentTaxTypeProvider.notifier)
-                        .taxType(TaxType.invoice.id);
-
-                    ref.read(currentPriceProvider.notifier).price(null);
-                    context.goNamed(
-                      "expenceinputfs",
-                      queryParameters: {
-                        'reportID': reportID,
-                        'userID': userinstance.currentUser!.uid,
-                        'id': uuid.v7(),
-                        'createdDateStr': DateTime.now().toString(),
-                        'expenceDateStr': DateTime.now().toString(),
-                        'expenceTypeName':
-                            ExpenceType.transportation.index.toString(),
-                        'taxTypeName': TaxType.invoice.index.toString(),
-                        // 'priceStr': '',
-                        'col1': '',
-                        'col2': '',
-                        'col3': '',
-                        'invoicenumber': '',
-                        'reportName': reportName,
-                        'priceStr': '',
-                        'status': Status.making.en,
-                      },
-                    );
-                  },
-            child: const Text('経費追加'),
-          ),
+            // ElevatedButton(
+            //   onPressed: reportStatus != Status.making.en
+            //       ? null
+            //       : () {
+            //           addNewExpence(ref, userinstance, context);
+            //         },
+            //   child: const Text('経費追加'),
+            // ),
           ElevatedButton(
               onPressed: reportStatus != Status.making.en
                   ? null
@@ -586,6 +588,18 @@ class ExpencesScreenFs extends ConsumerWidget {
             // ),
           )
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: reportStatus == Status.making.en
+            ? () {
+                log.info('expencesscreenfs : 経費追加');
+                addNewExpence(ref, userinstance, context);
+              }
+            : null,
+        backgroundColor: reportStatus == Status.making.en
+            ? Colors.lightBlue.shade200
+            : Colors.grey,
+        child: const Icon(Icons.add),
       ),
     );
   }
