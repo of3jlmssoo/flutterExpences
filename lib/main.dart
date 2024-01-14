@@ -188,11 +188,14 @@ class HomeScreen extends ConsumerWidget {
             Text(
               // 'user is ${ref.read(firebaseAuthProvider).authStateChanges()} '),
               authstatechanges.value == null
-                  ? "please login"
-                  : "user is  ${userinstance.currentUser!.displayName!}",
+                  ? "ログインしてください"
+                  : "ユーザー名 : ${userinstance.currentUser!.displayName!}",
             ),
-            Text(
-                '\n${userinstance.currentUser != null ? userinstance.currentUser?.uid : "please login again"}'),
+            const SizedBox(
+              height: 35,
+            ),
+            // Text(
+            //     '\n${userinstance.currentUser != null ? userinstance.currentUser?.uid : "please login again"}'),
             // Text('\n${userinstance.currentUser}'),
 
             // ElevatedButton(
