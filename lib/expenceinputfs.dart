@@ -527,10 +527,10 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                                   reportRef.update({
                                     "totalPriceStr": result.toString()
                                   }).then(
-                                      (value) => print(
-                                          "DocumentSnapshot successfully updated!"),
-                                      onError: (e) =>
-                                          print("Error updating document $e"));
+                                      (value) => log.info(
+                                          "expenceinputfs : DocumentSnapshot successfully updated!"),
+                                      onError: (e) => log.info(
+                                          "expenceinputfs : Error updating document $e"));
 
                                   ///////////////////////////////////////
 

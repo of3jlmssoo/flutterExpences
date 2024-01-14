@@ -186,8 +186,10 @@ class ExpencesScreenFs extends ConsumerWidget {
         .collection("reports")
         .doc(testExpence.reportID);
     reportRef.update({"totalPriceStr": result.toString()}).then(
-        (value) => print("DocumentSnapshot successfully updated!"),
-        onError: (e) => print("Error updating document $e"));
+        (value) =>
+            log.info("expencesscreen : DocumentSnapshot successfully updated!"),
+        onError: (e) =>
+            log.info("expencesscreen : Error updating document $e"));
 
     ///////////////////////////////////////
   }
@@ -243,7 +245,7 @@ class ExpencesScreenFs extends ConsumerWidget {
               MenuItemButton(
                 child: Text('expencesscrees'),
                 onPressed: () {
-                  print('expencesscrees pressed');
+                  log.info('expencesscreen : expencesscrees pressed');
                 },
               )
             ],
@@ -423,10 +425,10 @@ class ExpencesScreenFs extends ConsumerWidget {
                             reportRef.update({
                               "totalPriceStr": result.toString()
                             }).then(
-                                (value) => print(
-                                    "DocumentSnapshot successfully updated!"),
-                                onError: (e) =>
-                                    print("Error updating document $e"));
+                                (value) => log.info(
+                                    "expencesscreen : DocumentSnapshot successfully updated!"),
+                                onError: (e) => log.info(
+                                    "expencesscreen : Error updating document $e"));
 
                             ///////////////////////////////////////
                           },

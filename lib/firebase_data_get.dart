@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/reports.dart';
-import 'report.dart';
+
 import 'firebase_providers.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'report.dart';
 
 final log = Logger('firebase_data_get');
 
@@ -289,10 +290,10 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                             reportRef.update({
                               "totalPriceStr": result.toString()
                             }).then(
-                                (value) => print(
-                                    "DocumentSnapshot successfully updated!"),
-                                onError: (e) =>
-                                    print("Error updating document $e"));
+                                (value) => log.info(
+                                    "firebase_data_get : DocumentSnapshot successfully updated!"),
+                                onError: (e) => log.info(
+                                    "firebase_data_get : Error updating document $e"));
 
                             ///////////////////////////////////////
                           },
@@ -329,10 +330,10 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                                 reportRef.update({
                                   "totalPriceStr": result.toString()
                                 }).then(
-                                    (value) => print(
-                                        "DocumentSnapshot successfully updated!"),
-                                    onError: (e) =>
-                                        print("Error updating document $e"));
+                                    (value) => log.info(
+                                        "firebase_data_get : DocumentSnapshot successfully updated!"),
+                                    onError: (e) => log.info(
+                                        "firebase_data_get : Error updating document $e"));
 
                                 ///////////////////////////////////////
 
