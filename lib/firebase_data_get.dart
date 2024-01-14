@@ -10,8 +10,8 @@ import 'package:riverpodtest/reports.dart';
 import 'firebase_providers.dart';
 import 'report.dart';
 
-// todo: hambuger menuを作成しテストデータ作成を移動
-// TODO: 新規レポートはfloatingactionbuttonへ
+// DONE: hambuger menuを作成しテストデータ作成を移動
+// DONE: 新規レポートはfloatingactionbuttonへ
 
 final log = Logger('firebase_data_get');
 
@@ -74,6 +74,78 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
   // status: Status.making,
   //
 
+  void addTestReports() {
+    FireStoreSetData(
+      userID: FirebaseAuth.instance.currentUser!.uid,
+      name: '2024年1月',
+      createdDate: DateTime.now(),
+      col1: "",
+      totalPrice: 0,
+      reportID: uuid.v7(),
+      status: Status.making,
+    );
+    FireStoreSetData(
+      userID: FirebaseAuth.instance.currentUser!.uid,
+      name: '2024年2月',
+      createdDate: DateTime.now(),
+      col1: "",
+      totalPrice: 0,
+      reportID: uuid.v7(),
+      status: Status.making,
+    );
+  }
+
+  void addNewReport() {
+    String reportName = '';
+    log.info('firebase_data_get : addNewReport');
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (BuildContext cotext) {
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Container(
+              height: 200,
+              color: Colors.blue[200],
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 5.0),
+                    const Text('レポート名称'),
+                    TextFormField(
+                      onChanged: (value) {
+                        log.info('col1(then) : input: value:$value');
+                        reportName = value;
+                      },
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          FireStoreSetData(
+                            userID: FirebaseAuth.instance.currentUser!.uid,
+                            name: reportName,
+                            createdDate: DateTime.now(),
+                            col1: "",
+                            totalPrice: 0,
+                            reportID: uuid.v7(),
+                            status: Status.making,
+                          );
+
+                          Navigator.pop(context);
+                        },
+                        child: const Text('OK')),
+                  ],
+                ),
+              )),
+            ),
+          );
+        });
+    log.info('firebase_data_get : ---');
+  }
+
   @override
   Widget build(BuildContext context) {
     final userinstance = ref.watch(firebaseAuthProvider);
@@ -83,156 +155,70 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
         .collection('reports')
         .snapshots();
     // final reportlist = ref.watch(reportListProvider);
-    String reportName = 'abc';
+    // String reportName = 'abc';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('経費レポート一覧')),
+      appBar: AppBar(
+        actions: <Widget>[
+          MenuAnchor(
+            builder: (BuildContext context, MenuController controller,
+                Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                icon: const Icon(Icons.density_medium),
+                tooltip: 'Show menu',
+              );
+            },
+            menuChildren: [
+              MenuItemButton(
+                child: const Text('テストデータ追加'),
+                onPressed: () {
+                  log.info('firebase_data_get : テストデータ追加');
+                  addTestReports();
+                  // addTestData(ref, userinstance);
+                },
+              ),
+              MenuItemButton(
+                child: const Text('firebase_data_get'),
+                onPressed: () {
+                  log.info('firebase_data_get : firebase_data_get pressed');
+                },
+              )
+            ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_alert),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('This is a snackbar')));
+            },
+          ),
+        ],
+        title: const Text('経費レポート一覧'),
+      ),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: () async {
-              // var db = FirebaseFirestore.instance;
-              // log.info("firebase_data_get db: $db");
-              FireStoreSetData(
-                userID: FirebaseAuth.instance.currentUser!.uid,
-                name: '2024年1月',
-                createdDate: DateTime.now(),
-                col1: "",
-                totalPrice: 0,
-                reportID: uuid.v7(),
-                status: Status.making,
-              );
-              FireStoreSetData(
-                userID: FirebaseAuth.instance.currentUser!.uid,
-                name: '2024年2月',
-                createdDate: DateTime.now(),
-                col1: "",
-                totalPrice: 0,
-                reportID: uuid.v7(),
-                status: Status.making,
-              );
-              // firestore_set()
-              // for (var v in reportlist) {
-              // log.info("firebase_data_get v: ${v}");
-              // final docData = {
-              //   "userID": v.userID,
-              //   "reportID": v.reportID,
-              //   "name": v.name,
-              //   "createdDate": v.createdDate,
-              //   "col1": v.col1,
-              //   "totalPriceStr": v.totalPrice.toString(),
-              //   "status": v.status.name,
-              // };
-              // db
-              //     .collection("users")
-              //     .doc(userinstance.currentUser!.uid)
-              //     .collection("reports")
-              //     .doc(v.reportID)
-              //     .set(docData)
-              //     .onError((e, _) => log.info("Error writing document: $e"));
-              // }
-            },
-            child: const Text('テストデータ作成 (put data, reports, to firestore'),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                log.info('firebase_data_get : ===');
-                showModalBottomSheet(
-                    isScrollControlled: true,
-                    context: context,
-                    builder: (BuildContext cotext) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom,
-                        ),
-                        child: Container(
-                          height: 200,
-                          color: Colors.blue[200],
-                          child: Center(
-                              child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 5.0),
-                                Text('レポート名称'),
-                                TextFormField(
-                                  onChanged: (value) {
-                                    log.info(
-                                        'col1(then) : input: value:$value');
-                                    reportName = value;
-                                  },
-                                ),
-                                ElevatedButton(
-                                    onPressed: () async {
-                                      FireStoreSetData(
-                                        userID: FirebaseAuth
-                                            .instance.currentUser!.uid,
-                                        name: reportName,
-                                        createdDate: DateTime.now(),
-                                        col1: "",
-                                        totalPrice: 0,
-                                        reportID: uuid.v7(),
-                                        status: Status.making,
-                                      );
-
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('OK')),
-                              ],
-                            ),
-                          )),
-                        ),
-                      );
-                    });
-                // BottomSheetSample();
-                // showModalBottomSheet<void>(
-                //   context: context,
-                //   builder: (BuildContext context) {
-                //     return SizedBox(
-                //       height: 200,
-                //       child: Center(
-                //         child: Column(
-                //           mainAxisAlignment: MainAxisAlignment.center,
-                //           mainAxisSize: MainAxisSize.min,
-                //           children: <Widget>[
-                //             TextFormField(
-                //               //
-                //               // validator: (value) {
-                //               //   if (value == null ||
-                //               //       value.isEmpty ||
-                //               //       num.tryParse(value) == null) {
-                //               //     return '半角数字を入力してください';
-                //               //   }
-                //               //   return null;
-                //               // },
-                //               // initialValue: expence.price == null
-                //               //     ? ''
-                //               //     : expence.price.toString(),
-                //
-                //               textAlign: TextAlign.right,
-                //               decoration: const InputDecoration(
-                //                 // filled: true,
-                //                 border: OutlineInputBorder(),
-                //               ),
-                //               onChanged: (value) {
-                //                 log.info(
-                //                     'firebase_data_get : bottom sheet value $value');
-                //               },
-                //             ),
-                //             ElevatedButton(
-                //               child: const Text('Close BottomSheet'),
-                //               onPressed: () => Navigator.pop(context),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // );
-                log.info('firebase_data_get : ---');
-              },
-              child: Text('新規レポート')),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     // var db = FirebaseFirestore.instance;
+          //     // log.info("firebase_data_get db: $db");
+          //     addTestReports();
+          //   },
+          //   child: const Text('テストデータ作成 (put data, reports, to firestore'),
+          // ),
+          // ElevatedButton(
+          //   onPressed: () {
+          //     addNewReport();
+          //   },
+          //   child: Text('新規レポート'),
+          // ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _usersStream,
@@ -364,90 +350,11 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class BottomSheetSample extends StatefulWidget {
-  const BottomSheetSample({super.key});
-
-  @override
-  State<BottomSheetSample> createState() => _BottomSheetSampleState();
-}
-
-class _BottomSheetSampleState extends State<BottomSheetSample> {
-  final TextEditingController _textEditingController = TextEditingController();
-  String? text1;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(onPressed: null, child: Text('abc')),
-        // child: Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Container(
-        //         decoration: BoxDecoration(
-        //           color: Colors.blue[200],
-        //           border: Border.all(
-        //             color: Colors.black,
-        //             width: 1,
-        //           ),
-        //           borderRadius: const BorderRadius.all(
-        //             Radius.circular(10.0),
-        //           ),
-        //         ),
-        //         width: 200,
-        //         padding: const EdgeInsets.all(16.0),
-        //         margin: const EdgeInsets.only(bottom: 16.0),
-        //         child: Text(text1 ?? ' ')),
-        //     ElevatedButton(
-        //         onPressed: () {
-        //           showModalBottomSheet(
-        //             context: context,
-        //             builder: (BuildContext context) {
-        //               return Container(
-        //                 height: 250 + MediaQuery.of(context).viewInsets.bottom,
-        //                 decoration: BoxDecoration(
-        //                   color: Colors.blue[200],
-        //                   borderRadius: const BorderRadius.only(
-        //                     topLeft: Radius.circular(20.0),
-        //                     topRight: Radius.circular(20.0),
-        //                   ),
-        //                 ),
-        //                 child: Center(
-        //                     child: Padding(
-        //                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        //                   child: Column(
-        //                     children: [
-        //                       const SizedBox(height: 32.0),
-        //                       TextField(
-        //                         controller: _textEditingController,
-        //                         decoration: const InputDecoration(
-        //                           border: OutlineInputBorder(),
-        //                           labelText: 'テキスト',
-        //                         ),
-        //                       ),
-        //                       ElevatedButton(
-        //                           onPressed: () {
-        //                             setState(() {
-        //                               text1 = _textEditingController.text;
-        //                             });
-        //                             _textEditingController.clear();
-        //                             Navigator.pop(context);
-        //                           },
-        //                           child: const Text('OK')),
-        //                     ],
-        //                   ),
-        //                 )),
-        //               );
-        //             },
-        //           );
-        //         },
-        //         child: const Text('Show Bottom Sheet')),
-        //   ],
-        // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          addNewReport();
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

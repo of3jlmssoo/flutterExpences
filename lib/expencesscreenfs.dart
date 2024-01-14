@@ -15,9 +15,9 @@ import 'expenceproviders.dart';
 import 'firebase_providers.dart';
 import 'report.dart';
 
-// todo: typo修正 expencesscrees to expencesscreens
+// DONE: typo修正 expencesscrees to expencesscreens
 // todo: 申請済みであることが分かるようにする
-// todo: disableされたfloatingactionbuttonとレポート申請の背景色が違うので揃える
+// DONE: disableされたfloatingactionbuttonとレポート申請の背景色が違うので揃える
 
 final log = Logger('ExpencesScreenFs');
 // final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
@@ -238,7 +238,7 @@ class ExpencesScreenFs extends ConsumerWidget {
             },
             menuChildren: [
               MenuItemButton(
-                child: Text('テストデータ追加'),
+                child: const Text('テストデータ追加'),
                 onPressed: reportStatus != Status.making.en
                     ? null
                     : () {
@@ -247,7 +247,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                       },
               ),
               MenuItemButton(
-                child: Text('expencesscreens'),
+                child: const Text('expencesscreens'),
                 onPressed: () {
                   log.info('expencesscreen : expencesscrees pressed');
                 },
