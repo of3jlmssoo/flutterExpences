@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,6 @@ import 'package:logging/logging.dart';
 import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
-import 'report.dart';
 import 'enums.dart';
 import 'expence.dart';
 import 'expenceproviders.dart';
@@ -71,6 +71,95 @@ class ExpencesScreenFs extends ConsumerWidget {
   final String reportName;
   final String reportStatus;
 
+  void addTestData(WidgetRef ref, FirebaseAuth userinstance) async {
+    log.info('add test data : ${ref.watch(expenceListProvider)}');
+    log.info('add test data : ExpenceType.others.id ${ExpenceType.others.id}');
+
+    var testExpence = Expence(
+        userID: userinstance.currentUser!.uid,
+        reportID: reportID,
+        id: uuid.v7(),
+        createdDate: DateTime.now(),
+        expenceDate: DateTime.now().subtract(const Duration(days: 10)),
+        expenceType: ExpenceType.others.id,
+        price: 123,
+        col1: '物品を購入したという申請',
+        col3: 'しかし、それが何かについてどこに記載するのか',
+        taxType: TaxType.invoice.id,
+        invoiceNumber: '123');
+    ref.read(expenceListProvider.notifier).addExpence(testExpence);
+
+    var db = FirebaseFirestore.instance;
+
+    log.info(
+        'add test data : userID ${testExpence.userID} vs ${userinstance.currentUser!.uid}');
+
+    final expenceRef = db
+        .collection('users')
+        .doc(testExpence.userID)
+        .collection('reports')
+        .doc(testExpence.reportID)
+        .collection('expences')
+        .withConverter(
+          fromFirestore: Expence.fromFirestore,
+          toFirestore: (Expence expence, options) => expence.toFirestore(),
+        )
+        .doc(testExpence.id);
+    await expenceRef.set(testExpence);
+
+    testExpence = Expence(
+      userID: userinstance.currentUser!.uid,
+      reportID: reportID,
+      id: uuid.v7(),
+      createdDate: DateTime.now(),
+      expenceDate: DateTime.now().subtract(const Duration(days: 20)),
+      expenceType: ExpenceType.transportation.id,
+      price: 456,
+      col1: '東京の東京駅のそばの大手町',
+      col2: '神奈川東京千葉埼玉',
+      col3: 'なんのための交通費か。電車かバスかタクシーか',
+      taxType: TaxType.standardNoReceipt.id,
+    );
+    ref.read(expenceListProvider.notifier).addExpence(testExpence);
+    final expenceRef2 = db
+        .collection('users')
+        .doc(testExpence.userID)
+        .collection('reports')
+        .doc(testExpence.reportID)
+        .collection('expences')
+        .withConverter(
+          fromFirestore: Expence.fromFirestore,
+          toFirestore: (Expence expence, options) => expence.toFirestore(),
+        )
+        .doc(testExpence.id);
+    await expenceRef2.set(testExpence);
+    ///////////////////////////////////////
+    int result = 0;
+    var expencesRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(testExpence.userID)
+        .collection('reports')
+        .doc(testExpence.reportID)
+        .collection('expences');
+    var allExpences = await expencesRef.get();
+    for (var doc in allExpences.docs) {
+      result += doc.data()['price'] as int;
+    }
+
+    log.info('=======> $result');
+
+    final reportRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(testExpence.userID)
+        .collection("reports")
+        .doc(testExpence.reportID);
+    reportRef.update({"totalPriceStr": result.toString()}).then(
+        (value) => print("DocumentSnapshot successfully updated!"),
+        onError: (e) => print("Error updating document $e"));
+
+    ///////////////////////////////////////
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final expences = ref.watch(expenceListProvider);
@@ -93,18 +182,55 @@ class ExpencesScreenFs extends ConsumerWidget {
     // int totalPrice = 0;
     return Scaffold(
       appBar: AppBar(
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: const Icon(Icons.add_alert),
-        //     tooltip: 'Show Snackbar',
-        //     onPressed: () {
-        //       log.info('expencesscreen:AppBar actions pressed');
-        //
-        //       // ScaffoldMessenger.of(context).showSnackBar(
-        //       //     const SnackBar(content: Text('This is a snackbar')));
-        //     },
-        //   )
-        // ],
+        actions: <Widget>[
+          MenuAnchor(
+            builder: (BuildContext context, MenuController controller,
+                Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                icon: const Icon(Icons.density_medium),
+                tooltip: 'Show menu',
+              );
+            },
+            menuChildren: [
+              MenuItemButton(
+                child: Text('テストデータ追加'),
+                onPressed: () {
+                  log.info('expencesscreen : テストデータ追加');
+                  addTestData(ref, userinstance);
+                },
+              ),
+              MenuItemButton(
+                child: Text('expencesscrees'),
+                onPressed: () {
+                  print('expencesscrees pressed');
+                },
+              )
+            ],
+            // menuChildren: List<MenuItemButton>.generate(
+            //   3,
+            //   (int index) => MenuItemButton(
+            //     onPressed: () =>
+            //         setState(() => selectedMenu = SampleItem.values[index]),
+            //     child: Text('Item ${index + 1}'),
+            //   ),
+            // ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_alert),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('This is a snackbar')));
+            },
+          ),
+        ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -151,40 +277,6 @@ class ExpencesScreenFs extends ConsumerWidget {
 
             // Icon(Icons.add),
           ],
-        ),
-      ),
-      endDrawer: Align(
-        alignment: Alignment.topRight,
-        child: SizedBox(
-          height: 200,
-          child: Drawer(
-              child: ListView(
-            padding: const EdgeInsets.all(8),
-            children: <Widget>[
-              Container(
-                height: 50,
-                child: const Center(child: Text('Entry A')),
-              ),
-              Container(
-                height: 50,
-                child: const Center(child: Text('Entry B')),
-              ),
-              Container(
-                height: 50,
-                child: const Center(child: Text('Entry C')),
-              ),
-            ],
-          )
-              // child: ListView.builder(itemBuilder: (BuildContext context, int index) {
-              //   return ListTile(
-              //     leading: Icon(Icons.list),
-              //     title: Text("GFG item $index"),
-              //     trailing: Icon(Icons.done),
-              //   );
-              // }),
-              //elevation: 20.0,
-              //semanticLabel: 'endDrawer',
-              ),
         ),
       ),
       body: Column(
@@ -255,101 +347,12 @@ class ExpencesScreenFs extends ConsumerWidget {
                       context.go('/fbdataget');
                     },
               child: const Text('レポート申請')),
-          ElevatedButton(
-            onPressed: () async {
-              log.info('add test data : ${ref.watch(expenceListProvider)}');
-              log.info(
-                  'add test data : ExpenceType.others.id ${ExpenceType.others.id}');
-
-              var testExpence = Expence(
-                  userID: userinstance.currentUser!.uid,
-                  reportID: reportID,
-                  id: uuid.v7(),
-                  createdDate: DateTime.now(),
-                  expenceDate:
-                      DateTime.now().subtract(const Duration(days: 10)),
-                  expenceType: ExpenceType.others.id,
-                  price: 123,
-                  col1: '物品を購入したという申請',
-                  col3: 'しかし、それが何かについてどこに記載するのか',
-                  taxType: TaxType.invoice.id,
-                  invoiceNumber: '123');
-              ref.read(expenceListProvider.notifier).addExpence(testExpence);
-
-              var db = FirebaseFirestore.instance;
-
-              log.info(
-                  'add test data : userID ${testExpence.userID} vs ${userinstance.currentUser!.uid}');
-
-              final expenceRef = db
-                  .collection('users')
-                  .doc(testExpence.userID)
-                  .collection('reports')
-                  .doc(testExpence.reportID)
-                  .collection('expences')
-                  .withConverter(
-                    fromFirestore: Expence.fromFirestore,
-                    toFirestore: (Expence expence, options) =>
-                        expence.toFirestore(),
-                  )
-                  .doc(testExpence.id);
-              await expenceRef.set(testExpence);
-
-              testExpence = Expence(
-                userID: userinstance.currentUser!.uid,
-                reportID: reportID,
-                id: uuid.v7(),
-                createdDate: DateTime.now(),
-                expenceDate: DateTime.now().subtract(const Duration(days: 20)),
-                expenceType: ExpenceType.transportation.id,
-                price: 456,
-                col1: '東京の東京駅のそばの大手町',
-                col2: '神奈川東京千葉埼玉',
-                col3: 'なんのための交通費か。電車かバスかタクシーか',
-                taxType: TaxType.standardNoReceipt.id,
-              );
-              ref.read(expenceListProvider.notifier).addExpence(testExpence);
-              final expenceRef2 = db
-                  .collection('users')
-                  .doc(testExpence.userID)
-                  .collection('reports')
-                  .doc(testExpence.reportID)
-                  .collection('expences')
-                  .withConverter(
-                    fromFirestore: Expence.fromFirestore,
-                    toFirestore: (Expence expence, options) =>
-                        expence.toFirestore(),
-                  )
-                  .doc(testExpence.id);
-              await expenceRef2.set(testExpence);
-              ///////////////////////////////////////
-              int result = 0;
-              var expencesRef = FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(testExpence.userID)
-                  .collection('reports')
-                  .doc(testExpence.reportID)
-                  .collection('expences');
-              var allExpences = await expencesRef.get();
-              for (var doc in allExpences.docs) {
-                result += doc.data()['price'] as int;
-              }
-
-              log.info('=======> $result');
-
-              final reportRef = FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(testExpence.userID)
-                  .collection("reports")
-                  .doc(testExpence.reportID);
-              reportRef.update({"totalPriceStr": result.toString()}).then(
-                  (value) => print("DocumentSnapshot successfully updated!"),
-                  onError: (e) => print("Error updating document $e"));
-
-              ///////////////////////////////////////
-            },
-            child: const Text('テストデータ追加'),
-          ),
+          // ElevatedButton(
+          //   onPressed: () async {
+          //     addTestData(ref, userinstance);
+          //   },
+          //   child: const Text('テストデータ追加'),
+          // ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _expencesStream,
