@@ -3,7 +3,7 @@
 // firebase emulators:start --import ./emulators_data --export-on-exit
 
 // todo: go_routerを別ファイルへ
-// todo: ホームを経費精算ホームへ
+// DONE: ホームを経費精算ホームへ
 // todo: hamburger menuでuidを移動
 // todo: user is workはユーザー名:workへ
 
@@ -181,7 +181,7 @@ class HomeScreen extends ConsumerWidget {
     // final authrepo = ref.watch(authRepositoryProvider);
     final authstatechanges = ref.watch(authStateChangesProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('ホーム')),
+      appBar: AppBar(title: const Text('経費精算ホーム')),
       body: Center(
         child: Column(
           children: [
