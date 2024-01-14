@@ -1,18 +1,18 @@
 import 'dart:core';
-import 'package:intl/intl.dart' as intl;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
 import 'package:riverpodtest/expences.dart';
 import 'package:uuid/uuid.dart';
 
 import 'enums.dart';
-import 'report.dart';
-
 import 'expence.dart';
 import 'expenceproviders.dart';
+import 'report.dart';
 
 var uuid = const Uuid();
 final log = Logger('ExpenceInputLogger');
@@ -457,91 +457,95 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                       ),
 
                       ElevatedButton(
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            ref
-                                .read(expenceListProvider.notifier)
-                                .addExpence(expence);
+                        onPressed: widget.reportStatus != Status.making.en
+                            ? null
+                            : () async {
+                                if (_formKey.currentState!.validate()) {
+                                  ref
+                                      .read(expenceListProvider.notifier)
+                                      .addExpence(expence);
 
-                            log.info(
-                                'add/update ------> expence.expenceType:${expence.expenceType}');
-                            log.info(
-                                'add/update ------> expence.expenceType:${expence.expenceType}');
+                                  log.info(
+                                      'add/update ------> expence.expenceType:${expence.expenceType}');
+                                  log.info(
+                                      'add/update ------> expence.expenceType:${expence.expenceType}');
 
-                            var db = FirebaseFirestore.instance;
-                            log.info('expenceinput add/update1 : $db');
-                            log.info(
-                                'expenceinput add/update2 : ${widget.userID}');
-                            log.info(
-                                'expenceinput add/update3 : ${widget.reportID}');
-                            final expenceRef = db
-                                .collection('users')
-                                .doc(widget.userID)
-                                .collection('reports')
-                                .doc(widget.reportID)
-                                .collection('expences')
-                                .withConverter(
-                                  fromFirestore: Expence.fromFirestore,
-                                  toFirestore: (Expence expence, options) =>
-                                      expence.toFirestore(),
-                                )
-                                .doc(widget.id);
-                            await expenceRef.set(expence);
-                            // if (initialPrice != expence.price) {
-                            //   final priceRef = db
-                            //       .collection("users")
-                            //       .doc(widget.userID)
-                            //       .collection('reports')
-                            //       .doc(widget.reportID)
-                            //       .collection('expences');
-                            //   washingtonRef.update({"capital": true}).then(
-                            //       (value) => print(
-                            //           "DocumentSnapshot successfully updated!"),
-                            //       onError: (e) =>
-                            //           print("Error updating document $e"));
-                            // }
+                                  var db = FirebaseFirestore.instance;
+                                  log.info('expenceinput add/update1 : $db');
+                                  log.info(
+                                      'expenceinput add/update2 : ${widget.userID}');
+                                  log.info(
+                                      'expenceinput add/update3 : ${widget.reportID}');
+                                  final expenceRef = db
+                                      .collection('users')
+                                      .doc(widget.userID)
+                                      .collection('reports')
+                                      .doc(widget.reportID)
+                                      .collection('expences')
+                                      .withConverter(
+                                        fromFirestore: Expence.fromFirestore,
+                                        toFirestore:
+                                            (Expence expence, options) =>
+                                                expence.toFirestore(),
+                                      )
+                                      .doc(widget.id);
+                                  await expenceRef.set(expence);
+                                  // if (initialPrice != expence.price) {
+                                  //   final priceRef = db
+                                  //       .collection("users")
+                                  //       .doc(widget.userID)
+                                  //       .collection('reports')
+                                  //       .doc(widget.reportID)
+                                  //       .collection('expences');
+                                  //   washingtonRef.update({"capital": true}).then(
+                                  //       (value) => print(
+                                  //           "DocumentSnapshot successfully updated!"),
+                                  //       onError: (e) =>
+                                  //           print("Error updating document $e"));
+                                  // }
 
-                            ///////////////////////////////////////
-                            int result = 0;
-                            var expencesRef = FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(widget.userID)
-                                .collection('reports')
-                                .doc(widget.reportID)
-                                .collection('expences');
-                            var allExpences = await expencesRef.get();
-                            for (var doc in allExpences.docs) {
-                              result += doc.data()['price'] as int;
-                            }
+                                  ///////////////////////////////////////
+                                  int result = 0;
+                                  var expencesRef = FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(widget.userID)
+                                      .collection('reports')
+                                      .doc(widget.reportID)
+                                      .collection('expences');
+                                  var allExpences = await expencesRef.get();
+                                  for (var doc in allExpences.docs) {
+                                    result += doc.data()['price'] as int;
+                                  }
 
-                            log.info('=======> $result');
+                                  log.info('=======> $result');
 
-                            final reportRef = FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(widget.userID)
-                                .collection("reports")
-                                .doc(widget.reportID);
-                            reportRef.update({
-                              "totalPriceStr": result.toString()
-                            }).then(
-                                (value) => print(
-                                    "DocumentSnapshot successfully updated!"),
-                                onError: (e) =>
-                                    print("Error updating document $e"));
+                                  final reportRef = FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(widget.userID)
+                                      .collection("reports")
+                                      .doc(widget.reportID);
+                                  reportRef.update({
+                                    "totalPriceStr": result.toString()
+                                  }).then(
+                                      (value) => print(
+                                          "DocumentSnapshot successfully updated!"),
+                                      onError: (e) =>
+                                          print("Error updating document $e"));
 
-                            ///////////////////////////////////////
+                                  ///////////////////////////////////////
 
-                            log.info('expenceinputfs : before goNamed');
-                            context
-                                .goNamed("expencescreenfs", queryParameters: {
-                              'reportID': widget.reportID,
-                              'userID': widget.userID,
-                              'reportName': widget.reportName,
-                              'reportStatus': widget.reportStatus.toString(),
-                            });
-                            _priceFieldController.clear();
-                          }
-                        },
+                                  log.info('expenceinputfs : before goNamed');
+                                  context.goNamed("expencescreenfs",
+                                      queryParameters: {
+                                        'reportID': widget.reportID,
+                                        'userID': widget.userID,
+                                        'reportName': widget.reportName,
+                                        'reportStatus':
+                                            widget.reportStatus.toString(),
+                                      });
+                                  _priceFieldController.clear();
+                                }
+                              },
                         child: const Text('追加/更新'),
                       ),
                       ElevatedButton(
