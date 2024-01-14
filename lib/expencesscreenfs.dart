@@ -233,10 +233,12 @@ class ExpencesScreenFs extends ConsumerWidget {
             menuChildren: [
               MenuItemButton(
                 child: Text('テストデータ追加'),
-                onPressed: () {
-                  log.info('expencesscreen : テストデータ追加');
-                  addTestData(ref, userinstance);
-                },
+                onPressed: reportStatus != Status.making.en
+                    ? null
+                    : () {
+                        log.info('expencesscreen : テストデータ追加');
+                        addTestData(ref, userinstance);
+                      },
               ),
               MenuItemButton(
                 child: Text('expencesscrees'),
@@ -318,14 +320,14 @@ class ExpencesScreenFs extends ConsumerWidget {
             onPressed: () => context.go('/fbdataget'),
             child: const Text('レポート一覧へ'),
           ),
-            // ElevatedButton(
-            //   onPressed: reportStatus != Status.making.en
-            //       ? null
-            //       : () {
-            //           addNewExpence(ref, userinstance, context);
-            //         },
-            //   child: const Text('経費追加'),
-            // ),
+          // ElevatedButton(
+          //   onPressed: reportStatus != Status.making.en
+          //       ? null
+          //       : () {
+          //           addNewExpence(ref, userinstance, context);
+          //         },
+          //   child: const Text('経費追加'),
+          // ),
           ElevatedButton(
               onPressed: reportStatus != Status.making.en
                   ? null
