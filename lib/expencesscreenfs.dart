@@ -39,28 +39,6 @@ Future<int> queryTotalPrice(String userID, String reportID) async {
 
   log.info('=======> $result');
   return result;
-  // await FirebaseFirestore.instance
-  //     .collection("users")
-  //     .doc(userID)
-  //     .collection('reports')
-  //     .doc(reportID)
-  //     .collection('expences')
-  //     .get()
-  //     .then(
-  //   (querySnapshot) {
-  //     print("Successfully completed");
-  //     for (var docSnapshot in querySnapshot.docs) {
-  //       result += docSnapshot.data()['price'] as int;
-  //       log.info(
-  //           'expencesscreenfs : ---> ${docSnapshot.data()['price']} and result $result');
-  //       // print('${docSnapshot.id} => ${docSnapshot.data()}');
-  //     }
-  //   },
-  //   onError: (e) => print("Error completing: $e"),
-  // );
-  //
-  // log.info('expencesscreenfs : ---> $result');
-  // return result;
 }
 
 class ExpencesScreenFs extends ConsumerWidget {
@@ -201,11 +179,6 @@ class ExpencesScreenFs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final expences = ref.watch(expenceListProvider);
-    // final et = ref.watch(currentExpenceTypeProvider);
-    // final tt = ref.watch(currentTaxTypeProvider);
-    // final ed = ref.watch(currentExpenceDateProvider);
-    // final pr = ref.watch(currentPriceProvider);
     final userinstance = ref.watch(firebaseAuthProvider);
 
     final Stream<QuerySnapshot> _expencesStream =
@@ -254,14 +227,6 @@ class ExpencesScreenFs extends ConsumerWidget {
                 },
               )
             ],
-            // menuChildren: List<MenuItemButton>.generate(
-            //   3,
-            //   (int index) => MenuItemButton(
-            //     onPressed: () =>
-            //         setState(() => selectedMenu = SampleItem.values[index]),
-            //     child: Text('Item ${index + 1}'),
-            //   ),
-            // ),
           ),
           IconButton(
             icon: const Icon(Icons.add_alert),
@@ -275,44 +240,6 @@ class ExpencesScreenFs extends ConsumerWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // IconButton(
-            //   icon: const Icon(Icons.add),
-            //   tooltip: 'add expence',
-            //   onPressed: () {
-            //     log.info('IconButton pressed');
-            //
-            //     ref
-            //         .read(currentExpenceTypeProvider.notifier)
-            //         .expenceType(ExpenceType.transportation.id!);
-            //
-            //     ref
-            //         .read(currentTaxTypeProvider.notifier)
-            //         .taxType(TaxType.invoice.id);
-            //
-            //     ref.read(currentPriceProvider.notifier).price(null);
-            //     context.goNamed(
-            //       "expenceinputfs",
-            //       queryParameters: {
-            //         'reportID': reportID,
-            //         'userID': userinstance.currentUser!.uid,
-            //         'id': uuid.v7(),
-            //         'createdDateStr': DateTime.now().toString(),
-            //         'expenceDateStr': DateTime.now().toString(),
-            //         'expenceTypeName':
-            //             ExpenceType.transportation.index.toString(),
-            //         'taxTypeName': TaxType.invoice.index.toString(),
-            //         // 'priceStr': '',
-            //         'col1': '',
-            //         'col2': '',
-            //         'col3': '',
-            //         'invoicenumber': '',
-            //         'reportName': reportName,
-            //         'priceStr': '',
-            //         'status': Status.making.en,
-            //       },
-            //     );
-            //   },
-            // ),
             Text(//'${reportName.substring(start)}'),
                 '${reportName.substring(0, reportName.length > 14 ? 14 : reportName.length)}'),
 
@@ -327,14 +254,6 @@ class ExpencesScreenFs extends ConsumerWidget {
             onPressed: () => context.go('/fbdataget'),
             child: const Text('レポート一覧へ'),
           ),
-          // ElevatedButton(
-          //   onPressed: reportStatus != Status.making.en
-          //       ? null
-          //       : () {
-          //           addNewExpence(ref, userinstance, context);
-          //         },
-          //   child: const Text('経費追加'),
-          // ),
           reportStatus != Status.making.en
               ? const Text('ステータス : 申請済み')
               : ElevatedButton(
@@ -362,12 +281,6 @@ class ExpencesScreenFs extends ConsumerWidget {
                   child: const Text('レポート申請'),
                 ),
 
-          // ElevatedButton(
-          //   onPressed: () async {
-          //     addTestData(ref, userinstance);
-          //   },
-          //   child: const Text('テストデータ追加'),
-          // ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _expencesStream,
@@ -451,13 +364,6 @@ class ExpencesScreenFs extends ConsumerWidget {
                               subtitle: Text(
                                   // '${data["col1"] != null ? data["col1"] : ''} ${data["col2"] != null ? data["col2"] : ''} ${sodata["col3"] != null ? data["col3"] : ''}'),
                                   '${data["col1"] ?? ''} ${data["col2"] ?? ''} ${data["col3"] ?? ''}'),
-
-                              // title: Text(data['name']),
-                              // // subtitle: Text(intl.DateFormat.yMd()
-                              // //     .format(data['createdDate'].toDate())),
-
-                              // subtitle: Text(
-                              //     '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())}'),
                               onTap: () {
                                 log.info(
                                     'expenceinputfs : data["price"].toString() : ${data["price"].toString()}');
@@ -514,91 +420,6 @@ class ExpencesScreenFs extends ConsumerWidget {
                 );
               },
             ),
-            // child: ListView(
-            //   children: [
-            //     if (expences.isNotEmpty) const Divider(height: 0),
-            //     for (var i = 0; i < expences.length; i++) ...[
-            //       if (i > 0) const Divider(height: 0),
-            //       Dismissible(
-            //         key: ValueKey(expences[i].id),
-            //         onDismissed: (_) {
-            //           ref
-            //               .read(expenceListProvider.notifier)
-            //               .removeReport(expences[i]);
-            //         },
-            //         child: ProviderScope(
-            //           overrides: [
-            //             _currentExpence.overrideWithValue(expences[i]),
-            //           ],
-            //           // child: Text('zxc'),
-            //           child: Card(
-            //             child: ListTile(
-            //               title: Text(
-            //                 // '${expences[i].expenceType!.name} ${intl.DateFormat.yMd().format(expences[i].expenceDate!)} ',
-            //                 // '${expences[i].expenceType!} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
-            //                 '${getExpenceType(expences[i].expenceType!)} ${intl.DateFormat.yMMMd('ja').format(expences[i].expenceDate!)} (${DateFormat.E('ja').format(expences[i].expenceDate!)}) ${expences[i].price}円',
-            //                 style: TextStyle(fontWeight: FontWeight.bold),
-            //               ),
-            //               subtitle: Text(
-            //                   '${expences[i].col1 != null ? expences[i].col1 : ''} ${expences[i].col2 != null ? expences[i].col2 : ''} ${expences[i].col3 != null ? expences[i].col3 : ''}'),
-            //               onTap: () {
-            //                 ref
-            //                     .read(currentExpenceTypeProvider.notifier)
-            //                     .expenceType(expences[i].expenceType!);
-
-            //                 ref
-            //                     .read(currentTaxTypeProvider.notifier)
-            //                     .taxType(expences[i].taxType!);
-
-            //                 ref
-            //                     .read(currentExpenceDateProvider.notifier)
-            //                     .expenceDate(expences[i].expenceDate!);
-
-            //                 ref
-            //                     .read(currentPriceProvider.notifier)
-            //                     .price(expences[i].price!);
-
-            //                 log.info(
-            //                     'Test Data 1-1 : ${expences[i].createdDate}');
-            //                 log.info(
-            //                     'Test Data 1-2 : ${expences[i].expenceDate}');
-            //                 log.info(
-            //                     'Test Data 2 : ${expences[i].expenceType}');
-            //                 log.info('Test Data 3 : ${expences[i].taxType}');
-            //                 log.info('Test Data 4 : ${et} and ${tt}');
-            //                 log.info('Test Data 5 : ${ed}');
-            //                 log.info(
-            //                     'Test Data 6 : ${expences[i].invoiceNumber}');
-
-            //                 context.goNamed(
-            //                   "expenceinput",
-            //                   queryParameters: {
-            //                     'reportID': expences[i].reportID,
-            //                     'userID': expences[i].userID,
-            //                     'id': expences[i].id,
-            //                     'createdDateStr':
-            //                         expences[i].createdDate.toString(),
-            //                     'expenceTypeName':
-            //                         expences[i].expenceType.toString(),
-            //                     'expenceDateStr':
-            //                         expences[i].expenceDate.toString(),
-            //                     'priceStr': expences[i].price.toString(),
-            //                     'col1': expences[i].col1,
-            //                     'col2': expences[i].col2,
-            //                     'col3': expences[i].col3,
-            //                     'taxTypeName': expences[i].taxType.toString(),
-            //                     'invoiceNumber': expences[i].invoiceNumber,
-            //                     'reportName': reportName,
-            //                   },
-            //                 );
-            //               },
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ],
-            // ),
           )
         ],
       ),
