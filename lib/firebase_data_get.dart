@@ -351,6 +351,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlue.shade200,
         onPressed: () {
           addNewReport();
         },
