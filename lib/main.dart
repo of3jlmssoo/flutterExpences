@@ -4,8 +4,8 @@
 
 // todo: go_routerを別ファイルへ
 // DONE: ホームを経費精算ホームへ
-// todo: hamburger menuでuidを移動
-// todo: user is workはユーザー名:workへ
+// DONE: hamburger menuでuidを移動
+// DONE: user is workはユーザー名:workへ
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -181,7 +181,48 @@ class HomeScreen extends ConsumerWidget {
     // final authrepo = ref.watch(authRepositoryProvider);
     final authstatechanges = ref.watch(authStateChangesProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text('経費精算ホーム')),
+      appBar: AppBar(
+        actions: <Widget>[
+          MenuAnchor(
+            builder: (BuildContext context, MenuController controller,
+                Widget? child) {
+              return IconButton(
+                onPressed: () {
+                  if (controller.isOpen) {
+                    controller.close();
+                  } else {
+                    controller.open();
+                  }
+                },
+                icon: const Icon(Icons.density_medium),
+                tooltip: 'Show menu',
+              );
+            },
+            menuChildren: [
+              MenuItemButton(
+                onPressed: null,
+                child: Text(
+                    '${userinstance.currentUser != null ? userinstance.currentUser?.uid : "not login"}'),
+              ),
+              MenuItemButton(
+                child: const Text('main'),
+                onPressed: () {
+                  log.info('main : main pressed');
+                },
+              )
+            ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.add_alert),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('This is a snackbar')));
+            },
+          ),
+        ],
+        title: const Text('経費精算ホーム'),
+      ),
       body: Center(
         child: Column(
           children: [
