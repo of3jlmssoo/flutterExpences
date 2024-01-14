@@ -247,7 +247,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                       },
               ),
               MenuItemButton(
-                child: Text('expencesscrees'),
+                child: Text('expencesscreens'),
                 onPressed: () {
                   log.info('expencesscreen : expencesscrees pressed');
                 },
