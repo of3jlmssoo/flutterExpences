@@ -2,6 +2,11 @@
 //
 // firebase emulators:start --import ./emulators_data --export-on-exit
 
+// todo: go_routerを別ファイルへ
+// todo: ホームを経費精算ホームへ
+// todo: hamburger menuでuidを移動
+// todo: user is workはユーザー名:workへ
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -196,6 +201,9 @@ class HomeScreen extends ConsumerWidget {
             // ),
             ElevatedButton(
               child: const Text('ログイン'),
+              style: ElevatedButton.styleFrom(
+                disabledBackgroundColor: Colors.grey,
+              ),
               onPressed: authstatechanges.value != null
                   ? null
                   : () async {
@@ -226,12 +234,16 @@ class HomeScreen extends ConsumerWidget {
             ),
 
             ElevatedButton(
-                onPressed: authstatechanges.value == null
-                    ? null
-                    : () {
-                        userinstance.signOut();
-                      },
-                child: const Text('ログアウト')),
+              onPressed: authstatechanges.value == null
+                  ? null
+                  : () {
+                      userinstance.signOut();
+                    },
+              child: const Text('ログアウト'),
+              style: ElevatedButton.styleFrom(
+                disabledBackgroundColor: Colors.grey,
+              ),
+            ),
             // ElevatedButton(
             //   child: const Text('Firebase add data'),
             //   onPressed: () {
@@ -240,6 +252,9 @@ class HomeScreen extends ConsumerWidget {
             // ),
             ElevatedButton(
               child: const Text('レポート一覧'),
+              style: ElevatedButton.styleFrom(
+                disabledBackgroundColor: Colors.grey,
+              ),
               onPressed: authstatechanges.value == null
                   ? null
                   : () async {

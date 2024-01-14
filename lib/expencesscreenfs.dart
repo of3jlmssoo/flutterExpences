@@ -15,6 +15,10 @@ import 'expenceproviders.dart';
 import 'firebase_providers.dart';
 import 'report.dart';
 
+// todo: typo修正 expencesscrees to expencesscreens
+// todo: 申請済みであることが分かるようにする
+// todo: disableされたfloatingactionbuttonとレポート申請の背景色が違うので揃える
+
 final log = Logger('ExpencesScreenFs');
 // final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
 var uuid = const Uuid();
@@ -331,28 +335,33 @@ class ExpencesScreenFs extends ConsumerWidget {
           //   child: const Text('経費追加'),
           // ),
           ElevatedButton(
-              onPressed: reportStatus != Status.making.en
-                  ? null
-                  : () {
-                      // final washingtonRef = db.collection("cites").doc("DC");
-                      // washingtonRef.update({"capital": true}).then(
-                      //         (value) => print("DocumentSnapshot successfully updated!"),
-                      //     onError: (e) => print("Error updating document $e"));
-                      // final reportRef = db.collection.
-                      final reportRef = FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(userID)
-                          .collection('reports')
-                          .doc(reportID);
-                      // reportRef.update({"status": Status.submitted.name}).then(
-                      reportRef.update({"status": Status.submitted.en}).then(
-                          (value) => log.info(
-                              "expencesscreenfs : DocumentSnapshot successfully updated!"),
-                          onError: (e) => log.info(
-                              "expencesscreenfs : Error updating document $e"));
-                      context.go('/fbdataget');
-                    },
-              child: const Text('レポート申請')),
+            onPressed: reportStatus != Status.making.en
+                ? null
+                : () {
+                    // final washingtonRef = db.collection("cites").doc("DC");
+                    // washingtonRef.update({"capital": true}).then(
+                    //         (value) => print("DocumentSnapshot successfully updated!"),
+                    //     onError: (e) => print("Error updating document $e"));
+                    // final reportRef = db.collection.
+                    final reportRef = FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(userID)
+                        .collection('reports')
+                        .doc(reportID);
+                    // reportRef.update({"status": Status.submitted.name}).then(
+                    reportRef.update({"status": Status.submitted.en}).then(
+                        (value) => log.info(
+                            "expencesscreenfs : DocumentSnapshot successfully updated!"),
+                        onError: (e) => log.info(
+                            "expencesscreenfs : Error updating document $e"));
+                    context.go('/fbdataget');
+                  },
+            child: const Text('レポート申請'),
+            style: ElevatedButton.styleFrom(
+              disabledBackgroundColor: Colors.grey,
+            ),
+          ),
+
           // ElevatedButton(
           //   onPressed: () async {
           //     addTestData(ref, userinstance);
