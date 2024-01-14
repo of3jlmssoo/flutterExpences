@@ -14,6 +14,8 @@ import 'expence.dart';
 import 'expenceproviders.dart';
 import 'report.dart';
 
+// TODO:firebase/firestore見直し
+
 var uuid = const Uuid();
 final log = Logger('ExpenceInputLogger');
 

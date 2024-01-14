@@ -12,6 +12,7 @@ import 'report.dart';
 
 // DONE: hambuger menuを作成しテストデータ作成を移動
 // DONE: 新規レポートはfloatingactionbuttonへ
+// TODO:firebase/firestore見直し
 
 final log = Logger('firebase_data_get');
 
