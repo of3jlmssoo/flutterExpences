@@ -62,7 +62,7 @@ class ReportsScreen extends ConsumerWidget {
                       ],
                       child: Card(
                         child: ListTile(
-                          title: Text('${reports[i].name}'),
+                          title: Text(reports[i].name),
                           subtitle: Text(
                               '${reports[i].createdDate.year}-${reports[i].createdDate.month}-${reports[i].createdDate.day}'),
                           onTap: () {

@@ -132,14 +132,24 @@ class _FirebaseLoginState extends ConsumerState<FirebaseLogin> {
                         log.info('after  signin : $userinstance');
                         log.info('FirebaseAuth..signInWithEmail authed!');
                         showSpinner = false;
-                        Navigator.pop(context, userCredential);
-                        setState(() {
-                          showSpinner = false;
-                        });
+                        if (!context.mounted) {
+                          return;
+                        } else {
+                          Navigator.pop(context, userCredential);
+                          setState(
+                            () {
+                              showSpinner = false;
+                            },
+                          );
+                        }
                       } catch (e) {
                         showSpinner = false;
                         log.info('signInWithEmailAndPassword error --- $e');
-                        Navigator.pop(context, null);
+                        if (!context.mounted) {
+                          return;
+                        } else {
+                          Navigator.pop(context, null);
+                        }
                       }
                     }
                   },

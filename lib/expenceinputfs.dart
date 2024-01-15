@@ -162,10 +162,10 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
 
   @override
   Widget build(BuildContext context) {
-    final tt = ref.watch(currentTaxTypeProvider);
-    final ed = ref.watch(currentExpenceDateProvider);
-    final pr = ref.watch(currentPriceProvider);
-    final et = ref.watch(currentExpenceTypeProvider);
+    // final tt = ref.watch(currentTaxTypeProvider);
+    // final ed = ref.watch(currentExpenceDateProvider);
+    // final pr = ref.watch(currentPriceProvider);
+    // final et = ref.watch(currentExpenceTypeProvider);
 
     return Scaffold(
       appBar: AppBar(
