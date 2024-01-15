@@ -20,7 +20,7 @@ import 'package:riverpodtest/expenceinput.dart';
 import 'package:riverpodtest/expenceinputfs.dart';
 import 'package:riverpodtest/expencesscreen.dart';
 import 'package:riverpodtest/expencesscreenfs.dart';
-import 'package:riverpodtest/firebase_data_add.dart';
+import 'package:riverpodtest/firebase_data_add.dart.delete';
 import 'package:riverpodtest/firebase_data_get.dart';
 import 'package:riverpodtest/firebase_providers.dart';
 import 'package:riverpodtest/reportsscreen.dart';
@@ -149,7 +149,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           name: "fbdataadd",
           path: "fbdataadd",
-          builder: (context, state) => const firebaseAddData(),
+          builder: (context, state) => const FirebaseAddData(),
         ),
         GoRoute(
           name: "fbdataget",

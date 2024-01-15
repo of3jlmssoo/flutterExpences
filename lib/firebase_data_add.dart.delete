@@ -1,3 +1,4 @@
+// not used
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,14 +10,14 @@ final log = Logger('Firebase Firestore add data');
 
 var uuid = const Uuid();
 
-class firebaseAddData extends ConsumerStatefulWidget {
-  const firebaseAddData({super.key});
+class FirebaseAddData extends ConsumerStatefulWidget {
+  const FirebaseAddData({super.key});
 
   @override
-  ConsumerState createState() => _firebaseAddDataState();
+  ConsumerState createState() => FirebaseAddDataState();
 }
 
-class _firebaseAddDataState extends ConsumerState<firebaseAddData> {
+class FirebaseAddDataState extends ConsumerState<FirebaseAddData> {
   @override
   Widget build(BuildContext context) {
     final userinstance = ref.watch(firebaseAuthProvider);
