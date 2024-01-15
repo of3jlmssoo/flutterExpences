@@ -56,7 +56,7 @@ class ExpencesScreenFs extends ConsumerWidget {
 
   void addNewExpence(
       WidgetRef ref, FirebaseAuth userinstance, BuildContext context) {
-    log.info('expencesscreenfs : reportStatus ${reportStatus}');
+    log.info('expencesscreenfs : reportStatus $reportStatus');
     ref
         .read(currentExpenceTypeProvider.notifier)
         .expenceType(ExpenceType.transportation.id!);
@@ -181,7 +181,7 @@ class ExpencesScreenFs extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userinstance = ref.watch(firebaseAuthProvider);
 
-    final Stream<QuerySnapshot> _expencesStream =
+    final Stream<QuerySnapshot> expencesStream =
         // FirebaseFirestore.instance.collection('cities').snapshots();
         FirebaseFirestore.instance
             .collection('users')
@@ -212,13 +212,13 @@ class ExpencesScreenFs extends ConsumerWidget {
             },
             menuChildren: [
               MenuItemButton(
-                child: const Text('テストデータ追加'),
                 onPressed: reportStatus != Status.making.en
                     ? null
                     : () {
                         log.info('expencesscreen : テストデータ追加');
                         addTestData(ref, userinstance);
                       },
+                child: const Text('テストデータ追加'),
               ),
               MenuItemButton(
                 child: const Text('expencesscreens'),
@@ -241,7 +241,8 @@ class ExpencesScreenFs extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(//'${reportName.substring(start)}'),
-                '${reportName.substring(0, reportName.length > 14 ? 14 : reportName.length)}'),
+                reportName.substring(
+                    0, reportName.length > 14 ? 14 : reportName.length)),
 
             // Icon(Icons.add),
           ],
@@ -283,19 +284,19 @@ class ExpencesScreenFs extends ConsumerWidget {
 
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: _expencesStream,
+              stream: expencesStream,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
                 if (snapshot.hasError) {
-                  return const Text('_expencesStream Something went wrong');
+                  return const Text('expencesStream Something went wrong');
                 } else {
-                  log.info('_expencesStream StreamBuilder has no error');
+                  log.info('expencesStream StreamBuilder has no error');
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text("Loading (経費情報待ち)");
                 } else {
-                  log.info('_expencesStream StreamBuilder after Loading');
+                  log.info('expencesStream StreamBuilder after Loading');
                 }
                 return ListView(
                   children: snapshot.data!.docs
@@ -309,7 +310,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                           key: ValueKey(data["id"]),
                           onDismissed: (_) async {
                             log.info(
-                                "expencesscreenfs : uuid ${userID} ${data["reportID"]} ${data["id"]}");
+                                "expencesscreenfs : uuid $userID ${data["reportID"]} ${data["id"]}");
                             FirebaseFirestore.instance
                                 .collection("users")
                                 .doc(userID)
@@ -385,8 +386,8 @@ class ExpencesScreenFs extends ConsumerWidget {
                                 log.info(
                                     "expenceinputfs : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
                                 log.info(
-                                    "expenceinputfs : reportStatus ${reportStatus}");
-                                log.info("expenceinputfs : data ${data}");
+                                    "expenceinputfs : reportStatus $reportStatus");
+                                log.info("expenceinputfs : data $data");
                                 context.goNamed(
                                   "expenceinputfs",
                                   queryParameters: {

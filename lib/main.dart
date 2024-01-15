@@ -16,14 +16,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:logging/logging.dart';
-import 'package:riverpodtest/expenceinput.dart';
+import 'package:riverpodtest/expenceinput.dart.delete';
 import 'package:riverpodtest/expenceinputfs.dart';
-import 'package:riverpodtest/expencesscreen.dart';
+import 'package:riverpodtest/expencesscreen.dart.delete';
 import 'package:riverpodtest/expencesscreenfs.dart';
 import 'package:riverpodtest/firebase_data_add.dart.delete';
 import 'package:riverpodtest/firebase_data_get.dart';
 import 'package:riverpodtest/firebase_providers.dart';
-import 'package:riverpodtest/reportsscreen.dart';
+import 'package:riverpodtest/reportsscreen.dart.delete';
 
 import 'firebase_login.dart';
 import 'firebase_options.dart';
