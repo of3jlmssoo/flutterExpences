@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:logging/logging.dart';
+import 'package:riverpodtest/firestore_calc_totalprice.dart';
 import 'package:riverpodtest/reports.dart';
 
 import 'firebase_providers.dart';
@@ -239,35 +240,9 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
                                   onError: (e) => log.info(
                                       "firebase_data_get :Error updating document $e"),
                                 );
-                            ///////////////////////////////////////
-                            int result = 0;
-                            var expencesRef = FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(data["userID"])
-                                .collection('reports')
-                                .doc(data["reportID"])
-                                .collection('expences');
-                            var allExpences = await expencesRef.get();
-                            for (var doc in allExpences.docs) {
-                              result += doc.data()['price'] as int;
-                            }
-
-                            log.info('=======> $result');
-
-                            final reportRef = FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(data["userID"])
-                                .collection("reports")
-                                .doc(data["reportID"]);
-                            reportRef.update({
-                              "totalPriceStr": result.toString()
-                            }).then(
-                                (value) => log.info(
-                                    "firebase_data_get : DocumentSnapshot successfully updated!"),
-                                onError: (e) => log.info(
-                                    "firebase_data_get : Error updating document $e"));
-
-                            ///////////////////////////////////////
+                            int result = await calcTotalPrice(
+                                data["userID"], data["reportID"]);
+                            log.info('(Dismissible)total price is $result');
                           },
                           child: Card(
                             child: ListTile(
@@ -279,35 +254,9 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
                                   '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())} '
                                   '${data['status'] == 'submitted' ? "申請済み" : data['status'] == 'making' ? '作成中' : 'その他'}'),
                               onTap: () async {
-                                ///////////////////////////////////////
-                                int result = 0;
-                                var expencesRef = FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(data["userID"])
-                                    .collection('reports')
-                                    .doc(data["reportID"])
-                                    .collection('expences');
-                                var allExpences = await expencesRef.get();
-                                for (var doc in allExpences.docs) {
-                                  result += doc.data()['price'] as int;
-                                }
-
-                                log.info('=======> $result');
-
-                                final reportRef = FirebaseFirestore.instance
-                                    .collection("users")
-                                    .doc(data["userID"])
-                                    .collection("reports")
-                                    .doc(data["reportID"]);
-                                reportRef.update({
-                                  "totalPriceStr": result.toString()
-                                }).then(
-                                    (value) => log.info(
-                                        "firebase_data_get : DocumentSnapshot successfully updated!"),
-                                    onError: (e) => log.info(
-                                        "firebase_data_get : Error updating document $e"));
-
-                                ///////////////////////////////////////
+                                int result = await calcTotalPrice(
+                                    data["userID"], data["reportID"]);
+                                log.info('onTap() total price is $result');
 
                                 log.info(
                                     'reportsScreen : reportID ${data['reportID']}');

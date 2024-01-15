@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 import 'enums.dart';
 import 'expence.dart';
 import 'expenceproviders.dart';
+import 'firestore_calc_totalprice.dart';
 import 'report.dart';
 
 // TODO:firebase/firestore見直し
@@ -506,35 +507,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                                   //           print("Error updating document $e"));
                                   // }
 
-                                  ///////////////////////////////////////
-                                  int result = 0;
-                                  var expencesRef = FirebaseFirestore.instance
-                                      .collection("users")
-                                      .doc(widget.userID)
-                                      .collection('reports')
-                                      .doc(widget.reportID)
-                                      .collection('expences');
-                                  var allExpences = await expencesRef.get();
-                                  for (var doc in allExpences.docs) {
-                                    result += doc.data()['price'] as int;
-                                  }
-
-                                  log.info('=======> $result');
-
-                                  final reportRef = FirebaseFirestore.instance
-                                      .collection("users")
-                                      .doc(widget.userID)
-                                      .collection("reports")
-                                      .doc(widget.reportID);
-                                  reportRef.update({
-                                    "totalPriceStr": result.toString()
-                                  }).then(
-                                      (value) => log.info(
-                                          "expenceinputfs : DocumentSnapshot successfully updated!"),
-                                      onError: (e) => log.info(
-                                          "expenceinputfs : Error updating document $e"));
-
-                                  ///////////////////////////////////////
+                                  int result = await calcTotalPrice(
+                                      widget.userID, widget.reportID);
+                                  log.info('add/update total price is $result');
 
                                   log.info('expenceinputfs : before goNamed');
                                   if (!context.mounted) {

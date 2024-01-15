@@ -13,6 +13,7 @@ import 'enums.dart';
 import 'expence.dart';
 import 'expenceproviders.dart';
 import 'firebase_providers.dart';
+import 'firestore_calc_totalprice.dart';
 import 'report.dart';
 
 // DONE: typo修正 expencesscrees to expencesscreens
@@ -148,33 +149,9 @@ class ExpencesScreenFs extends ConsumerWidget {
         )
         .doc(testExpence.id);
     await expenceRef2.set(testExpence);
-    ///////////////////////////////////////
-    int result = 0;
-    var expencesRef = FirebaseFirestore.instance
-        .collection("users")
-        .doc(testExpence.userID)
-        .collection('reports')
-        .doc(testExpence.reportID)
-        .collection('expences');
-    var allExpences = await expencesRef.get();
-    for (var doc in allExpences.docs) {
-      result += doc.data()['price'] as int;
-    }
 
-    log.info('=======> $result');
-
-    final reportRef = FirebaseFirestore.instance
-        .collection("users")
-        .doc(testExpence.userID)
-        .collection("reports")
-        .doc(testExpence.reportID);
-    reportRef.update({"totalPriceStr": result.toString()}).then(
-        (value) =>
-            log.info("expencesscreen : DocumentSnapshot successfully updated!"),
-        onError: (e) =>
-            log.info("expencesscreen : Error updating document $e"));
-
-    ///////////////////////////////////////
+    int result = await calcTotalPrice(testExpence.userID, testExpence.reportID);
+    log.info('addTestData total price is $result');
   }
 
   @override
@@ -325,35 +302,9 @@ class ExpencesScreenFs extends ConsumerWidget {
                                   onError: (e) => log.info(
                                       "expencesscreenfs :Error updating document $e"),
                                 );
-                            ///////////////////////////////////////
-                            int result = 0;
-                            var expencesRef = FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(data["userID"])
-                                .collection('reports')
-                                .doc(data["reportID"])
-                                .collection('expences');
-                            var allExpences = await expencesRef.get();
-                            for (var doc in allExpences.docs) {
-                              result += doc.data()['price'] as int;
-                            }
-
-                            log.info('=======> $result');
-
-                            final reportRef = FirebaseFirestore.instance
-                                .collection("users")
-                                .doc(data["userID"])
-                                .collection("reports")
-                                .doc(data["reportID"]);
-                            reportRef.update({
-                              "totalPriceStr": result.toString()
-                            }).then(
-                                (value) => log.info(
-                                    "expencesscreen : DocumentSnapshot successfully updated!"),
-                                onError: (e) => log.info(
-                                    "expencesscreen : Error updating document $e"));
-
-                            ///////////////////////////////////////
+                            int result = await calcTotalPrice(
+                                data["userID"], data["reportID"]);
+                            log.info('onDismissible total price is $result');
                           },
                           child: Card(
                             child: ListTile(
