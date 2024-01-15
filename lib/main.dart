@@ -235,16 +235,7 @@ class HomeScreen extends ConsumerWidget {
             const SizedBox(
               height: 35,
             ),
-            // Text(
-            //     '\n${userinstance.currentUser != null ? userinstance.currentUser?.uid : "please login again"}'),
-            // Text('\n${userinstance.currentUser}'),
-
-            // ElevatedButton(
-            //   onPressed: () => context.go('/listview'),
-            //   child: const Text('レポート一覧画面へ'),
-            // ),
             ElevatedButton(
-              child: const Text('ログイン'),
               style: ElevatedButton.styleFrom(
                 disabledBackgroundColor: Colors.grey,
               ),
@@ -255,6 +246,7 @@ class HomeScreen extends ConsumerWidget {
                       loggedin = await firebaseLoginController(context);
                       if (!loggedin) {
                         log.info('loggedin == null $loggedin');
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             duration: const Duration(seconds: 5),
@@ -265,6 +257,7 @@ class HomeScreen extends ConsumerWidget {
                         );
                       } else {
                         log.info('loggedin != null $loggedin');
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             duration: const Duration(seconds: 5),
@@ -275,27 +268,20 @@ class HomeScreen extends ConsumerWidget {
                         );
                       }
                     },
+              child: const Text('ログイン'),
             ),
-
             ElevatedButton(
               onPressed: authstatechanges.value == null
                   ? null
                   : () {
                       userinstance.signOut();
                     },
-              child: const Text('ログアウト'),
               style: ElevatedButton.styleFrom(
                 disabledBackgroundColor: Colors.grey,
               ),
+              child: const Text('ログアウト'),
             ),
-            // ElevatedButton(
-            //   child: const Text('Firebase add data'),
-            //   onPressed: () {
-            //     context.go("/fbdataadd");
-            //   },
-            // ),
             ElevatedButton(
-              child: const Text('レポート一覧'),
               style: ElevatedButton.styleFrom(
                 disabledBackgroundColor: Colors.grey,
               ),
@@ -308,6 +294,7 @@ class HomeScreen extends ConsumerWidget {
                         context.go("/fbdataget");
                       }
                     },
+              child: const Text('レポート一覧'),
             ),
           ],
         ),
