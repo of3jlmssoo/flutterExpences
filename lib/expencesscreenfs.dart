@@ -25,23 +25,6 @@ final log = Logger('ExpencesScreenFs');
 // final _currentExpence = Provider<Expence>((ref) => throw UnimplementedError());
 var uuid = const Uuid();
 
-Future<int> queryTotalPrice(String userID, String reportID) async {
-  int result = 0;
-  var expencesRef = FirebaseFirestore.instance
-      .collection("users")
-      .doc(userID)
-      .collection('reports')
-      .doc(reportID)
-      .collection('expences');
-  var allExpences = await expencesRef.get();
-  for (var doc in allExpences.docs) {
-    result += doc.data()['price'] as int;
-  }
-
-  log.info('=======> $result');
-  return result;
-}
-
 class ExpencesScreenFs extends ConsumerWidget {
   const ExpencesScreenFs({
     super.key,
