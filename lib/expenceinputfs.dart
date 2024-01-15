@@ -236,7 +236,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                             .name,
 
                         onSelected: (String? value) {
-                          log.info('経費種別0 value:${value}');
+                          log.info('経費種別0 value:$value');
                           log.info('経費種別1 ${expence.expenceType}');
 
                           late int epType;
@@ -246,7 +246,7 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                               break;
                             }
                           }
-                          log.info('経費種別2 ${epType}');
+                          log.info('経費種別2 $epType');
                           expence = expence.copyWith(expenceType: epType);
                           log.info('経費種別2 --------');
                           ref
@@ -281,14 +281,11 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                           Row(
                             children: [
                               const SizedBox(width: 12),
-                              Text(
-                                  '${intl.DateFormat.yMd().format(expence.expenceDate!)}'),
+                              Text(intl.DateFormat.yMd()
+                                  .format(expence.expenceDate!)),
                             ],
                           ),
                           TextButton(
-                            child: const Text(
-                              '日付指定',
-                            ),
                             onPressed: widget.reportStatus != Status.making.en
                                 ? null
                                 : () async {
@@ -312,6 +309,9 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                                           '日付3 : ${DateTime.parse(DateTime.now().toString())}');
                                     }
                                   },
+                            child: const Text(
+                              '日付指定',
+                            ),
                           ),
                         ],
                       ),
@@ -537,14 +537,20 @@ class ExpenceInputState extends ConsumerState<ExpenceInputFs> {
                                   ///////////////////////////////////////
 
                                   log.info('expenceinputfs : before goNamed');
-                                  context.goNamed("expencescreenfs",
+                                  if (!context.mounted) {
+                                    return;
+                                  } else {
+                                    context.goNamed(
+                                      "expencescreenfs",
                                       queryParameters: {
                                         'reportID': widget.reportID,
                                         'userID': widget.userID,
                                         'reportName': widget.reportName,
                                         'reportStatus':
                                             widget.reportStatus.toString(),
-                                      });
+                                      },
+                                    );
+                                  }
                                   _priceFieldController.clear();
                                 }
                               },
