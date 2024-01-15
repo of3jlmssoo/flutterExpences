@@ -212,11 +212,23 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
                   log.info('firebase_data_get : StreamBuilder after Loading');
                 }
 
-                log.info('firebase_data_get : snapshot.data ${snapshot.data}');
                 log.info(
-                    'firebase_data_get : snapshot.data ${snapshot.data?.docs}');
+                    // 'firebase_data_get : snapshot.error ${FirebaseFirestore.instance.settings}');
+                    'firebase_data_get : snapshot.error ${FirebaseFirestore.instance.settings} ${snapshot}');
+
                 log.info(
-                    'firebase_data_get : snapshot.connectionState ${snapshot.connectionState}');
+                    'firebase_data_get : FirebaseAuth.instance ${FirebaseAuth.instance.currentUser}');
+
+                // FirebaseFirestore.instance.collection("users").get().then(
+                //   (qS) {
+                //     print("Successfully completed ${qS.docs}");
+                //     for (var docSnapshot in qS.docs) {
+                //       print('${docSnapshot.id} => ${docSnapshot.data()}');
+                //     }
+                //     print("Successfully completed2");
+                //   },
+                //   onError: (e) => print("Error completing: $e"),
+                // );
 
                 return ListView(
                   children: snapshot.data!.docs
