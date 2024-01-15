@@ -15,6 +15,7 @@ flutter(riverpod、go_router、freezed)、firebase/firestoreを具体的に使�
     firebaseエミュレーター
 
 <!-- ![Test Image ](docs/diagram.drawio.png) -->
+<img width="1162" alt="SCR-20230502-nedr" src="docs/経費精算ホーム.png">
 ![Test Image ](docs/経費精算ホーム.png)
 ![Test Image ](docs/経費レポート一覧.png)
 ![Test Image ](docs/経費一覧.png)
