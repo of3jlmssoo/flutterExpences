@@ -29,7 +29,7 @@ final log = Logger('firebase_data_get');
 //       this.totalPrice, this.reportID, this.status);
 // }
 
-void FireStoreSetData(
+void fireStoreSetData(
     {required String userID,
     required String name,
     required DateTime createdDate,
@@ -62,21 +62,12 @@ class GetSampleData extends ConsumerStatefulWidget {
   const GetSampleData({super.key});
 
   @override
-  _GetSampleDataState createState() => _GetSampleDataState();
+  GetSampleDataState createState() => GetSampleDataState();
 }
 
-class _GetSampleDataState extends ConsumerState<GetSampleData> {
-  // userID: FirebaseAuth.instance.currentUser!.uid,
-  // name: "2023年10月国内交通費精算",
-  // createdDate: DateTime.now(),
-  // col1: "col1",
-  // totalPrice: 1,
-  // reportID: uuid.v7(),
-  // status: Status.making,
-  //
-
+class GetSampleDataState extends ConsumerState<GetSampleData> {
   void addTestReports() {
-    FireStoreSetData(
+    fireStoreSetData(
       userID: FirebaseAuth.instance.currentUser!.uid,
       name: '2024年1月',
       createdDate: DateTime.now(),
@@ -85,7 +76,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
       reportID: uuid.v7(),
       status: Status.making,
     );
-    FireStoreSetData(
+    fireStoreSetData(
       userID: FirebaseAuth.instance.currentUser!.uid,
       name: '2024年2月',
       createdDate: DateTime.now(),
@@ -125,7 +116,7 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                     ),
                     ElevatedButton(
                         onPressed: () async {
-                          FireStoreSetData(
+                          fireStoreSetData(
                             userID: FirebaseAuth.instance.currentUser!.uid,
                             name: reportName,
                             createdDate: DateTime.now(),
@@ -150,13 +141,11 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
   @override
   Widget build(BuildContext context) {
     final userinstance = ref.watch(firebaseAuthProvider);
-    final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+    final Stream<QuerySnapshot> usersStream = FirebaseFirestore.instance
         .collection('users')
         .doc(userinstance.currentUser!.uid)
         .collection('reports')
         .snapshots();
-    // final reportlist = ref.watch(reportListProvider);
-    // String reportName = 'abc';
 
     return Scaffold(
       appBar: AppBar(
@@ -206,36 +195,28 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
       ),
       body: Column(
         children: [
-          // ElevatedButton(
-          //   onPressed: () async {
-          //     // var db = FirebaseFirestore.instance;
-          //     // log.info("firebase_data_get db: $db");
-          //     addTestReports();
-          //   },
-          //   child: const Text('テストデータ作成 (put data, reports, to firestore'),
-          // ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     addNewReport();
-          //   },
-          //   child: Text('新規レポート'),
-          // ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: _usersStream,
+              stream: usersStream,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return const Text('Something went wrong');
                 } else {
-                  log.info('StreamBuilder has no error');
+                  log.info('firebase_data_get : StreamBuilder has no error');
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text("Loading");
                 } else {
-                  log.info('StreamBuilder after Loading');
+                  log.info('firebase_data_get : StreamBuilder after Loading');
                 }
+
+                log.info('firebase_data_get : snapshot.data ${snapshot.data}');
+                log.info(
+                    'firebase_data_get : snapshot.data ${snapshot.data?.docs}');
+                log.info(
+                    'firebase_data_get : snapshot.connectionState ${snapshot.connectionState}');
 
                 return ListView(
                   children: snapshot.data!.docs
@@ -331,13 +312,19 @@ class _GetSampleDataState extends ConsumerState<GetSampleData> {
                                     'reportsScreen : reportID ${data['reportID']}');
                                 log.info(
                                     'reportsScreen : status ${data['status']}');
-                                context.goNamed("expencescreenfs",
+                                if (!context.mounted) {
+                                  return;
+                                } else {
+                                  context.goNamed(
+                                    "expencescreenfs",
                                     queryParameters: {
                                       'reportID': data['reportID'],
                                       'userID': data['userID'],
                                       'reportName': data['name'],
                                       'reportStatus': data['status'],
-                                    });
+                                    },
+                                  );
+                                }
                               },
                             ),
                           ),

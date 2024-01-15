@@ -125,11 +125,11 @@ class _FirebaseLoginState extends ConsumerState<FirebaseLogin> {
                       log.info('Firabase initializeApped');
                       late UserCredential userCredential;
                       try {
-                        log.info('before signin : ${userinstance}');
+                        log.info('before signin : $userinstance');
                         userCredential = await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: email, password: password);
-                        log.info('after  signin : ${userinstance}');
+                        log.info('after  signin : $userinstance');
                         log.info('FirebaseAuth..signInWithEmail authed!');
                         showSpinner = false;
                         Navigator.pop(context, userCredential);

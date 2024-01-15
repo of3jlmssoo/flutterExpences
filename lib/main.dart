@@ -54,6 +54,13 @@ void main() async {
     }
   }
 
+  // Web.
+  // await FirebaseFirestore.instance.enablePersistence();
+
+  // All other platforms.
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: false);
+
   runApp(
     const ProviderScope(
       child: MyApp(),
