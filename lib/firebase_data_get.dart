@@ -226,6 +226,9 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
                         return Dismissible(
+                          direction: data["status"] == Status.making.en
+                              ? DismissDirection.horizontal
+                              : DismissDirection.none,
                           key: ValueKey(data["reportID"]),
                           onDismissed: (_) async {
                             FirebaseFirestore.instance

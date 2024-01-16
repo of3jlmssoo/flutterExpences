@@ -2,7 +2,7 @@
 //
 // firebase emulators:start --import ./emulators_data --export-on-exit
 
-// todo: go_routerを別ファイルへ
+// DONE: go_routerを別ファイルへ
 // DONE: ホームを経費精算ホームへ
 // DONE: hamburger menuでuidを移動
 // DONE: user is workはユーザー名:workへ
