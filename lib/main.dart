@@ -121,7 +121,7 @@ class HomeScreen extends ConsumerWidget {
               MenuItemButton(
                 child: const Text('main'),
                 onPressed: () {
-                  log.info('main : main pressed');
+                  log.info('main pressed');
                 },
               )
             ],
