@@ -40,7 +40,7 @@ class ExpencesScreenFs extends ConsumerWidget {
 
   void addNewExpence(
       WidgetRef ref, FirebaseAuth userinstance, BuildContext context) {
-    log.info('expencesscreenfs : reportStatus $reportStatus');
+    log.info('addNewExpence() : reportStatus is $reportStatus');
     ref
         .read(currentExpenceTypeProvider.notifier)
         .expenceType(ExpenceType.transportation.id!);
@@ -71,8 +71,10 @@ class ExpencesScreenFs extends ConsumerWidget {
   }
 
   void addTestData(WidgetRef ref, FirebaseAuth userinstance) async {
-    log.info('add test data : ${ref.watch(expenceListProvider)}');
-    log.info('add test data : ExpenceType.others.id ${ExpenceType.others.id}');
+    log.info(
+        'addTestData() : ref.watch(expenceListProvider) is ${ref.watch(expenceListProvider)}');
+    log.info(
+        'addTestData() : ExpenceType.others.id is ${ExpenceType.others.id}');
 
     var testExpence = Expence(
         userID: userinstance.currentUser!.uid,
@@ -91,7 +93,7 @@ class ExpencesScreenFs extends ConsumerWidget {
     var db = FirebaseFirestore.instance;
 
     log.info(
-        'add test data : userID ${testExpence.userID} vs ${userinstance.currentUser!.uid}');
+        'addTestData() : userID is ${testExpence.userID} and uid is ${userinstance.currentUser!.uid}');
 
     final expenceRef = db
         .collection('users')
@@ -134,7 +136,7 @@ class ExpencesScreenFs extends ConsumerWidget {
     await expenceRef2.set(testExpence);
 
     int result = await calcTotalPrice(testExpence.userID, testExpence.reportID);
-    log.info('addTestData total price is $result');
+    log.info('addTestData() : total price is $result');
   }
 
   @override
@@ -175,7 +177,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                 onPressed: reportStatus != Status.making.en
                     ? null
                     : () {
-                        log.info('expencesscreen : テストデータ追加');
+                        log.info('menuitembutton : テストデータ追加');
                         addTestData(ref, userinstance);
                       },
                 child: const Text('テストデータ追加'),
@@ -183,7 +185,7 @@ class ExpencesScreenFs extends ConsumerWidget {
               MenuItemButton(
                 child: const Text('expencesscreens'),
                 onPressed: () {
-                  log.info('expencesscreen : expencesscrees pressed');
+                  log.info('menuitembutton : expencesscrees pressed');
                 },
               )
             ],
@@ -231,9 +233,9 @@ class ExpencesScreenFs extends ConsumerWidget {
                             "status": Status.submitted.en
                           }).then(
                               (value) => log.info(
-                                  "expencesscreenfs : DocumentSnapshot successfully updated!"),
+                                  "update Status : DocumentSnapshot successfully updated!"),
                               onError: (e) => log.info(
-                                  "expencesscreenfs : Error updating document $e"));
+                                  "update Status : Error updating document $e"));
                           context.go('/fbdataget');
                         },
                   style: ElevatedButton.styleFrom(
@@ -250,13 +252,13 @@ class ExpencesScreenFs extends ConsumerWidget {
                 if (snapshot.hasError) {
                   return const Text('expencesStream Something went wrong');
                 } else {
-                  log.info('expencesStream StreamBuilder has no error');
+                  log.info('StreamBuilder : StreamBuilder has no error');
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Text("Loading (経費情報待ち)");
                 } else {
-                  log.info('expencesStream StreamBuilder after Loading');
+                  log.info('StreamBuilder : Not waiting');
                 }
                 return ListView(
                   children: snapshot.data!.docs
@@ -270,7 +272,7 @@ class ExpencesScreenFs extends ConsumerWidget {
                           key: ValueKey(data["id"]),
                           onDismissed: (_) async {
                             log.info(
-                                "expencesscreenfs : uuid $userID ${data["reportID"]} ${data["id"]}");
+                                "Dismissible : uuid $userID ${data["reportID"]} ${data["id"]}");
                             FirebaseFirestore.instance
                                 .collection("users")
                                 .doc(userID)
@@ -280,14 +282,14 @@ class ExpencesScreenFs extends ConsumerWidget {
                                 .doc(data["id"])
                                 .delete()
                                 .then(
-                                  (doc) => log.info(
-                                      "expencesscreenfs :Document deleted"),
+                                  (doc) => log
+                                      .info("Dismissible : Document deleted"),
                                   onError: (e) => log.info(
-                                      "expencesscreenfs :Error updating document $e"),
+                                      "Dismissible : Error updating document $e"),
                                 );
                             int result = await calcTotalPrice(
                                 data["userID"], data["reportID"]);
-                            log.info('onDismissible total price is $result');
+                            log.info('Dismissible total price is $result');
                           },
                           child: Card(
                             child: ListTile(
@@ -301,9 +303,9 @@ class ExpencesScreenFs extends ConsumerWidget {
                                   '${data["col1"] ?? ''} ${data["col2"] ?? ''} ${data["col3"] ?? ''}'),
                               onTap: () {
                                 log.info(
-                                    'expenceinputfs : data["price"].toString() : ${data["price"].toString()}');
+                                    'Card onTap() : data["price"].toString() : ${data["price"].toString()}');
                                 log.info(
-                                    'expenceinputfs : data["expenceTyoe"].toString() : ${data["expenceType"].toString()}');
+                                    'Card onTap() : data["expenceTyoe"].toString() : ${data["expenceType"].toString()}');
                                 ref
                                     .read(currentPriceProvider.notifier)
                                     .price(int.parse(data["price"].toString()));
@@ -312,16 +314,16 @@ class ExpencesScreenFs extends ConsumerWidget {
                                     .taxType(
                                         int.parse(data["taxType"].toString()));
                                 log.info(
-                                    "expenceinputfs : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
+                                    "Card onTap() : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
                                 ref
                                     .read(currentExpenceTypeProvider.notifier)
                                     .expenceType(int.parse(
                                         data["expenceType"].toString()));
                                 log.info(
-                                    "expenceinputfs : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
+                                    "Card onTap() : currentExpenceTypeProvider ${ref.watch(currentExpenceTypeProvider)}");
                                 log.info(
-                                    "expenceinputfs : reportStatus $reportStatus");
-                                log.info("expenceinputfs : data $data");
+                                    "Card onTap() : reportStatus $reportStatus");
+                                log.info("Card onTap() : data $data");
                                 context.goNamed(
                                   "expenceinputfs",
                                   queryParameters: {
@@ -361,7 +363,7 @@ class ExpencesScreenFs extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: reportStatus == Status.making.en
             ? () {
-                log.info('expencesscreenfs : 経費追加');
+                log.info('floatingActionButton : expencesscreenfs : 経費追加');
                 addNewExpence(ref, userinstance, context);
               }
             : null,
