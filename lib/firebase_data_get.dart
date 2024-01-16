@@ -17,19 +17,6 @@ import 'report.dart';
 
 final log = Logger('firebase_data_get');
 
-// class FireStoreSet {
-//   final String userID;
-//   final String name;
-//   final DateTime createdDate;
-//   final String col1;
-//   final int totalPrice;
-//   final String reportID;
-//   final Status status;
-//
-//   FireStoreSet(this.userID, this.name, this.createdDate, this.col1,
-//       this.totalPrice, this.reportID, this.status);
-// }
-
 void fireStoreSetData(
     {required String userID,
     required String name,
@@ -56,7 +43,8 @@ void fireStoreSetData(
       .collection("reports")
       .doc(reportID)
       .set(docData)
-      .onError((e, _) => log.info("Error writing document: $e"));
+      .onError((e, _) =>
+          log.info("fireStoreSetData() : Error writing document: $e"));
 }
 
 class GetSampleData extends ConsumerStatefulWidget {
@@ -90,7 +78,7 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
 
   void addNewReport() {
     String reportName = '';
-    log.info('firebase_data_get : addNewReport');
+    log.info('addNewReport() : addNewReport');
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -111,7 +99,8 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
                     const Text('レポート名称'),
                     TextFormField(
                       onChanged: (value) {
-                        log.info('col1(then) : input: value:$value');
+                        log.info(
+                            'report name input(TextFormField) : input: value:$value');
                         reportName = value;
                       },
                     ),
@@ -136,7 +125,7 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
             ),
           );
         });
-    log.info('firebase_data_get : ---');
+    log.info('end of addNewReport');
   }
 
   @override
@@ -170,7 +159,7 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
               MenuItemButton(
                 child: const Text('テストデータ追加'),
                 onPressed: () {
-                  log.info('firebase_data_get : テストデータ追加');
+                  log.info('menuitembutton : テストデータ追加');
                   addTestReports();
                   // addTestData(ref, userinstance);
                 },
@@ -178,7 +167,7 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
               MenuItemButton(
                 child: const Text('firebase_data_get'),
                 onPressed: () {
-                  log.info('firebase_data_get : firebase_data_get pressed');
+                  log.info('menuitembutton : firebase_data_get pressed');
                 },
               )
             ],
@@ -204,21 +193,18 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
                 if (snapshot.hasError) {
                   return const Text('Something went wrong');
                 } else {
-                  log.info('firebase_data_get : StreamBuilder has no error');
+                  log.info('StreamBuilder : StreamBuilder has no error');
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Text("Loading");
+                  return const Text("StreamBuilder : Waiting");
                 } else {
-                  log.info('firebase_data_get : StreamBuilder after Loading');
+                  log.info('StreamBuilder : Not waiting');
                 }
-
-                log.info(
-                    // 'firebase_data_get : snapshot.error ${FirebaseFirestore.instance.settings}');
-                    'firebase_data_get : snapshot.error ${FirebaseFirestore.instance.settings} $snapshot');
-
-                log.info(
-                    'firebase_data_get : FirebaseAuth.instance ${FirebaseAuth.instance.currentUser}');
+                // log.info(
+                //     'StreamBuilder : snapshot.error ${FirebaseFirestore.instance.settings} $snapshot');
+                // log.info(
+                //     'irebase_data_get : FirebaseAuth.instance ${FirebaseAuth.instance.currentUser}');
 
                 return ListView(
                   children: snapshot.data!.docs
@@ -238,33 +224,31 @@ class GetSampleDataState extends ConsumerState<GetSampleData> {
                                 .doc(data["reportID"])
                                 .delete()
                                 .then(
-                                  (doc) => log.info(
-                                      "firebase_data_get :Document deleted"),
+                                  (doc) => log
+                                      .info("Dismissible : Document deleted"),
                                   onError: (e) => log.info(
-                                      "firebase_data_get :Error updating document $e"),
+                                      "Dismissible : Error updating document $e"),
                                 );
                             int result = await calcTotalPrice(
                                 data["userID"], data["reportID"]);
-                            log.info('(Dismissible)total price is $result');
+                            log.info('Dismissible : total price is $result');
                           },
                           child: Card(
                             child: ListTile(
                               title: Text(data['name']),
-                              // subtitle: Text(intl.DateFormat.yMd()
-                              //     .format(data['createdDate'].toDate())),
-
                               subtitle: Text(
                                   '作成日 : ${intl.DateFormat('yyyy年MM月dd日').format(data['createdDate'].toDate())} '
                                   '${data['status'] == 'submitted' ? "申請済み" : data['status'] == 'making' ? '作成中' : 'その他'}'),
                               onTap: () async {
                                 int result = await calcTotalPrice(
                                     data["userID"], data["reportID"]);
-                                log.info('onTap() total price is $result');
+                                log.info(
+                                    'Card onTap() : total price is $result');
 
                                 log.info(
-                                    'reportsScreen : reportID ${data['reportID']}');
+                                    'Card onTap() : reportID is ${data['reportID']}');
                                 log.info(
-                                    'reportsScreen : status ${data['status']}');
+                                    'Card onTap() : status is ${data['status']}');
                                 if (!context.mounted) {
                                   return;
                                 } else {
