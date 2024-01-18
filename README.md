@@ -56,3 +56,7 @@ flutter(riverpod、go_router、freezed)、firebase/firestoreを具体的に使�
   画面呼出し時、パラメータをテキストに変換している点が効率的ではない。
 - firebase、firestoreでのサーバーステータスの確認
   エミュレータを使っているが、アプリ開始時のサーバー状態確認ができていない。
+
+
+## ドキュメント
+/doc/expences.readme.md
